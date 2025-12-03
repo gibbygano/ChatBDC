@@ -4,8 +4,6 @@ import commandService from "@/services/commandService.ts";
 export default {
   name: Events.InteractionCreate,
   async execute(interaction: ChatInputCommandInteraction) {
-    if (!interaction.isChatInputCommand()) return;
-
     const command = commandService.commands.get(interaction.commandName);
 
     if (!command) {
@@ -14,6 +12,18 @@ export default {
       );
       return;
     }
+
+    if (interaction.isAutocomplete()) {
+      try {
+        if (command.autocomplete) {
+          await command.autocomplete(interaction);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    if (!interaction.isChatInputCommand()) return;
 
     try {
       await command.execute(interaction);

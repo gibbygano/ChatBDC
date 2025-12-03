@@ -15,8 +15,10 @@ interface CommandData {
 }
 
 interface Command<T = ChatInputCommandInteraction | Message> {
+  cooldown?: number;
   data: CommandData;
   execute: (interaction: T) => Promise<void>;
+  autocomplete?: (interaction: T) => Promise<void>;
 }
 
 interface Media {

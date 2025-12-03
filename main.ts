@@ -25,6 +25,6 @@ await register("events", (event: any) => {
   }
 });
 
-await deploy_commands();
+//await deploy_commands();
 
 client.login(discordBotToken);
