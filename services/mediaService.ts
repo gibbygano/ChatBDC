@@ -81,10 +81,6 @@ class MediaService {
       player.play(resource);
 
       player.on(AudioPlayerStatus.Playing, () => {
-        interaction.reply({
-          content: `Playing ${requested_media}.mp3 in ${voice_channel.name}.`,
-          flags: MessageFlags.Ephemeral,
-        });
         interaction.client.user.setActivity(`▶️ in ${voice_channel.name}`, {
           type: ActivityType.Custom,
         });
@@ -93,7 +89,7 @@ class MediaService {
       player.on(AudioPlayerStatus.Idle, () => {
         connection.destroy();
 
-        interaction.client.user.setActivity("⏸️", {
+        interaction.client.user.setActivity("⏹️", {
           type: ActivityType.Custom,
         });
       });
@@ -107,6 +103,11 @@ class MediaService {
           content: `Error trying to play ${found_media}`,
           flags: MessageFlags.Ephemeral,
         });
+      });
+
+      interaction.reply({
+        content: `Playing ${requested_media}.mp3 in ${voice_channel.name}.`,
+        flags: MessageFlags.Ephemeral,
       });
     } catch (e) {
       console.error("Media error: ", e);

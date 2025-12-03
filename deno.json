@@ -1,7 +1,8 @@
 {
   "tasks": {
     "dev": "deno run --watch --allow-all main.ts",
-    "deploy-commands": "deno run --allow-all ./scripts/deploy-commands.ts"
+    "deploy-commands": "deno run --allow-all ./utils/deploy.ts",
+    "delete-commands": "deno run --allow-all ./utils/delete.ts"
   },
   "imports": {
     "@/": "./",

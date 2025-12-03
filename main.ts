@@ -2,7 +2,6 @@ import "@std/dotenv/load";
 import { Client, GatewayIntentBits } from "discord.js";
 import { getAppConfig } from "@/config.ts";
 import { register } from "@/utils/register.ts";
-import { deploy_commands } from "./utils/deploy.ts";
 
 const { discordBotToken } = getAppConfig();
 const client = new Client({
@@ -24,7 +23,5 @@ await register("events", (event: any) => {
     client.on(event.name, (...args) => event.execute(...args));
   }
 });
-
-//await deploy_commands();
 
 client.login(discordBotToken);
