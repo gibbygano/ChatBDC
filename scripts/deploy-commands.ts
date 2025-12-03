@@ -7,10 +7,9 @@ const { discordBotToken, discordBotClientId, discordServerId } = getAppConfig();
 const rest = new REST().setToken(discordBotToken);
 const commands = commandService.commands;
 
-console.log(discordBotClientId, discordBotToken, discordServerId);
-
 (async () => {
   try {
+    console.log(discordBotClientId, discordBotToken, discordServerId);
     console.log(
       `Started refreshing ${commands.size} application (/) commands.`,
     );
