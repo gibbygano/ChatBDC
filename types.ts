@@ -1,6 +1,21 @@
-import { Collection } from "discord.js";
-import { Client } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 
-type DiscordBotClient = Client & { commands: Collection<string, string> };
+interface CommandData {
+  id: string;
+  application_id: string;
+  version: string;
+  default_member_permissions: unknown | null;
+  type: number;
+  name: string;
+  name_localizations: string | null;
+  description: string;
+  description_localizations: string | null;
+  guild_id: string | null;
+  nsfw: boolean;
+}
 
-export type { DiscordBotClient };
+interface Command {
+  data: CommandData;
+  execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
+}
+export type { Command, CommandData };

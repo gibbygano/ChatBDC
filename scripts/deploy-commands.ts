@@ -1,25 +1,29 @@
-import "@std/dotenv";
+import { load } from "@std/dotenv";
 import { getAppConfig } from "@/config.ts";
 import { REST, Routes } from "discord.js";
 import commandService from "@/services/commandService.ts";
+import type { CommandData } from "../types.ts";
 
+await load({ export: true });
 const { discordBotToken, discordBotClientId, discordServerId } = getAppConfig();
+
 const rest = new REST().setToken(discordBotToken);
 const commands = commandService.commands;
 
 (async () => {
   try {
-    console.log(discordBotClientId, discordBotToken, discordServerId);
     console.log(
       `Started refreshing ${commands.size} application (/) commands.`,
     );
     // The put method is used to fully refresh all commands in the guild with the current set
     const data = await rest.put(
       Routes.applicationGuildCommands(discordBotClientId, discordServerId),
-      { body: commands },
+      { body: commands.map((c) => c.data) },
     );
     console.log(
-      `Successfully reloaded ${data.length} application (/) commands.`,
+      `Successfully reloaded ${
+        (data as Array<CommandData>).length
+      } application (/) commands.`,
     );
   } catch (error) {
     // And of course, make sure you catch and log any errors!

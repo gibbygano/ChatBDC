@@ -9,6 +9,7 @@
     "@std/dotenv": "jsr:@std/dotenv@^0.225.5",
     "@std/fs": "jsr:@std/fs@^1.0.20",
     "@std/path": "jsr:@std/path@^1.1.3",
+    "discord-api-types": "npm:discord-api-types@^0.38.36",
     "discord.js": "npm:discord.js@^14.25.1"
   }
 }

@@ -1,11 +1,6 @@
-import { ChatInputCommandInteraction, Collection } from "discord.js";
-import { join } from "@std/path/join";
-import { walk } from "@std/fs/walk";
-
-interface Command {
-  data: unknown;
-  execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
-}
+import { Collection } from "discord.js";
+import { register } from "@/utils/register.ts";
+import type { Command } from "@/types.ts";
 
 class CommandService {
   commands = new Collection<string, Command>();
@@ -33,18 +28,13 @@ class CommandService {
   }
 
   private async registerCommands() {
-    const foldersPath = join(Deno.cwd(), "commands");
-
-    for await (const dirEntry of walk(foldersPath)) {
-      if (dirEntry.name.endsWith(".ts")) {
-        const command = (await import(dirEntry.path)).default;
-        console.info(
-          `Registering command [${command?.data.name}]\n\n`,
-          command,
-        );
-        this.commands.set(command?.data.name, command);
-      }
-    }
+    await register("commands", (command: Command) => {
+      console.info(
+        `Registering command [${command?.data.name}]\n\n`,
+        command,
+      );
+      this.commands.set(command?.data.name, command);
+    });
   }
 }
 
