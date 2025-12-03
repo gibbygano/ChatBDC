@@ -29,10 +29,6 @@ class MediaService {
 
   private async registerMedia() {
     await registerMedia("media", (media: Media) => {
-      console.info(
-        `Registering media [${media?.name}]\n\n`,
-        media,
-      );
       this.media.set(media?.name, media.path);
     });
   }

@@ -15,7 +15,6 @@ const commands = commandService.commands;
     console.info(
       `Started refreshing ${commands.size} application (/) commands.`,
     );
-    // The put method is used to fully refresh all commands in the guild with the current set
     const data = await rest.put(
       Routes.applicationGuildCommands(discordBotClientId, discordServerId),
       { body: commands.map((c) => c.data) },
@@ -26,7 +25,6 @@ const commands = commandService.commands;
       } application (/) commands.`,
     );
   } catch (error) {
-    // And of course, make sure you catch and log any errors!
     console.error(error);
   }
 })();

@@ -29,10 +29,6 @@ class CommandService {
 
   private async registerCommands() {
     await register("commands", (command: Command) => {
-      console.info(
-        `Registering command [${command?.data.name}]\n\n`,
-        command,
-      );
       this.commands.set(command?.data.name, command);
     });
   }

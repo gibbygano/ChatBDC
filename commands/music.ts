@@ -8,7 +8,7 @@ import {
   StreamType,
   VoiceConnectionStatus,
 } from "@discordjs/voice";
-import { Message } from "discord.js";
+import { ActivityType, Message } from "discord.js";
 import mediaService from "@/services/mediaService.ts";
 
 export default {
@@ -34,13 +34,6 @@ export default {
     }
 
     try {
-      const player = createAudioPlayer({
-        behaviors: {
-          noSubscriber: NoSubscriberBehavior.Play,
-          maxMissedFrames: 10,
-        },
-      });
-      const resource = createAudioResource(found_media);
       const connection = joinVoiceChannel({
         channelId: voice_channel.id,
         guildId: voice_channel.guild.id,
@@ -49,17 +42,21 @@ export default {
         selfMute: false,
       });
 
+      const resource = createAudioResource(found_media);
+      const player = createAudioPlayer({ debug: true });
       connection.subscribe(player);
       player.play(resource);
 
-      player.on(AudioPlayerStatus.Playing, (p) => {
-        console.log(p);
+      player.on(AudioPlayerStatus.Playing, () => {
+        message.client.user.setActivity(`▶️ in ${voice_channel.name}`, {
+          type: ActivityType.Custom,
+        });
       });
 
       player.on(AudioPlayerStatus.Idle, () => {
         connection.destroy();
 
-        message.client.user.setActivity("with commands", { type: 0 });
+        message.client.user.setActivity("⏸️", { type: ActivityType.Custom });
       });
 
       player.on("error", (error) => {
