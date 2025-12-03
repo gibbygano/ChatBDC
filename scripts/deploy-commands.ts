@@ -12,7 +12,7 @@ const commands = commandService.commands;
 
 (async () => {
   try {
-    console.log(
+    console.info(
       `Started refreshing ${commands.size} application (/) commands.`,
     );
     // The put method is used to fully refresh all commands in the guild with the current set
@@ -20,7 +20,7 @@ const commands = commandService.commands;
       Routes.applicationGuildCommands(discordBotClientId, discordServerId),
       { body: commands.map((c) => c.data) },
     );
-    console.log(
+    console.info(
       `Successfully reloaded ${
         (data as Array<CommandData>).length
       } application (/) commands.`,

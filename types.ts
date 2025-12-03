@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, Message } from "discord.js";
 
 interface CommandData {
   id: string;
@@ -14,8 +14,14 @@ interface CommandData {
   nsfw: boolean;
 }
 
-interface Command {
+interface Command<T = ChatInputCommandInteraction | Message> {
   data: CommandData;
-  execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
+  execute: (interaction: T) => Promise<void>;
 }
-export type { Command, CommandData };
+
+interface Media {
+  name: string;
+  path: string;
+}
+
+export type { Command, CommandData, Media };

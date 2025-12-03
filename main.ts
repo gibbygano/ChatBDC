@@ -1,16 +1,20 @@
 import "@std/dotenv/load";
 import { Client, GatewayIntentBits } from "discord.js";
-import type { ClientEvents } from "discord.js";
 import { getAppConfig } from "@/config.ts";
 import { register } from "@/utils/register.ts";
-import { Event } from "@/types.ts";
 
 const { discordBotToken } = getAppConfig();
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildVoiceStates,
+  ],
 });
 
-await register("events", (event: ClientEvents) => {
+await register("events", (event) => {
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args));
   } else {
