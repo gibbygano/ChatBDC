@@ -9,6 +9,9 @@
 # node_modules
 node_modules/
 
+# media
+media/
+
 # Fresh build directory
 _fresh/
 
