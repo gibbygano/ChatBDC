@@ -1,0 +1,15 @@
+export default [
+  "I get mad anxiety sometimes on marijuana if I'm not in my Carl zone",
+  "Just a normal stupid bot",
+  "I guess I should let it stand as a sobering testament to the ~~folly of man~~ filicide of Andy",
+  "detailed budgeting will involve tartar sauce",
+  "Is The Boys an anime?",
+  "What if you can't stop it!!??",
+  "Who the f is Carol",
+  "I doubt big Ryan is a football guy",
+  "People voted for the ghost of BDC",
+  "You're a date",
+  "bjork",
+  "Asian babies can be so cute, just like yours [...]",
+  "Who needs wards on the map when you have game sense?",
+];

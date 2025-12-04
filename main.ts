@@ -1,14 +1,7 @@
 import "@std/dotenv/load";
-import {
-  ActivityType,
-  Client,
-  GatewayIntentBits,
-  PresenceManager,
-  PresenceUpdateStatus,
-} from "discord.js";
+import { Client, GatewayIntentBits } from "discord.js";
 import { getAppConfig } from "@/config.ts";
 import { register } from "@/utils/register.ts";
-import { AudioPlayer, AudioPlayerStatus } from "@discordjs/voice";
 
 const { discordBotToken } = getAppConfig();
 const client = new Client({

@@ -41,7 +41,7 @@ class MediaService {
   }
 
   private async registerMedia() {
-    await registerMedia("media", (media: Media) => {
+    await registerMedia("media/audio", (media: Media) => {
       this.media.set(media?.name, media.path);
     });
   }
@@ -50,6 +50,7 @@ class MediaService {
     interaction: ChatInputCommandInteraction,
     voice_channel: VoiceBasedChannel | null | undefined,
     requested_media: string,
+    skip_reply: boolean = false,
   ) {
     const found_media = this.media.get(requested_media);
 
@@ -81,6 +82,13 @@ class MediaService {
       connection.subscribe(player);
       player.play(resource);
 
+      if (!skip_reply) {
+        interaction.reply({
+          content: `Playing ${requested_media}.mp3 in ${voice_channel.name}.`,
+          flags: MessageFlags.Ephemeral,
+        });
+      }
+
       player.on(AudioPlayerStatus.Playing, () => {
         interaction.client.user.setPresence({
           activities: [{
@@ -105,11 +113,6 @@ class MediaService {
           content: `Error trying to play ${found_media}`,
           flags: MessageFlags.Ephemeral,
         });
-      });
-
-      interaction.reply({
-        content: `Playing ${requested_media}.mp3 in ${voice_channel.name}.`,
-        flags: MessageFlags.Ephemeral,
       });
     } catch (e) {
       console.error("Media error: ", e);
