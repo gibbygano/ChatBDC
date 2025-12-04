@@ -14,15 +14,18 @@ export default {
       .setAutocomplete(true)
   ),
   async autocomplete(interaction: AutocompleteInteraction) {
-    const focused = interaction.options.getFocused();
-    const options = mediaService.media.map((_, k) => k);
+    const focused = interaction.options.getFocused().toLowerCase();
+    const options = mediaService.media;
     const choices = focused
-      ? options.filter((option) => option.startsWith(focused))
+      ? options.filter((value, key) =>
+        key.startsWith(focused) ||
+        value.parentDir.toLowerCase().startsWith(focused)
+      )
       : options;
 
-    const mappedChoices = choices.map((choice) => ({
-      name: choice,
-      value: choice,
+    const mappedChoices = choices.map((value, key) => ({
+      name: `🔊 ${key} | 📁 ${value.parentDir}`,
+      value: key,
     }));
 
     await interaction.respond(

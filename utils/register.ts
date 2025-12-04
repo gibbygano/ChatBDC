@@ -24,7 +24,11 @@ const registerMedia = async (
 
   for await (const dirEntry of walk(foldersPath)) {
     if (dirEntry.isFile && dirEntry.name.endsWith(".mp3")) {
-      callback({ name: dirEntry.name.split(".")[0], path: dirEntry.path });
+      callback({
+        name: dirEntry.name.split(".")[0],
+        path: dirEntry.path,
+        parentDir: dirEntry.path.split("/").slice(-2, -1)[0],
+      });
     }
   }
 };

@@ -1,4 +1,5 @@
 import { ChatInputCommandInteraction, Message } from "discord.js";
+import { WalkEntry } from "@std/fs/walk";
 
 interface CommandData {
   id: string;
@@ -24,6 +25,7 @@ interface Command<T = ChatInputCommandInteraction | Message> {
 interface Media {
   name: string;
   path: string;
+  parentDir: string;
 }
 
 export type { Command, CommandData, Media };

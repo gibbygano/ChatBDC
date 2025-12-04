@@ -1,13 +1,16 @@
 import {
   ActivityType,
-  ChatInputCommandInteraction,
   Collection,
   MessageFlags,
   PresenceUpdateStatus,
+} from "discord.js";
+import type {
+  ChatInputCommandInteraction,
   VoiceBasedChannel,
 } from "discord.js";
-import { registerMedia } from "@/utils/register.ts";
 import type { Media } from "@/types.ts";
+import { registerMedia } from "@/utils/register.ts";
+
 import {
   AudioPlayerStatus,
   createAudioPlayer,
@@ -16,8 +19,9 @@ import {
 } from "@discordjs/voice";
 
 class MediaService {
-  media = new Collection<string, string>();
+  media = new Collection<string, Media>();
   private initialized = false;
+  private timeout: number | null = null;
 
   private constructor() {}
 
@@ -42,7 +46,7 @@ class MediaService {
 
   private async registerMedia() {
     await registerMedia("media/audio", (media: Media) => {
-      this.media.set(media?.name, media.path);
+      this.media.set(media.name, media);
     });
   }
 
@@ -77,7 +81,7 @@ class MediaService {
         selfMute: false,
       });
 
-      const resource = createAudioResource(found_media);
+      const resource = createAudioResource(found_media.path);
       const player = createAudioPlayer({ debug: true });
       connection.subscribe(player);
       player.play(resource);
@@ -100,8 +104,21 @@ class MediaService {
       });
 
       player.on(AudioPlayerStatus.Idle, () => {
-        connection.destroy();
-        player.stop();
+        interaction.client.user.setPresence({
+          activities: [{
+            name: `⏸️ in ${voice_channel.name}`,
+            type: ActivityType.Playing,
+          }],
+          status: PresenceUpdateStatus.Online,
+        });
+
+        if (this.timeout) {
+          clearTimeout(this.timeout);
+        }
+
+        this.timeout = setTimeout(() => {
+          connection.destroy();
+        }, 1000 * 60 * 5);
       });
 
       player.on("error", (error) => {
