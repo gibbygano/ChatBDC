@@ -3,6 +3,7 @@ import {
   ChatInputCommandInteraction,
   Collection,
   MessageFlags,
+  PresenceUpdateStatus,
   VoiceBasedChannel,
 } from "discord.js";
 import { registerMedia } from "@/utils/register.ts";
@@ -81,17 +82,18 @@ class MediaService {
       player.play(resource);
 
       player.on(AudioPlayerStatus.Playing, () => {
-        interaction.client.user.setActivity(`▶️ in ${voice_channel.name}`, {
-          type: ActivityType.Custom,
+        interaction.client.user.setPresence({
+          activities: [{
+            name: `▶️ in ${voice_channel.name}`,
+            type: ActivityType.Playing,
+          }],
+          status: PresenceUpdateStatus.Online,
         });
       });
 
       player.on(AudioPlayerStatus.Idle, () => {
         connection.destroy();
-
-        interaction.client.user.setActivity("⏹️", {
-          type: ActivityType.Custom,
-        });
+        player.stop();
       });
 
       player.on("error", (error) => {
