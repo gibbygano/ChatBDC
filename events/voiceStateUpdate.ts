@@ -29,7 +29,7 @@ export default {
       return;
     }
 
-    // If Somone Joins a Channel, Cancel Any Matching Timeouts
+    // If Someone Joins a Channel, Cancel Any Matching Timeouts
     if (current_state.channelId) {
       cancellationService.cancel(buildCancellationKey(
         current_state.guild.id,

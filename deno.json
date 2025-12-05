@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --watch --allow-all main.ts",
+    "dev": "deno run --watch --allow-read --allow-env --allow-ffi --allow-net main.ts",
     "deploy-commands": "deno run --allow-all ./utils/deploy.ts",
     "delete-commands": "deno run --allow-all ./utils/delete.ts"
   },

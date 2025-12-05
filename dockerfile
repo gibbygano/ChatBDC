@@ -4,6 +4,7 @@ COPY . .
 RUN deno cache main.ts --allow-scripts=npm:ffmpeg-static
 
 FROM denoland/deno:latest
+USER deno
 WORKDIR /app
 COPY --from=builder /app .
-CMD ["deno", "run", "--allow-all", "main.ts"]
+CMD ["deno", "run", "--allow-read", "--allow-env"," --allow-ffi", "--allow-net", "main.ts"]
