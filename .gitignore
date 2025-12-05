@@ -12,7 +12,4 @@ node_modules/
 # media
 media/
 
-# Fresh build directory
-_fresh/
-
 .DS_Store
