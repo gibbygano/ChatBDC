@@ -18,6 +18,7 @@ import {
 import { join } from "@std/path/join";
 import { debounce } from "@std/async/debounce";
 import { registerMedia } from "@/utils/register.ts";
+import { Buffer } from "node:buffer";
 
 class MediaService {
   media = new Collection<string, Media>();
@@ -49,7 +50,7 @@ class MediaService {
   private async registerMedia() {
     console.time("Media scan");
     await registerMedia("media/audio", (media: Media) => {
-      this.media.set(media.name, media);
+      this.media.set(media.short_name, media);
     });
     console.timeEnd("Media scan");
   }
@@ -75,18 +76,21 @@ class MediaService {
     skip_reply: boolean = false,
   ) {
     const found_media = this.media.get(requested_media);
-
-    if (!voice_channel) {
-      return (await interaction.reply({
-        content: `you gotta be in a voice channel, yo.`,
-        flags: MessageFlags.Ephemeral,
-      }));
-    }
-
     if (!found_media) {
       return await interaction.reply({
         content: `Couldn't find '${requested_media}'`,
         flags: MessageFlags.Ephemeral,
+      });
+    }
+
+    if (!voice_channel) {
+      const file = await Deno.readFile(found_media.path);
+      return await interaction.reply({
+        content: `🔊 ${found_media.full_name} | 📁 ${found_media.parentDir}`,
+        files: [{
+          attachment: Buffer.from(file),
+          name: found_media.full_name,
+        }],
       });
     }
 

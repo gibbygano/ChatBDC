@@ -24,7 +24,8 @@ const registerMedia = async (
   for await (const dirEntry of walk(foldersPath)) {
     if (dirEntry.isFile) {
       callback({
-        name: dirEntry.name.split(".")[0],
+        short_name: dirEntry.name.split(".")[0],
+        full_name: dirEntry.name,
         path: dirEntry.path,
         parentDir: dirEntry.path.split("/").slice(-2, -1)[0],
       });

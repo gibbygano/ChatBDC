@@ -7,4 +7,4 @@ FROM denoland/deno:latest
 USER deno
 WORKDIR /app
 COPY --from=builder /app .
-CMD ["deno", "run", "--allow-read", "--allow-env", "--allow-ffi", "--allow-net", "--allow-run", "main.ts"]
+CMD ["deno", "run", "--allow-read", "--allow-env", "--allow-ffi", "--allow-net", "--allow-run", "--allow-write", "main.ts"]

@@ -21,7 +21,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   const my_carl = carl_list[carl_index];
 
   const file = new AttachmentBuilder(my_carl.path);
-  const exampleEmbed = new EmbedBuilder().setImage(
+  const img_embed = new EmbedBuilder().setImage(
     `attachment://${my_carl.name}`,
   ).setTitle(
     `> ${carl_quotes[Math.floor(Math.random() * carl_quotes.length)]}`,
@@ -48,7 +48,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     );
   }
 
-  await interaction?.reply({ embeds: [exampleEmbed], files: [file] });
+  await interaction?.reply({ embeds: [img_embed], files: [file] });
 };
 
 export { execute };

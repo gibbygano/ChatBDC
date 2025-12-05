@@ -22,7 +22,8 @@ interface Command<T = ChatInputCommandInteraction | Message> {
 }
 
 interface Media {
-  name: string;
+  short_name: string;
+  full_name: string;
   path: string;
   parentDir: string;
 }
