@@ -15,7 +15,6 @@ export default {
   ),
   autocomplete: async (interaction: AutocompleteInteraction) =>
     await auto_complete(interaction),
-
   execute: async (interaction: ChatInputCommandInteraction) =>
     await execute(interaction),
 };

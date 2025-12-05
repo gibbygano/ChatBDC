@@ -5,7 +5,7 @@ export default {
   execute(client: Client) {
     console.info(`Ready! Logged in as ${client.user?.tag}`);
     client.user?.setPresence({
-      activities: [{ name: "💤", type: ActivityType.Listening }],
+      activities: [{ name: "💤", type: ActivityType.Custom }],
       status: PresenceUpdateStatus.Idle,
     });
   },

@@ -32,7 +32,7 @@ class MediaService {
     }
 
     await this.registerMedia();
-    await this.watchMedia();
+    this.watchMedia();
     this.initialized = true;
   }
 
@@ -57,7 +57,6 @@ class MediaService {
   private async watchMedia() {
     const log = debounce(async (event: Deno.FsEvent) => {
       console.info("[%s] %s", event.kind, event.paths[0]);
-
       this.media.clear();
       await this.registerMedia();
     }, 15000);

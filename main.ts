@@ -24,4 +24,4 @@ await register("events", (event: any) => {
   }
 });
 
-client.login(discordBotToken);
+await client.login(discordBotToken);
