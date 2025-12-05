@@ -23,7 +23,7 @@ const registerMedia = async (
   const foldersPath = join(Deno.cwd(), directory);
 
   for await (const dirEntry of walk(foldersPath)) {
-    if (dirEntry.isFile && dirEntry.name.endsWith(".mp3")) {
+    if (dirEntry.isFile) {
       callback({
         name: dirEntry.name.split(".")[0],
         path: dirEntry.path,

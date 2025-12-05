@@ -22,7 +22,7 @@ export default {
     // Update Presense Upon Leaving Voice Channel
     if (prev_member_is_bot && prev_member_not_in_channel) {
       prev_state.client.user.setPresence({
-        activities: [{ name: "💤", type: ActivityType.Listening }],
+        activities: [{ name: "💤", type: ActivityType.Custom }],
         status: PresenceUpdateStatus.Idle,
       });
 

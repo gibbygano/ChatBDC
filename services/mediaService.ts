@@ -10,7 +10,7 @@ import type {
   ChatInputCommandInteraction,
   VoiceBasedChannel,
 } from "discord.js";
-import type { Media } from "@/types.ts";
+import { type Media } from "@/types.ts";
 import { registerMedia } from "@/utils/register.ts";
 import {
   AudioPlayerStatus,
@@ -21,6 +21,7 @@ import {
 
 class MediaService {
   media = new Collection<string, Media>();
+
   private initialized = false;
 
   private constructor() {}
@@ -40,27 +41,31 @@ class MediaService {
     await instance.init();
 
     if (!instance.initialized) {
-      throw new Error("Could not initialize instance of CommandService.");
+      throw new Error("Could not initialize instance of MediaService.");
     }
     return instance;
   }
 
   private async registerMedia() {
+    console.time("Media scan");
     await registerMedia("media/audio", (media: Media) => {
       this.media.set(media.name, media);
     });
+    console.timeEnd("Media scan");
   }
 
   private async watchMedia() {
-    const log = debounce((event: Deno.FsEvent) => {
+    const log = debounce(async (event: Deno.FsEvent) => {
       console.info("[%s] %s", event.kind, event.paths[0]);
+
+      this.media.clear();
+      await this.registerMedia();
     }, 15000);
 
     const watcher = Deno.watchFs(join(Deno.cwd(), "media/audio"));
 
     for await (const event of watcher) {
       log(event);
-      await this.registerMedia();
     }
   }
 
@@ -111,7 +116,7 @@ class MediaService {
         interaction.client.user.setPresence({
           activities: [{
             name: `▶️ in ${voice_channel.name}`,
-            type: ActivityType.Playing,
+            type: ActivityType.Streaming,
           }],
           status: PresenceUpdateStatus.Online,
         });
@@ -121,7 +126,7 @@ class MediaService {
         interaction.client.user.setPresence({
           activities: [{
             name: `⏸️ in ${voice_channel.name}`,
-            type: ActivityType.Playing,
+            type: ActivityType.Watching,
           }],
           status: PresenceUpdateStatus.Online,
         });

@@ -1,5 +1,4 @@
 import { ChatInputCommandInteraction, Message } from "discord.js";
-import { WalkEntry } from "@std/fs/walk";
 
 interface CommandData {
   id: string;
