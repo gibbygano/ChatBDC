@@ -2,7 +2,7 @@ FROM denoland/deno:latest AS builder
 USER deno
 WORKDIR /app
 COPY . .
-RUN deno cache main.ts --allow-scripts=npm:ffmpeg-static
+RUN deno cache --allow-scripts=npm:ffmpeg-static main.ts
 
 FROM denoland/deno:latest
 WORKDIR /app
