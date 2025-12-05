@@ -1,23 +1,23 @@
-import { join } from "@std/path/join";
-import { debounce } from "@std/async/debounce";
+import type { Media } from "@/types.ts";
+import type {
+  ChatInputCommandInteraction,
+  VoiceBasedChannel,
+} from "discord.js";
 import {
   ActivityType,
   Collection,
   MessageFlags,
   PresenceUpdateStatus,
 } from "discord.js";
-import type {
-  ChatInputCommandInteraction,
-  VoiceBasedChannel,
-} from "discord.js";
-import { type Media } from "@/types.ts";
-import { registerMedia } from "@/utils/register.ts";
 import {
   AudioPlayerStatus,
   createAudioPlayer,
   createAudioResource,
   joinVoiceChannel,
 } from "@discordjs/voice";
+import { join } from "@std/path/join";
+import { debounce } from "@std/async/debounce";
+import { registerMedia } from "@/utils/register.ts";
 
 class MediaService {
   media = new Collection<string, Media>();

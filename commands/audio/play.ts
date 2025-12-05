@@ -1,8 +1,8 @@
-import { SlashCommandBuilder } from "discord.js";
 import type {
   AutocompleteInteraction,
   ChatInputCommandInteraction,
 } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 import { auto_complete, execute } from "@/interactions/play.ts";
 
 export default {

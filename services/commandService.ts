@@ -1,6 +1,6 @@
+import type { Command } from "@/types.ts";
 import { Collection } from "discord.js";
 import { register } from "@/utils/register.ts";
-import type { Command } from "@/types.ts";
 
 class CommandService {
   commands = new Collection<string, Command>();

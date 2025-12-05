@@ -1,4 +1,5 @@
-import { ChatInputCommandInteraction, Events, MessageFlags } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
+import { Events, MessageFlags } from "discord.js";
 import commandService from "@/services/commandService.ts";
 
 export default {

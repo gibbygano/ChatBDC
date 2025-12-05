@@ -1,10 +1,5 @@
-import {
-  ActivityType,
-  Events,
-  PresenceUpdateStatus,
-  VoiceChannel,
-  VoiceState,
-} from "discord.js";
+import type { VoiceChannel, VoiceState } from "discord.js";
+import { ActivityType, Events, PresenceUpdateStatus } from "discord.js";
 import { getVoiceConnection } from "@discordjs/voice";
 import cancellationService from "@/services/cancellationService.ts";
 

@@ -1,6 +1,6 @@
+import type { Media } from "@/types.ts";
 import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
-import { Media } from "@/types.ts";
 
 const register = async <T>(
   directory: string,

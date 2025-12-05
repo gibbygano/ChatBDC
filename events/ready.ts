@@ -1,4 +1,5 @@
 import { ActivityType, Client, Events, PresenceUpdateStatus } from "discord.js";
+
 export default {
   name: Events.ClientReady,
   once: true,

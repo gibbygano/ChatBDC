@@ -1,8 +1,8 @@
+import type { WalkEntry } from "@std/fs/walk";
+import type { ChatInputCommandInteraction } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder } from "discord.js";
 import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
-import { AttachmentBuilder, EmbedBuilder } from "discord.js";
-import type { ChatInputCommandInteraction } from "discord.js";
-import type { WalkEntry } from "@std/fs/walk";
 import mediaService from "@/services/mediaService.ts";
 import carl_quotes from "@/carlQuotes.ts";
 
