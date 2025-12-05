@@ -1,3 +1,5 @@
+import { join } from "@std/path/join";
+import { debounce } from "@std/async/debounce";
 import {
   ActivityType,
   Collection,
@@ -10,7 +12,6 @@ import type {
 } from "discord.js";
 import type { Media } from "@/types.ts";
 import { registerMedia } from "@/utils/register.ts";
-
 import {
   AudioPlayerStatus,
   createAudioPlayer,
@@ -21,7 +22,6 @@ import {
 class MediaService {
   media = new Collection<string, Media>();
   private initialized = false;
-  private timeout: number | null = null;
 
   private constructor() {}
 
@@ -31,6 +31,7 @@ class MediaService {
     }
 
     await this.registerMedia();
+    await this.watchMedia();
     this.initialized = true;
   }
 
@@ -48,6 +49,19 @@ class MediaService {
     await registerMedia("media/audio", (media: Media) => {
       this.media.set(media.name, media);
     });
+  }
+
+  private async watchMedia() {
+    const log = debounce((event: Deno.FsEvent) => {
+      console.info("[%s] %s", event.kind, event.paths[0]);
+    }, 15000);
+
+    const watcher = Deno.watchFs(join(Deno.cwd(), "media/audio"));
+
+    for await (const event of watcher) {
+      log(event);
+      await this.registerMedia();
+    }
   }
 
   async playMedia(
@@ -111,14 +125,6 @@ class MediaService {
           }],
           status: PresenceUpdateStatus.Online,
         });
-
-        if (this.timeout) {
-          clearTimeout(this.timeout);
-        }
-
-        this.timeout = setTimeout(() => {
-          connection.destroy();
-        }, 1000 * 60 * 5);
       });
 
       player.on("error", (error) => {
