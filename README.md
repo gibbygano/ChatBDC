@@ -12,6 +12,7 @@ Getting Started
 2. `deno install`
 3. Create .env file in root
 4. Add the required variables and values. See config.ts.
+5. Add your own `carlQuotes.ts` with stupid quotes from your own favorite carl.
 5. `deno run dev`
 
 ---
@@ -25,3 +26,4 @@ can actually cause your pushes to github to get rejected if the files are too la
 I would suggest checking out the suggestions I have made in the `deploy/storage.yaml`.  
 Of course you can ignore all of this if you just run the bot on the metal.  
 You can also use docker compose and use the host filesystem if you have access. 
+
