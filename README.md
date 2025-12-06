@@ -16,7 +16,7 @@ Getting Started
 
 ---
 
-While you CAN leave the media in the repo itself and use it from there,  
+While you **CAN** leave the media in the repo itself and use it from there,  
 this will make adding files much more annoying if you are running in a container.  
 You **WILL** lose any files you add to the running container when it shuts down.   
 It will also make your container image massive (depending on how much media you add) and  
