@@ -32,7 +32,11 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   const voice_channel = member?.voice.channel;
   const requested_media = interaction.options.getString("audio") ?? "";
 
-  await mediaService.playMedia(interaction, voice_channel, requested_media);
+  await mediaService.playMedia(
+    interaction,
+    voice_channel,
+    requested_media,
+  );
 };
 
 export { auto_complete, execute };

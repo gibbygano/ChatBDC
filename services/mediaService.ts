@@ -1,6 +1,7 @@
 import type { Media } from "@/types.ts";
 import type {
   ChatInputCommandInteraction,
+  Message,
   VoiceBasedChannel,
 } from "discord.js";
 import {
@@ -9,16 +10,12 @@ import {
   MessageFlags,
   PresenceUpdateStatus,
 } from "discord.js";
-import {
-  AudioPlayerStatus,
-  createAudioPlayer,
-  createAudioResource,
-  joinVoiceChannel,
-} from "@discordjs/voice";
+import { AudioPlayerStatus } from "@discordjs/voice";
 import { join } from "@std/path/join";
 import { debounce } from "@std/async/debounce";
 import { registerMedia } from "@/utils/register.ts";
-import { Buffer } from "node:buffer";
+import { join_voice, play_audio } from "@/utils/audio.ts";
+import { handle_file_reply, handle_reply } from "@/utils/replies.ts";
 
 class MediaService {
   media = new Collection<string, Media>();
@@ -70,49 +67,40 @@ class MediaService {
   }
 
   async playMedia(
-    interaction: ChatInputCommandInteraction,
+    interaction: ChatInputCommandInteraction | Message,
     voice_channel: VoiceBasedChannel | null | undefined,
     requested_media: string,
     skip_reply: boolean = false,
   ) {
     const found_media = this.media.get(requested_media);
     if (!found_media) {
-      return await interaction.reply({
-        content: `Couldn't find '${requested_media}'`,
-        flags: MessageFlags.Ephemeral,
-      });
+      return await handle_reply(
+        interaction,
+        `Couldn't find '${requested_media}'. Try using \`/play\` to search.`,
+        MessageFlags.Ephemeral,
+      );
     }
 
     if (!voice_channel) {
       const file = await Deno.readFile(found_media.path);
-      return await interaction.reply({
-        content: `🔊 ${found_media.full_name} | 📁 ${found_media.parentDir}`,
-        files: [{
-          attachment: Buffer.from(file),
-          name: found_media.full_name,
-        }],
-      });
+      return await handle_file_reply(
+        interaction,
+        `🔊 ${found_media.full_name} | 📁 ${found_media.parentDir}`,
+        file,
+        found_media.full_name,
+      );
     }
 
     try {
-      const connection = joinVoiceChannel({
-        channelId: voice_channel.id,
-        guildId: voice_channel.guild.id,
-        adapterCreator: voice_channel.guild.voiceAdapterCreator,
-        selfDeaf: false,
-        selfMute: false,
-      });
-
-      const resource = createAudioResource(found_media.path);
-      const player = createAudioPlayer({ debug: true });
-      connection.subscribe(player);
-      player.play(resource);
+      const connection = join_voice(voice_channel);
+      const player = play_audio(connection, found_media.path);
 
       if (!skip_reply) {
-        interaction.reply({
-          content: `Playing ${requested_media}.mp3 in ${voice_channel.name}.`,
-          flags: MessageFlags.Ephemeral,
-        });
+        await handle_reply(
+          interaction,
+          `Playing ${requested_media}.mp3 in ${voice_channel.name}.`,
+          MessageFlags.Ephemeral,
+        );
       }
 
       player.on(AudioPlayerStatus.Playing, () => {
@@ -140,17 +128,20 @@ class MediaService {
 
         connection.destroy();
 
-        interaction.reply({
-          content: `Error trying to play ${found_media}`,
-          flags: MessageFlags.Ephemeral,
-        });
+        handle_reply(
+          interaction,
+          `Error trying to play ${found_media}`,
+          MessageFlags.Ephemeral,
+        );
       });
     } catch (e) {
       console.error("Media error: ", e);
-      interaction.reply({
-        content: `Error trying to play ${found_media}`,
-        flags: MessageFlags.Ephemeral,
-      });
+
+      handle_reply(
+        interaction,
+        `Error trying to play ${found_media}`,
+        MessageFlags.Ephemeral,
+      );
     }
   }
 }
