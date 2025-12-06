@@ -20,15 +20,15 @@ spec:
           image: # image here (mine is hosted locally, you can easily build the docker image with the provided dockerfile)
           imagePullPolicy: Always
           envFrom:
-          - secretRef:
-              name: # secret for discord bot tokens here, easiest way `kubectl create secret generic some-secret-name -n discord --from-env-file=.env`
-                    # You can create it from any config file type or even enter the values in the command itself. 
-                    # check the strings in config.ts to see what config names the app is looking and ofc change as you want/need.
+            - secretRef:
+                name: # secret for discord bot tokens here, easiest way `kubectl create secret generic some-secret-name -n discord --from-env-file=.env`
+          # You can create it from any config file type or even enter the values in the command itself.
+          # check the strings in config.ts to see what config names the app is looking and ofc change as you want/need.
           ports:
-          - containerPort: 8000
+            - containerPort: 8000
           volumeMounts:
-          - name: discord-media
-            mountPath: /app/media
+            - name: discord-media
+              mountPath: /app/media
           resources:
             requests:
               memory: "128Mi"
@@ -37,6 +37,6 @@ spec:
               memory: "256Mi"
               cpu: "300m"
       volumes:
-      - name: discord-media
-        persistentVolumeClaim:
-          claimName: discord-nfs-pvc
+        - name: discord-media
+          persistentVolumeClaim:
+            claimName: discord-nfs-pvc

@@ -12,6 +12,7 @@ export default {
         message,
         voice_channel,
         message.content.substring(1),
+        true,
       );
     }
   },
