@@ -1,10 +1,25 @@
 FROM denoland/deno:latest AS builder
-RUN apt update && apt install ffmpeg -y
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \    
+    apt-get install -y \
+    nodejs \
+    node-gyp \
+    python3 \
+    libtool \
+    make && \ 
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY . .
-RUN deno cache main.ts --allow-scripts=npm:zlib-sync,npm:bufferutil
+RUN deno cache main.ts --allow-scripts=npm:zlib-sync,npm:bufferutil,npm:sodium,npm:ffmpeg-static
 
 FROM denoland/deno:latest
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \    
+    apt-get install -y \
+    ca-certificates && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 USER deno
 WORKDIR /app
 COPY --from=builder /app .

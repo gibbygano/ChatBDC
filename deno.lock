@@ -13,8 +13,9 @@
     "npm:@types/pg@^8.15.6": "8.15.6",
     "npm:bufferutil@^4.0.9": "4.0.9",
     "npm:discord.js@^14.25.1": "14.25.1_bufferutil@4.0.9",
+    "npm:ffmpeg-static@^5.3.0": "5.3.0",
     "npm:pg@^8.16.3": "8.16.3",
-    "npm:sodium-native@^5.0.10": "5.0.10",
+    "npm:sodium@^3.0.2": "3.0.2",
     "npm:zlib-sync@~0.1.10": "0.1.10"
   },
   "jsr": {
@@ -125,15 +126,15 @@
         "ws"
       ]
     },
-    "@emnapi/core@1.7.0": {
-      "integrity": "sha512-pJdKGq/1iquWYtv1RRSljZklxHCOCAJFJrImO5ZLKPJVJlVUcs8yFwNQlqS0Lo8xT1VAXXTCZocF9n26FWEKsw==",
+    "@emnapi/core@1.7.1": {
+      "integrity": "sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==",
       "dependencies": [
         "@emnapi/wasi-threads",
         "tslib"
       ]
     },
-    "@emnapi/runtime@1.7.0": {
-      "integrity": "sha512-oAYoQnCYaQZKVS53Fq23ceWMRxq5EhQsE0x0RdQ55jT7wagMu5k+fS39v1fiSLrtrLQlXwVINenqhLMtTrV/1Q==",
+    "@emnapi/runtime@1.7.1": {
+      "integrity": "sha512-PVtJr5CmLwYAU9PZDMITZoR5iAOShYREoR45EyyLrbntV50mdePTgUn4AmOw90Ifcj+x2kRjdzr1HP3RrNiHGA==",
       "dependencies": [
         "tslib"
       ]
@@ -144,8 +145,8 @@
         "tslib"
       ]
     },
-    "@napi-rs/wasm-runtime@1.0.7": {
-      "integrity": "sha512-SeDnOO0Tk7Okiq6DbXmmBODgOAb9dp9gjlphokTUxmt8U3liIP1ZsozBahH69j/RJv+Rfs6IwUKHTgQYJ/HBAw==",
+    "@napi-rs/wasm-runtime@1.1.0": {
+      "integrity": "sha512-Fq6DJW+Bb5jaWE69/qOE0D1TUN9+6uWhCeZpdnSBk14pjLcCWR7Q8n49PTSPHazM37JqrsdpEthXy2xn6jWWiA==",
       "dependencies": [
         "@emnapi/core",
         "@emnapi/runtime",
@@ -294,22 +295,6 @@
         "debug"
       ]
     },
-    "bare-addon-resolve@1.9.6": {
-      "integrity": "sha512-hvOQY1zDK6u0rSr27T6QlULoVLwi8J2k8HHHJlxSfT7XQdQ/7bsS+AnjYkHtu/TkL+gm3aMXAKucJkJAbrDG/g==",
-      "dependencies": [
-        "bare-module-resolve",
-        "bare-semver"
-      ]
-    },
-    "bare-module-resolve@1.12.0": {
-      "integrity": "sha512-JrzrqlC3Tds0iKRwQs8xIIJ+FRieKA9ll0jaqpotDLZtjJPVevzRoeuUYZ5GIo1t1z7/pIRdk85Q3i/2xQLfEQ==",
-      "dependencies": [
-        "bare-semver"
-      ]
-    },
-    "bare-semver@1.0.2": {
-      "integrity": "sha512-ESVaN2nzWhcI5tf3Zzcq9aqCZ676VWzqw07eEZ0qxAcEOAFYBa0pWq8sK34OQeHLY3JsfKXZS9mDyzyxGjeLzA=="
-    },
     "buffer-from@1.1.2": {
       "integrity": "sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ=="
     },
@@ -406,6 +391,9 @@
     "nan@2.24.0": {
       "integrity": "sha512-Vpf9qnVW1RaDkoNKFUvfxqAbtI8ncb8OJlqZ9wwpXzWPEsvsB1nvdUi6oYrHIkQ1Y/tMDnr1h4nczS0VB9Xykg=="
     },
+    "node-addon-api@8.5.0": {
+      "integrity": "sha512-/bRZty2mXUIFY/xU5HLvveNHlswNJej+RnxBjOMkidWfwZzgTbPG1E3K5TOxRLOR+5hX7bSofy8yf1hZevMS8A=="
+    },
     "node-gyp-build@4.8.4": {
       "integrity": "sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==",
       "bin": true
@@ -495,21 +483,15 @@
         "util-deprecate"
       ]
     },
-    "require-addon@1.2.0": {
-      "integrity": "sha512-VNPDZlYgIYQwWp9jMTzljx+k0ZtatKlcvOhktZ/anNPI3dQ9NXk7cq2U4iJ1wd9IrytRnYhyEocFWbkdPb+MYA==",
-      "dependencies": [
-        "bare-addon-resolve"
-      ]
-    },
     "safe-buffer@5.2.1": {
       "integrity": "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ=="
     },
-    "sodium-native@5.0.10": {
-      "integrity": "sha512-UIw+0AbpCQRuTJF88JWrZomP4O+PXhlWvdopiAJOsUivTyHTf3korMyStxkZuPngSbBEtEfDdc4ewEd8/T4/lA==",
+    "sodium@3.0.2": {
+      "integrity": "sha512-IsTwTJeoNBU97km3XkrbCGC/n/9aUQejgD3QPr2YY2gtbSPru3TI6nhCqgoez9Mv88frF9oVZS/jrXFbd6WXyA==",
       "dependencies": [
-        "require-addon",
-        "which-runtime"
-      ]
+        "node-addon-api"
+      ],
+      "scripts": true
     },
     "split2@4.2.0": {
       "integrity": "sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg=="
@@ -537,9 +519,6 @@
     },
     "util-deprecate@1.0.2": {
       "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
-    },
-    "which-runtime@1.3.2": {
-      "integrity": "sha512-5kwCfWml7+b2NO7KrLMhYihjRx0teKkd3yGp1Xk5Vaf2JGdSh+rgVhEALAD9c/59dP+YwJHXoEO7e8QPy7gOkw=="
     },
     "ws@8.18.3_bufferutil@4.0.9": {
       "integrity": "sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==",
@@ -573,8 +552,9 @@
       "npm:@types/pg@^8.15.6",
       "npm:bufferutil@^4.0.9",
       "npm:discord.js@^14.25.1",
+      "npm:ffmpeg-static@^5.3.0",
       "npm:pg@^8.16.3",
-      "npm:sodium-native@^5.0.10",
+      "npm:sodium@^3.0.2",
       "npm:zlib-sync@~0.1.10"
     ]
   }
