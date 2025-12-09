@@ -6,7 +6,7 @@ class GuildRepository {
   private pool: Pool;
 
   constructor() {
-    this.pool = new Pool();
+    this.pool = new Pool({ ssl: { rejectUnauthorized: false } });
   }
 
   registerGuilds = async (guilds: GuildManager) => {
