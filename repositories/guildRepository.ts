@@ -30,7 +30,7 @@ class GuildRepository {
     };
 
     for (const guild of guilds.cache.values()) {
-      const full_guild = guilds.cache.get(guild.id);
+      const full_guild = await guilds.cache.get(guild.id)?.fetch();
 
       if (full_guild) {
         await register(full_guild.id, full_guild.name);
