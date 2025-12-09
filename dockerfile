@@ -1,7 +1,8 @@
 FROM denoland/deno:latest AS builder
+RUN apt update && apt install ffmpeg -y
 WORKDIR /app
 COPY . .
-RUN deno cache main.ts --allow-scripts=npm:ffmpeg-static 
+RUN deno cache main.ts --allow-scripts=npm:zlib-sync,npm:bufferutil
 
 FROM denoland/deno:latest
 USER deno
