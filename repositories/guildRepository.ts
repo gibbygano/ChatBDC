@@ -16,10 +16,12 @@ class GuildRepository {
       try {
         client = await this.pool.connect();
 
-        await client.query(
+        const result = await client.query(
           "INSERT INTO guild (guild_id, guild_name) VALUES($1, $2) ON CONFLICT ON CONSTRAINT guild_pkey DO NOTHING;",
           [guild_id, guild_name],
         );
+
+        console.info(`Registered ${result.rowCount} guilds.`);
       } catch (e) {
         console.error(e);
       } finally {
