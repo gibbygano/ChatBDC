@@ -34,7 +34,7 @@ class GuildRepository {
     };
 
     console.info(
-      "Looking for guilds to register.\n--------------------------------------\n",
+      "\nLooking for guilds to register.\n---------------------------------------------",
     );
 
     for (const guild of guilds.cache.values()) {
@@ -45,7 +45,7 @@ class GuildRepository {
       }
     }
 
-    console.info("--------------------------------------\nDone");
+    console.info("---------------------------------------------\n");
   };
 }
 
