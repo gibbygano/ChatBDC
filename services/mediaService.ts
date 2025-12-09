@@ -4,13 +4,7 @@ import type {
   Message,
   VoiceBasedChannel,
 } from "discord.js";
-import {
-  ActivityType,
-  Collection,
-  MessageFlags,
-  PresenceUpdateStatus,
-} from "discord.js";
-import { AudioPlayerStatus } from "@discordjs/voice";
+import { Collection, MessageFlags } from "discord.js";
 import { join } from "@std/path/join";
 import { debounce } from "@std/async/debounce";
 import { registerMedia } from "@/utils/register.ts";
@@ -93,7 +87,7 @@ class MediaService {
 
     try {
       const connection = join_voice(voice_channel);
-      const player = play_audio(connection, found_media.path);
+      play_audio(connection, found_media, interaction);
 
       if (!skip_reply) {
         await handle_reply(
@@ -102,38 +96,6 @@ class MediaService {
           MessageFlags.Ephemeral,
         );
       }
-
-      player.on(AudioPlayerStatus.Playing, () => {
-        interaction.client.user.setPresence({
-          activities: [{
-            name: `▶️ in ${voice_channel.name}`,
-            type: ActivityType.Streaming,
-          }],
-          status: PresenceUpdateStatus.Online,
-        });
-      });
-
-      player.on(AudioPlayerStatus.Idle, () => {
-        interaction.client.user.setPresence({
-          activities: [{
-            name: `⏸️ in ${voice_channel.name}`,
-            type: ActivityType.Watching,
-          }],
-          status: PresenceUpdateStatus.Online,
-        });
-      });
-
-      player.on("error", (error) => {
-        console.error("Media error: ", error);
-
-        connection.destroy();
-
-        handle_reply(
-          interaction,
-          `Error trying to play ${found_media}`,
-          MessageFlags.Ephemeral,
-        );
-      });
     } catch (e) {
       console.error("Media error: ", e);
 
