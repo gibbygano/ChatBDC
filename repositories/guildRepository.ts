@@ -21,7 +21,9 @@ class GuildRepository {
           [guild_id, guild_name],
         );
 
-        console.info(`Registered ${result.rowCount} guilds.`);
+        if (result.rowCount) {
+          console.info(`> Registered guild ${guild_id}:${guild_name}`);
+        }
       } catch (e) {
         console.error(e);
       } finally {
@@ -31,6 +33,10 @@ class GuildRepository {
       }
     };
 
+    console.info(
+      "Looking for guilds to register.\n--------------------------------------\n",
+    );
+
     for (const guild of guilds.cache.values()) {
       const full_guild = await guilds.cache.get(guild.id)?.fetch();
 
@@ -38,6 +44,8 @@ class GuildRepository {
         await register(full_guild.id, full_guild.name);
       }
     }
+
+    console.info("--------------------------------------\nDone");
   };
 }
 
