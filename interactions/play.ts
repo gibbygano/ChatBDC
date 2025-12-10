@@ -20,10 +20,13 @@ const auto_complete = async (interaction: AutocompleteInteraction) => {
   }));
 
   await interaction.respond(
-    mappedChoices.slice(
-      0,
-      mappedChoices.length > 25 ? 25 : mappedChoices.length,
-    ),
+    mappedChoices.sort((a, b) =>
+      a.name > b.name ? 1 : (a.value < b.value ? -1 : 0)
+    )
+      .slice(
+        0,
+        mappedChoices.length > 25 ? 25 : mappedChoices.length,
+      ),
   );
 };
 
