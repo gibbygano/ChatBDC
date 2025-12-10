@@ -1,13 +1,18 @@
 import type { GuildManager } from "discord.js";
 import type { PoolClient } from "pg";
 import { Pool } from "pg";
+import { getAppConfig } from "@/config.ts";
 
 class GuildRepository {
   private pool: Pool;
 
   constructor() {
+    const { is_development } = getAppConfig();
+
     this.pool = new Pool({
-      ssl: { rejectUnauthorized: false /* intra-cluster fuckery*/ },
+      ssl: is_development
+        ? false
+        : { rejectUnauthorized: false /* intra-cluster fuckery*/ },
     });
   }
 

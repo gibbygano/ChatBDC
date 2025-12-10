@@ -1,4 +1,4 @@
-# This will run the command deploy script for you in kubernetes. 
+# This will run the command deploy script for you in kubernetes.
 # Not 100% necessary but nice if you want to be able to roll commands with a simple kubectl apply -f command-job.yaml
 
 apiVersion: batch/v1
@@ -11,10 +11,19 @@ spec:
   template:
     spec:
       containers:
-      - name: chat-bdc-deploy
-        image: # deploy image
-        command: ["deno", "run", "--allow-read", "--allow-env", "--allow-ffi", "--allow-net", "--allow-run", "deploy.ts"]
-        envFrom:
-        - secretRef:
-            name: # same ref as deploymnet.yaml
+        - name: chat-bdc-deploy
+          image: # deploy image
+          command: [
+            "deno",
+            "run",
+            "--allow-read",
+            "--allow-env",
+            "--allow-ffi",
+            "--allow-net",
+            "--allow-run",
+            "deploy.ts",
+          ]
+          envFrom:
+            - secretRef:
+                name: # same ref as deploymnet.yaml
       restartPolicy: Never
