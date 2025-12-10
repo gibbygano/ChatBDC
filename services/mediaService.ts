@@ -10,6 +10,7 @@ import { debounce } from "@std/async/debounce";
 import { registerMedia } from "@/utils/register.ts";
 import { join_voice, play_audio } from "@/utils/audio.ts";
 import { handle_file_reply, handle_reply } from "@/utils/replies.ts";
+import { audio_directory } from "@/constants.ts";
 
 class MediaService {
   media = new Collection<string, Media>();
@@ -56,7 +57,7 @@ class MediaService {
       await this.registerMedia();
     }, 15000);
 
-    const watcher = Deno.watchFs(join(Deno.cwd(), "media/audio"));
+    const watcher = Deno.watchFs(join(Deno.cwd(), audio_directory));
 
     for await (const event of watcher) {
       clear_and_register(event);

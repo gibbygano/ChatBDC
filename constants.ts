@@ -1,0 +1,2 @@
+export const image_directory = "media/images";
+export const audio_directory = "media/audio";

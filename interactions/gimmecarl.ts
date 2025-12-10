@@ -5,9 +5,10 @@ import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
 import mediaService from "@/services/mediaService.ts";
 import carl_quotes from "@/carlQuotes.ts";
+import { image_directory } from "@/constants.ts";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
-  const carl_dir = join(Deno.cwd(), "media/images/carl");
+  const carl_dir = join(Deno.cwd(), image_directory, "carl");
   const carls = walk(carl_dir);
   const carl_list = new Array<WalkEntry>();
 
