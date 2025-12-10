@@ -17,8 +17,8 @@ const upload = async (
   const response = await fetch(file.url);
   const buffer = await response.arrayBuffer();
 
-  const fileName = file_name?.length ? file_name : file.name;
-  const filePath = join(directory, fileName);
+  const fileName = file_name ?? file.name;
+  const filePath = join(Deno.cwd(), directory, fileName);
 
   if (fileName.includes("/")) {
     await ensureDir(filePath.substring(0, filePath.lastIndexOf("/")));
@@ -35,7 +35,6 @@ const upload = async (
 const upload_audio = async (
   interaction: ModalSubmitInteraction,
   file: Attachment,
-  directory: string,
   file_name?: string | null,
 ) => {
   if (
@@ -48,13 +47,12 @@ const upload_audio = async (
     });
   }
 
-  await upload(interaction, file, directory, file_name);
+  await upload(interaction, file, "media/audio", file_name);
 };
 
 const upload_image = async (
   interaction: ModalSubmitInteraction,
   file: Attachment,
-  directory: string,
   file_name?: string | null,
 ) => {
   if (
@@ -67,17 +65,14 @@ const upload_image = async (
     });
   }
 
-  await upload(interaction, file, join(Deno.cwd(), directory), file_name);
+  await upload(interaction, file, "media/image", file_name);
 };
 
 const handle_upload = async (interaction: ModalSubmitInteraction) => {
   const file = interaction.fields.getUploadedFiles("media_to_upload")?.first();
   const file_name = interaction.fields.getTextInputValue("custom_filename");
-  const upload_directory = interaction.fields.getStringSelectValues(
-    "upload_directory_select",
-  )[0];
 
-  if (!file || !upload_directory) {
+  if (!file) {
     return await interaction.reply({
       content: "There's nothing here, silly",
       flags: MessageFlags.Ephemeral,
@@ -86,10 +81,10 @@ const handle_upload = async (interaction: ModalSubmitInteraction) => {
 
   try {
     if (interaction.customId === "audio_upload_modal") {
-      return await upload_audio(interaction, file, upload_directory, file_name);
+      return await upload_audio(interaction, file, file_name);
     }
 
-    return await upload_image(interaction, file, upload_directory, file_name);
+    return await upload_image(interaction, file, file_name);
   } catch (e) {
     console.error(e);
   }
