@@ -3,7 +3,6 @@ import type {
   ChatInputCommandInteraction,
 } from "discord.js";
 import { SlashCommandBuilder } from "discord.js";
-import { auto_complete, execute } from "@/interactions/play.ts";
 
 export default {
   cooldown: 5,
@@ -13,8 +12,12 @@ export default {
     opt.setName("audio").setDescription("Audio to play").setRequired(true)
       .setAutocomplete(true)
   ),
-  autocomplete: async (interaction: AutocompleteInteraction) =>
-    await auto_complete(interaction),
-  execute: async (interaction: ChatInputCommandInteraction) =>
-    await execute(interaction),
+  autocomplete: async (interaction: AutocompleteInteraction) => {
+    const { auto_complete } = await import("@/interactions/play.ts");
+    await auto_complete(interaction);
+  },
+  execute: async (interaction: ChatInputCommandInteraction) => {
+    const { execute } = await import("@/interactions/play.ts");
+    await execute(interaction);
+  },
 };

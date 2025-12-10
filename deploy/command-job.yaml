@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: chat-bdc-deploy
+  namespace: discord
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      containers:
+      - name: chat-bdc-deploy
+        image: # deploy image
+        command: ["deno", "run", "--allow-read", "--allow-env", "--allow-ffi", "--allow-net", "--allow-run", "deploy.ts"]
+        envFrom:
+        - secretRef:
+            name: # same ref as deploymnet.yaml
+      restartPolicy: Never

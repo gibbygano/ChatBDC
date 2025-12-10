@@ -1,6 +1,5 @@
 import type { ChatInputCommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "discord.js";
-import { create_modal } from "@/utils/modal.ts";
 
 export default {
   data: new SlashCommandBuilder()
@@ -17,6 +16,7 @@ export default {
   execute: async (interaction: ChatInputCommandInteraction) => {
     const media_type = interaction.options.getString("upload_media_type");
 
+    const { create_modal } = await import("@/utils/modal.ts");
     await interaction.showModal(create_modal(media_type === "audio"));
   },
 };

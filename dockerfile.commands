@@ -1,0 +1,18 @@
+FROM denoland/deno:latest AS builder
+WORKDIR /app
+
+COPY deno.json ./
+COPY config.ts ./
+
+COPY commands/ ./commands/
+COPY utils/deploy.ts ./
+COPY utils/register.ts ./utils/register.ts
+COPY services/ ./services/
+
+RUN deno cache deploy.ts
+
+FROM denoland/deno:latest
+USER deno
+WORKDIR /app
+COPY --from=builder /app .
+CMD ["deno", "run", "--allow-read", "--allow-env", "--allow-ffi", "--allow-net", "--allow-run", "deploy.ts"]
