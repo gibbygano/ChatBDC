@@ -1,4 +1,4 @@
-import type { Media } from "@/types.ts";
+import type { Media, MediaDirectory } from "@/types.ts";
 import type {
   ChatInputCommandInteraction,
   Message,
@@ -13,6 +13,7 @@ import { handle_file_reply, handle_reply } from "@/utils/replies.ts";
 
 class MediaService {
   media = new Collection<string, Media>();
+  directories: Map<string, MediaDirectory> = new Map<string, MediaDirectory>();
 
   private initialized = false;
 
@@ -42,21 +43,23 @@ class MediaService {
     console.time("Media scan");
     await registerMedia("media/audio", (media: Media) => {
       this.media.set(media.short_name, media);
+      this.directories.set(media.directory.name, media.directory);
     });
     console.timeEnd("Media scan");
   }
 
   private async watchMedia() {
-    const log = debounce(async (event: Deno.FsEvent) => {
+    const clear_and_register = debounce(async (event: Deno.FsEvent) => {
       console.info("[%s] %s", event.kind, event.paths[0]);
       this.media.clear();
+      this.directories.clear();
       await this.registerMedia();
     }, 15000);
 
     const watcher = Deno.watchFs(join(Deno.cwd(), "media/audio"));
 
     for await (const event of watcher) {
-      log(event);
+      clear_and_register(event);
     }
   }
 
@@ -79,7 +82,7 @@ class MediaService {
       const file = await Deno.readFile(found_media.path);
       return await handle_file_reply(
         interaction,
-        `🔊 ${found_media.full_name} | 📁 ${found_media.parentDir}`,
+        `🔊 ${found_media.full_name} | 📁 ${found_media.directory.name}`,
         file,
         found_media.full_name,
       );

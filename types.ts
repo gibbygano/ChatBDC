@@ -21,11 +21,17 @@ interface Command<T = ChatInputCommandInteraction | Message> {
   autocomplete?: (interaction: T) => Promise<void>;
 }
 
+interface MediaDirectory {
+  name: string;
+  path: string;
+  pathLabel: string;
+}
+
 interface Media {
   short_name: string;
   full_name: string;
   path: string;
-  parentDir: string;
+  directory: MediaDirectory;
 }
 
-export type { Command, CommandData, Media };
+export type { Command, CommandData, Media, MediaDirectory };

@@ -10,12 +10,12 @@ const auto_complete = async (interaction: AutocompleteInteraction) => {
   const choices = focused
     ? options.filter((value, key) =>
       key.startsWith(focused) ||
-      value.parentDir.toLowerCase().startsWith(focused)
+      value.directory.name.toLowerCase().startsWith(focused)
     )
     : options;
 
   const mappedChoices = choices.map((value, key) => ({
-    name: `🔊 ${key} | 📁 ${value.parentDir}`,
+    name: `🔊 ${key}  📁 ${value.directory.pathLabel}`,
     value: key,
   }));
 
