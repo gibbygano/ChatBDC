@@ -42,7 +42,7 @@ class MediaService {
 
   private async registerMedia() {
     console.time("Media scan");
-    await registerMedia("media/audio", (media: Media) => {
+    await registerMedia(audio_directory, (media: Media) => {
       this.media.set(media.short_name, media);
       this.directories.set(media.directory.name, media.directory);
     });
