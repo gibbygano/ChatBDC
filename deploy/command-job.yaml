@@ -1,3 +1,6 @@
+# This will run the command deploy script for you in kubernetes. 
+# Not 100% necessary but nice if you want to be able to roll commands with a simple kubectl apply -f command-job.yaml
+
 apiVersion: batch/v1
 kind: Job
 metadata:

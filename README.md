@@ -13,8 +13,6 @@ Getting Started
 4. Add the required variables and values. See config.ts.
 5. Add your own `carlQuotes.ts` with stupid quotes from your own favorite carl.
 6. `deno run deploy-commands`
-* You'll need to comment out the imports to any files/modules in the `interactions` directory in your commands before running this or you'll get stuck.
-* I'll fix it later (maybe, probably not).
 5. `deno run dev`
 ---
 

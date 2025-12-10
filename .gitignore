@@ -4,7 +4,6 @@
 .env.test.local
 .env.production.local
 .env.local
-.podman
 
 # node_modules
 node_modules/
@@ -15,3 +14,4 @@ media/
 .DS_Store
 
 carlQuotes.ts
+podman.sh
