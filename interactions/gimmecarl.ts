@@ -33,8 +33,8 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     `attachment://${my_carl.name}`,
   ).setTitle(
     `> ${
-      carl_command?.command.quotes[
-        Math.floor(Math.random() * carl_command.command.quotes.length)
+      carl_command?.commands.quotes[
+        Math.floor(Math.random() * carl_command.commands.quotes.length)
       ]
     }`,
   );

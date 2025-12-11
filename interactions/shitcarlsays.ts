@@ -5,7 +5,7 @@ import { CommandsRepository } from "@/repositories/commandsRepository.ts";
 const execute = async (interaction: ChatInputCommandInteraction) => {
   const shit_carl_said = interaction.options.getString("shit_carl_said");
   const commands_repository = CommandsRepository.instance;
-  const shit_carl_has_said = await commands_repository.getCommand<QuoteCommand>(
+  const carl_commands = await commands_repository.getCommand<QuoteCommand>(
     "carl",
     "gimmecarl",
   );
@@ -17,7 +17,11 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     });
   }
 
-  if (shit_carl_has_said?.command.quotes.find((s) => s === shit_carl_said)) {
+  const existing_quotes = carl_commands?.commands.quotes;
+  if (
+    existing_quotes &&
+    existing_quotes.find((s) => s === shit_carl_said)
+  ) {
     return await interaction.reply({
       content: "Man, Carl already said that shit.",
       flags: MessageFlags.Ephemeral,
@@ -25,14 +29,21 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   }
 
   if (
-    await commands_repository.upsertCommand(
+    await commands_repository.mergeCommand(
       "carl",
-      "{gimmecarl, quotes, -1}",
-      shit_carl_said,
+      "gimmecarl",
+      {
+        quotes: existing_quotes
+          ? [
+            ...existing_quotes,
+            shit_carl_said,
+          ]
+          : [shit_carl_said],
+      },
     )
   ) {
     return await interaction.reply({
-      content: `Got it. Carl said \`${shit_carl_said}\``,
+      content: `Got it. Carl said\n> ${shit_carl_said}`,
       flags: MessageFlags.Ephemeral,
     });
   }
