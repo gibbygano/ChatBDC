@@ -32,9 +32,13 @@ class BaseRepository {
   protected queryWithSuccess = async (
     prepared_statement: PreparedStatement,
   ) => {
-    const result = await this.pool.query(prepared_statement);
+    try {
+      const result = await this.pool.query(prepared_statement);
 
-    return !!result.rowCount;
+      return !!result.rowCount;
+    } catch (e) {
+      console.error(e);
+    }
   };
 }
 

@@ -2,8 +2,18 @@ import type { GuildManager } from "discord.js";
 import { BaseRepository } from "./baseRepository.ts";
 
 class GuildRepository extends BaseRepository {
-  constructor() {
+  private static _instance: GuildRepository;
+
+  private constructor() {
     super();
+  }
+
+  static get instance(): GuildRepository {
+    if (!GuildRepository._instance) {
+      GuildRepository._instance = new GuildRepository();
+    }
+
+    return GuildRepository._instance;
   }
 
   registerGuilds = async (guilds: GuildManager) => {
@@ -38,6 +48,4 @@ class GuildRepository extends BaseRepository {
   };
 }
 
-const instance = new GuildRepository();
-
-export default instance;
+export { GuildRepository };

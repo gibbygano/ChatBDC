@@ -1,12 +1,12 @@
 import type { Client } from "discord.js";
 import { ActivityType, Events, PresenceUpdateStatus } from "discord.js";
-import guildRepository from "@/repositories/guildRepository.ts";
+import { GuildRepository } from "@/repositories/guildRepository.ts";
 
 export default {
   name: Events.ClientReady,
   once: true,
   execute: async (client: Client) => {
-    await guildRepository.registerGuilds(client.guilds);
+    await GuildRepository.instance.registerGuilds(client.guilds);
 
     client.user?.setPresence({
       activities: [{ name: "💤", type: ActivityType.Custom }],

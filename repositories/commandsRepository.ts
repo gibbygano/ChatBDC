@@ -1,8 +1,18 @@
 import { BaseRepository } from "./baseRepository.ts";
 
 class CommandsRepository extends BaseRepository {
-  constructor() {
+  private static _instance: CommandsRepository;
+
+  private constructor() {
     super();
+  }
+
+  static get instance() {
+    if (!CommandsRepository._instance) {
+      CommandsRepository._instance = new CommandsRepository();
+    }
+
+    return CommandsRepository._instance;
   }
 
   getCommand = async <T>(
@@ -21,18 +31,18 @@ class CommandsRepository extends BaseRepository {
   upsertCommand = async <T>(
     context: string,
     command_name: string,
-    _upsert: T,
+    upsert: string,
   ) => {
     const prepared_statement = {
       name: "upsert-command",
-      text: "SELECT commands->$2 as $2 FROM commands WHERE context = $1",
-      values: [context, command_name],
+      text:
+        `UPDATE commands SET commands = jsonb_set(commands, '${command_name}', to_jsonb($2::text), true)
+             WHERE context = $1`,
+      values: [context, upsert],
     };
 
     return await this.queryWithSuccess(prepared_statement);
   };
 }
 
-const instance = new CommandsRepository();
-
-export default instance;
+export { CommandsRepository };
