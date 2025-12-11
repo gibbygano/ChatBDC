@@ -2,13 +2,13 @@ import type { CommandData } from "@/types.ts";
 import { load } from "@std/dotenv";
 import { getAppConfig } from "@/config.ts";
 import { REST, Routes } from "discord.js";
-import commandService from "@/services/commandService.ts";
+import { CommandService } from "@/services/commandService.ts";
 
 await load({ export: true });
 const { discordBotToken, discordBotClientId } = getAppConfig();
 
 const rest = new REST().setToken(discordBotToken);
-const commands = commandService.commands;
+const commands = await CommandService.instance.registerCommands();
 
 (async () => {
   try {

@@ -1,7 +1,7 @@
 import type { VoiceChannel, VoiceState } from "discord.js";
 import { ActivityType, Events, PresenceUpdateStatus } from "discord.js";
 import { getVoiceConnection } from "@discordjs/voice";
-import cancellationService from "@/services/cancellationService.ts";
+import { CancellationService } from "@/services/cancellationService.ts";
 
 const buildCancellationKey = (guildId: string, channelId: string) =>
   `${guildId}:${channelId}`;
@@ -25,8 +25,9 @@ export default {
     }
 
     // If Someone Joins a Channel, Cancel Any Matching Timeouts
+    const cancellation_service = CancellationService.instance;
     if (current_state.channelId) {
-      cancellationService.cancel(buildCancellationKey(
+      cancellation_service.cancel(buildCancellationKey(
         current_state.guild.id,
         current_state.channelId,
       ));
@@ -54,12 +55,12 @@ export default {
 
     // If There Are Humans, Cancel Any Timeouts for the Channel and return
     if (human_count > 0) {
-      cancellationService.cancel(cancellation_key);
+      cancellation_service.cancel(cancellation_key);
       return;
     }
 
     // Disconnect From Voice After 5 Second Delay
-    cancellationService.withCancellation(() => live_connection.destroy(), {
+    cancellation_service.withCancellation(() => live_connection.destroy(), {
       key: cancellation_key,
       timeoutMs: 5000,
     });

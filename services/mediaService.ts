@@ -13,47 +13,42 @@ import { handle_file_reply, handle_reply } from "@/utils/replies.ts";
 import { audio_directory } from "@/constants.ts";
 
 class MediaService {
-  media = new Collection<string, Media>();
-  directories: Map<string, MediaDirectory> = new Map<string, MediaDirectory>();
+  private static _instance: MediaService;
 
-  private initialized = false;
+  private _media = new Collection<string, Media>();
+  private _directories: Map<string, MediaDirectory> = new Map<
+    string,
+    MediaDirectory
+  >();
 
   private constructor() {}
 
-  async init() {
-    if (this.initialized) {
-      return;
+  static get instance(): MediaService {
+    if (!MediaService._instance) {
+      MediaService._instance = new MediaService();
     }
 
-    await this.registerMedia();
-    this.watchMedia();
-    this.initialized = true;
+    return MediaService._instance;
   }
 
-  static async create() {
-    const instance = new MediaService();
-    await instance.init();
-
-    if (!instance.initialized) {
-      throw new Error("Could not initialize instance of MediaService.");
-    }
-    return instance;
+  get media(): Collection<string, Media> {
+    return this._media;
   }
 
-  private async registerMedia() {
+  async registerMedia() {
     console.time("Media scan");
     await registerMedia(audio_directory, (media: Media) => {
       this.media.set(media.short_name, media);
-      this.directories.set(media.directory.name, media.directory);
+      this._directories.set(media.directory.name, media.directory);
     });
     console.timeEnd("Media scan");
   }
 
-  private async watchMedia() {
+  async watchMedia() {
     const clear_and_register = debounce(async (event: Deno.FsEvent) => {
       console.info("[%s] %s", event.kind, event.paths[0]);
       this.media.clear();
-      this.directories.clear();
+      this._directories.clear();
       await this.registerMedia();
     }, 15000);
 
@@ -112,6 +107,4 @@ class MediaService {
   }
 }
 
-const instance = await MediaService.create();
-
-export default instance;
+export { MediaService };

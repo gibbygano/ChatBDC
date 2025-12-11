@@ -3,37 +3,28 @@ import { Collection } from "discord.js";
 import { register } from "@/utils/register.ts";
 
 class CommandService {
-  commands = new Collection<string, Command>();
-  private initialized = false;
+  private static _instance: CommandService;
+  private static _commands = new Collection<string, Command>();
 
   private constructor() {}
 
-  async init() {
-    if (this.initialized) {
-      return;
+  static get instance(): CommandService {
+    if (!CommandService._instance) {
+      CommandService._instance = new CommandService();
     }
 
-    await this.registerCommands();
-    this.initialized = true;
+    return CommandService._instance;
   }
 
-  static async create() {
-    const instance = new CommandService();
-    await instance.init();
-
-    if (!instance.initialized) {
-      throw new Error("Could not initialize instance of CommandService.");
+  async registerCommands() {
+    if (CommandService._commands.keys.length === 0) {
+      await register("commands", (command: Command) => {
+        CommandService._commands.set(command?.data.name, command);
+      });
     }
-    return instance;
-  }
 
-  private async registerCommands() {
-    await register("commands", (command: Command) => {
-      this.commands.set(command?.data.name, command);
-    });
+    return CommandService._commands;
   }
 }
 
-const instance = await CommandService.create();
-
-export default instance;
+export { CommandService };

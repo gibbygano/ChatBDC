@@ -1,42 +1,24 @@
 import type { GuildManager } from "discord.js";
-import type { PoolClient } from "pg";
-import { Pool } from "pg";
-import { getAppConfig } from "@/config.ts";
+import { BaseRepository } from "./baseRepository.ts";
 
-class GuildRepository {
-  private pool: Pool;
-
+class GuildRepository extends BaseRepository {
   constructor() {
-    const { is_development } = getAppConfig();
-
-    this.pool = new Pool({
-      ssl: is_development
-        ? false
-        : { rejectUnauthorized: false /* intra-cluster fuckery*/ },
-    });
+    super();
   }
 
   registerGuilds = async (guilds: GuildManager) => {
     const register = async (guild_id: string, guild_name: string) => {
-      let client: PoolClient | undefined;
-
-      try {
-        client = await this.pool.connect();
-
-        const result = await client.query(
+      const prepared_statement = {
+        name: "register-guild",
+        text:
           "INSERT INTO guild (guild_id, guild_name) VALUES($1, $2) ON CONFLICT ON CONSTRAINT guild_pkey DO NOTHING;",
-          [guild_id, guild_name],
-        );
+        values: [guild_id, guild_name],
+      };
 
-        if (result.rowCount) {
-          console.info(`> Registered guild ${guild_id}:${guild_name}`);
-        }
-      } catch (e) {
-        console.error(e);
-      } finally {
-        if (client) {
-          client.release();
-        }
+      const result = await this.queryWithSuccess(prepared_statement);
+
+      if (result) {
+        console.info(`> Registered guild ${guild_id}:${guild_name}`);
       }
     };
 

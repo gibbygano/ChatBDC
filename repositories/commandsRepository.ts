@@ -1,39 +1,35 @@
-import type { PoolClient } from "pg";
-import { Pool } from "pg";
-import { getAppConfig } from "@/config.ts";
+import { BaseRepository } from "./baseRepository.ts";
 
-class CommandsRepository {
-  private pool: Pool;
-
+class CommandsRepository extends BaseRepository {
   constructor() {
-    const { is_development } = getAppConfig();
-
-    this.pool = new Pool({
-      ssl: is_development
-        ? false
-        : { rejectUnauthorized: false /* intra-cluster fuckery*/ },
-    });
+    super();
   }
 
-  getCommands = async <T>(context: string, command_name: string) => {
-    let client: PoolClient | undefined;
+  getCommand = async <T>(
+    context: string,
+    command_name: string,
+  ) => {
+    const prepared_statement = {
+      name: "fetch-command",
+      text: "SELECT commands->$2 as command FROM commands WHERE context = $1",
+      values: [context, command_name],
+    };
 
-    try {
-      client = await this.pool.connect();
+    return await this.querySingle<T>(prepared_statement);
+  };
 
-      const result = await client.query(
-        "SELECT commands->$2 as gimmecarl FROM commands WHERE context = $1",
-        [context, command_name],
-      );
+  upsertCommand = async <T>(
+    context: string,
+    command_name: string,
+    _upsert: T,
+  ) => {
+    const prepared_statement = {
+      name: "upsert-command",
+      text: "SELECT commands->$2 as $2 FROM commands WHERE context = $1",
+      values: [context, command_name],
+    };
 
-      return <T> result.rows[0];
-    } catch (e) {
-      console.error(e);
-    } finally {
-      if (client) {
-        client.release();
-      }
-    }
+    return await this.queryWithSuccess(prepared_statement);
   };
 }
 

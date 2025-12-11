@@ -18,7 +18,7 @@ const upload = async (
   const response = await fetch(file.url);
   const buffer = await response.arrayBuffer();
 
-  const fileName = file_name ?? file.name;
+  const fileName = !file_name ? file.name : file_name;
   const filePath = join(Deno.cwd(), directory, fileName);
 
   if (fileName.includes("/")) {

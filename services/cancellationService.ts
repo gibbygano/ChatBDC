@@ -4,7 +4,18 @@ interface WithCancellationOptions {
 }
 
 class CancellationService {
+  private static _instance: CancellationService;
   private timeouts = new Map<string, number>();
+
+  private constructor() {}
+
+  static get instance(): CancellationService {
+    if (!CancellationService._instance) {
+      CancellationService._instance = new CancellationService();
+    }
+
+    return CancellationService._instance;
+  }
 
   withCancellation(
     callback: () => void,
@@ -24,6 +35,4 @@ class CancellationService {
   }
 }
 
-const instance = new CancellationService();
-
-export default instance;
+export { CancellationService };

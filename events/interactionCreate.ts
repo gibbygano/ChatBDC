@@ -1,6 +1,6 @@
 import type { ChatInputCommandInteraction } from "discord.js";
 import { Events, MessageFlags } from "discord.js";
-import commandService from "@/services/commandService.ts";
+import { CommandService } from "@/services/commandService.ts";
 import { handle_upload } from "@/utils/upload.ts";
 
 export default {
@@ -10,7 +10,8 @@ export default {
       return handle_upload(interaction);
     }
 
-    const command = commandService.commands.get(interaction.commandName);
+    const commands = await CommandService.instance.registerCommands();
+    const command = commands.get(interaction.commandName);
 
     if (!command) {
       console.error(

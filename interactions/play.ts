@@ -2,11 +2,13 @@ import type {
   AutocompleteInteraction,
   ChatInputCommandInteraction,
 } from "discord.js";
-import mediaService from "@/services/mediaService.ts";
+import { MediaService } from "@/services/mediaService.ts";
+
+const media_service = MediaService.instance;
 
 const auto_complete = async (interaction: AutocompleteInteraction) => {
   const focused = interaction.options.getFocused().toLowerCase();
-  const options = mediaService.media;
+  const options = media_service.media;
   const choices = focused
     ? options.filter((value, key) =>
       key.startsWith(focused) ||
@@ -35,7 +37,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   const voice_channel = member?.voice.channel;
   const requested_media = interaction.options.getString("audio") ?? "";
 
-  await mediaService.playMedia(
+  await media_service.playMedia(
     interaction,
     voice_channel,
     requested_media,

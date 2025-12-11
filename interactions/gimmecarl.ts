@@ -1,17 +1,12 @@
 import type { WalkEntry } from "@std/fs/walk";
 import type { ChatInputCommandInteraction } from "discord.js";
+import type { QuoteCommand } from "../command.pg.types.ts";
 import { AttachmentBuilder, EmbedBuilder } from "discord.js";
 import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
-import mediaService from "@/services/mediaService.ts";
+import { MediaService } from "@/services/mediaService.ts";
 import commandsRepository from "@/repositories/commandsRepository.ts";
 import { image_directory } from "@/constants.ts";
-
-interface CarlCommand {
-  gimmecarl: {
-    quotes: Array<string>;
-  };
-}
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
   const carl_dir = join(Deno.cwd(), image_directory, "carl");
@@ -28,25 +23,27 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   const my_carl = carl_list[carl_index];
   const file = new AttachmentBuilder(my_carl.path);
 
-  const carl_command = await commandsRepository.getCommands<CarlCommand>(
+  const carl_command = await commandsRepository.getCommand<QuoteCommand>(
     "carl",
     "gimmecarl",
   );
+
   const img_embed = new EmbedBuilder().setImage(
     `attachment://${my_carl.name}`,
   ).setTitle(
     `> ${
-      carl_command?.gimmecarl.quotes[
-        Math.floor(Math.random() * carl_command.gimmecarl.quotes.length)
+      carl_command?.command.quotes[
+        Math.floor(Math.random() * carl_command.command.quotes.length)
       ]
     }`,
   );
 
   const member = await interaction.guild?.members.fetch(interaction.user.id);
   const voice_channel = member?.voice.channel;
+  const media_service = MediaService.instance;
 
   if (voice_channel) {
-    const carl_sounds = mediaService.media.filter((_, k) =>
+    const carl_sounds = media_service.media.filter((_, k) =>
       k.startsWith("carl")
     ).map((_, k) => k);
 
@@ -55,7 +52,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     );
 
     const my_carl_sound = carl_sounds[my_carl_sound_index];
-    await mediaService.playMedia(
+    await media_service.playMedia(
       interaction,
       voice_channel,
       my_carl_sound,
