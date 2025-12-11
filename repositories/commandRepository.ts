@@ -1,28 +1,30 @@
 import { BaseRepository } from "./baseRepository.ts";
 
-class CommandsRepository extends BaseRepository {
-  private static _instance: CommandsRepository;
+class CommandRepository extends BaseRepository {
+  private static _instance: CommandRepository;
 
   private constructor() {
     super();
   }
 
   static get instance() {
-    if (!CommandsRepository._instance) {
-      CommandsRepository._instance = new CommandsRepository();
+    if (!CommandRepository._instance) {
+      CommandRepository._instance = new CommandRepository();
     }
 
-    return CommandsRepository._instance;
+    return CommandRepository._instance;
   }
 
+  // Get command from commands_json document store in commands table
   getCommand = async <T>(
     context: string,
     command_name: string,
   ) => {
     const prepared_statement = {
       name: "fetch-command",
-      text:
-        "SELECT commands_json->$2 as commands FROM commands WHERE context = $1",
+      text: `SELECT commands_json->$2 as command 
+             FROM commands 
+             WHERE context = $1`,
       values: [context, command_name],
     };
 
@@ -69,4 +71,4 @@ class CommandsRepository extends BaseRepository {
   };
 }
 
-export { CommandsRepository };
+export { CommandRepository };

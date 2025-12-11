@@ -1,5 +1,5 @@
 interface QuoteCommand {
-  commands: {
+  command: {
     quotes: Array<string>;
   };
 }

@@ -1,11 +1,11 @@
 import { type ChatInputCommandInteraction, MessageFlags } from "discord.js";
 import type { QuoteCommand } from "@/command.pg.types.ts";
-import { CommandsRepository } from "@/repositories/commandsRepository.ts";
+import { CommandRepository } from "../repositories/commandRepository.ts";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
   const shit_carl_said = interaction.options.getString("shit_carl_said");
-  const commands_repository = CommandsRepository.instance;
-  const carl_commands = await commands_repository.getCommand<QuoteCommand>(
+  const command_repository = CommandRepository.instance;
+  const carl_command = await command_repository.getCommand<QuoteCommand>(
     "carl",
     "gimmecarl",
   );
@@ -17,7 +17,8 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     });
   }
 
-  const existing_quotes = carl_commands?.commands.quotes;
+  console.log(carl_command);
+  const existing_quotes = carl_command?.command.quotes;
   if (
     existing_quotes &&
     existing_quotes.find((s) => s === shit_carl_said)
@@ -29,7 +30,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   }
 
   if (
-    await commands_repository.mergeCommand(
+    await command_repository.mergeCommand(
       "carl",
       "gimmecarl",
       {

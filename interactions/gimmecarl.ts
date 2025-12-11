@@ -5,7 +5,7 @@ import { AttachmentBuilder, EmbedBuilder } from "discord.js";
 import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
 import { MediaService } from "@/services/mediaService.ts";
-import { CommandsRepository } from "@/repositories/commandsRepository.ts";
+import { CommandRepository } from "../repositories/commandRepository.ts";
 import { image_directory } from "@/constants.ts";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
@@ -23,8 +23,8 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   const my_carl = carl_list[carl_index];
   const file = new AttachmentBuilder(my_carl.path);
 
-  const commands_repository = CommandsRepository.instance;
-  const carl_command = await commands_repository.getCommand<QuoteCommand>(
+  const command_repository = CommandRepository.instance;
+  const carl_command = await command_repository.getCommand<QuoteCommand>(
     "carl",
     "gimmecarl",
   );
@@ -33,8 +33,8 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     `attachment://${my_carl.name}`,
   ).setTitle(
     `> ${
-      carl_command?.commands.quotes[
-        Math.floor(Math.random() * carl_command.commands.quotes.length)
+      carl_command?.command.quotes[
+        Math.floor(Math.random() * carl_command.command.quotes.length)
       ]
     }`,
   );
