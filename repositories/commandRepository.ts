@@ -1,25 +1,35 @@
+import type { IPoolProvider } from "@/infrastructure/poolProvider.ts";
+
 import { BaseRepository } from "./baseRepository.ts";
 
-class CommandRepository extends BaseRepository {
-  private static _instance: CommandRepository;
+export interface ICommandRepository {
+  getCommand<T>(
+    context: string,
+    command_name: string,
+  ): Promise<T | null | undefined>;
+  upsertCommand(
+    context: string,
+    command: string,
+    data: object,
+  ): Promise<boolean | undefined>;
+  mergeCommand(
+    context: string,
+    commands: string,
+    data: object,
+  ): Promise<boolean>;
+}
 
-  private constructor() {
-    super();
-  }
-
-  static get instance() {
-    if (!CommandRepository._instance) {
-      CommandRepository._instance = new CommandRepository();
-    }
-
-    return CommandRepository._instance;
+export class CommandRepository extends BaseRepository
+  implements ICommandRepository {
+  constructor(poolProvider: IPoolProvider) {
+    super(poolProvider);
   }
 
   // Get command from commands_json document store in commands table
-  getCommand = async <T>(
+  async getCommand<T>(
     context: string,
     command_name: string,
-  ) => {
+  ) {
     const prepared_statement = {
       name: "fetch-command",
       text: `SELECT commands_json->$2 as command 
@@ -29,13 +39,13 @@ class CommandRepository extends BaseRepository {
     };
 
     return await this.querySingle<T>(prepared_statement);
-  };
+  }
 
-  upsertCommand = async (
+  async upsertCommand(
     context: string,
     command: string,
     data: object,
-  ) => {
+  ) {
     const prepared_statement = {
       name: "upsert-command",
       text: `INSERT INTO commands(context, commands_json)
@@ -46,13 +56,13 @@ class CommandRepository extends BaseRepository {
     };
 
     return await this.queryWithSuccess(prepared_statement);
-  };
+  }
 
-  mergeCommand = async (
+  async mergeCommand(
     context: string,
     command: string,
     data: object,
-  ) => {
+  ) {
     const prepared_statement = {
       name: "merge-command",
       text: `INSERT INTO commands (context, commands_json)
@@ -68,7 +78,5 @@ class CommandRepository extends BaseRepository {
     };
 
     return await this.queryWithSuccess(prepared_statement);
-  };
+  }
 }
-
-export { CommandRepository };

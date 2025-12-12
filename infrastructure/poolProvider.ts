@@ -1,27 +1,33 @@
 import { Pool } from "pg";
 import { getAppConfig } from "@/config.ts";
 
-class PoolProvider {
-  private static instance: PoolProvider;
-  pool: Pool;
+export interface IPoolProvider {
+  get pool(): Pool;
+}
+
+export class PoolProvider implements IPoolProvider {
+  private static _instance: PoolProvider;
+  private _pool: Pool;
 
   private constructor() {
     const { is_development } = getAppConfig();
 
-    this.pool = new Pool({
+    this._pool = new Pool({
       ssl: is_development
         ? false
         : { rejectUnauthorized: false /* intra-cluster fuckery*/ },
     });
   }
 
-  static get pool(): Pool {
-    if (!PoolProvider.instance) {
-      PoolProvider.instance = new PoolProvider();
+  static get instance(): PoolProvider {
+    if (!PoolProvider._instance) {
+      PoolProvider._instance = new PoolProvider();
     }
 
-    return PoolProvider.instance.pool;
+    return PoolProvider._instance;
+  }
+
+  get pool(): Pool {
+    return this._pool;
   }
 }
-
-export { PoolProvider };

@@ -1,10 +1,13 @@
-import { type ChatInputCommandInteraction, MessageFlags } from "discord.js";
-import type { QuoteCommand } from "@/command.pg.types.ts";
-import { CommandRepository } from "../repositories/commandRepository.ts";
+import type { QuoteCommand } from "@/pg.types.ts";
+import type { ChatInputCommandInteraction } from "discord.js";
+
+import { MessageFlags } from "discord.js";
+import { CommandRepository } from "@/repositories/commandRepository.ts";
+import { PoolProvider } from "@/infrastructure/poolProvider.ts";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
   const shit_carl_said = interaction.options.getString("shit_carl_said");
-  const command_repository = CommandRepository.instance;
+  const command_repository = new CommandRepository(PoolProvider.instance);
   const carl_command = await command_repository.getCommand<QuoteCommand>(
     "carl",
     "gimmecarl",

@@ -1,12 +1,14 @@
 import type { WalkEntry } from "@std/fs/walk";
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { QuoteCommand } from "../command.pg.types.ts";
+import type { QuoteCommand } from "../pg.types.ts";
+
 import { AttachmentBuilder, EmbedBuilder } from "discord.js";
 import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
 import { MediaService } from "@/services/mediaService.ts";
 import { CommandRepository } from "../repositories/commandRepository.ts";
 import { image_directory } from "@/constants.ts";
+import { PoolProvider } from "@/infrastructure/poolProvider.ts";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
   const carl_dir = join(Deno.cwd(), image_directory, "carl");
@@ -23,7 +25,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
   const my_carl = carl_list[carl_index];
   const file = new AttachmentBuilder(my_carl.path);
 
-  const command_repository = CommandRepository.instance;
+  const command_repository = new CommandRepository(PoolProvider.instance);
   const carl_command = await command_repository.getCommand<QuoteCommand>(
     "carl",
     "gimmecarl",

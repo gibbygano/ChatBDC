@@ -1,4 +1,5 @@
 import type { Message } from "discord.js";
+
 import { Events } from "discord.js";
 import { MediaService } from "@/services/mediaService.ts";
 

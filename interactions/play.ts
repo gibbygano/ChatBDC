@@ -2,6 +2,7 @@ import type {
   AutocompleteInteraction,
   ChatInputCommandInteraction,
 } from "discord.js";
+
 import { MediaService } from "@/services/mediaService.ts";
 
 const media_service = MediaService.instance;

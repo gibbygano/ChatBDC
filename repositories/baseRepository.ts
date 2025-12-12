@@ -1,17 +1,17 @@
-import { PoolProvider } from "@/infrastructure/poolProvider.ts";
+import type { IPoolProvider } from "@/infrastructure/poolProvider.ts";
+import type { PreparedStatement } from "@/pg.types.ts";
+import type { Pool } from "pg";
 
-interface PreparedStatement {
-  name: string;
-  text: string;
-  values: unknown[];
-}
+export class BaseRepository {
+  private pool: Pool;
 
-class BaseRepository {
-  private pool = PoolProvider.pool;
+  protected constructor(poolProvider: IPoolProvider) {
+    this.pool = poolProvider.pool;
+  }
 
-  protected querySingle = async <T>(
+  protected async querySingle<T>(
     prepared_statement: PreparedStatement,
-  ) => {
+  ) {
     try {
       const result = await this.pool.query(prepared_statement);
 
@@ -27,20 +27,18 @@ class BaseRepository {
     } catch (e) {
       console.error(e);
     }
-  };
+  }
 
-  protected queryWithSuccess = async (
+  protected async queryWithSuccess(
     prepared_statement: PreparedStatement,
-  ) => {
+  ) {
     try {
       const result = await this.pool.query(prepared_statement);
 
       return !!result.rowCount;
     } catch (e) {
       console.error(e);
+      return false;
     }
-  };
+  }
 }
-
-export type { PreparedStatement };
-export { BaseRepository };

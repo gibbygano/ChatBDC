@@ -1,22 +1,19 @@
+import type { IPoolProvider } from "@/infrastructure/poolProvider.ts";
 import type { GuildManager } from "discord.js";
+
 import { BaseRepository } from "./baseRepository.ts";
 
-class GuildRepository extends BaseRepository {
-  private static _instance: GuildRepository;
+export interface IGuildRepository {
+  registerGuilds(guilds: GuildManager): Promise<void>;
+}
 
-  private constructor() {
-    super();
+export class GuildRepository extends BaseRepository
+  implements IGuildRepository {
+  constructor(poolProvider: IPoolProvider) {
+    super(poolProvider);
   }
 
-  static get instance(): GuildRepository {
-    if (!GuildRepository._instance) {
-      GuildRepository._instance = new GuildRepository();
-    }
-
-    return GuildRepository._instance;
-  }
-
-  registerGuilds = async (guilds: GuildManager) => {
+  async registerGuilds(guilds: GuildManager) {
     const register = async (guild_id: string, guild_name: string) => {
       const prepared_statement = {
         name: "register-guild",
@@ -45,7 +42,5 @@ class GuildRepository extends BaseRepository {
     }
 
     console.info("---------------------------------------------\n");
-  };
+  }
 }
-
-export { GuildRepository };
