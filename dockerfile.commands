@@ -3,10 +3,13 @@ WORKDIR /app
 
 COPY deno.json ./
 COPY config.ts ./
+COPY types.ts ./
+COPY constants.ts ./
 
 COPY commands/ ./commands/
 COPY utils/deploy.ts ./
 COPY utils/register.ts ./utils/register.ts
+COPY utils/time.ts ./utils/time.ts
 COPY services/ ./services/
 
 RUN deno cache deploy.ts

@@ -23,4 +23,4 @@ RUN apt-get update && \
 USER deno
 WORKDIR /app
 COPY --from=builder /app .
-CMD ["deno", "run", "--allow-read", "--allow-env", "--allow-ffi", "--allow-net", "--allow-run", "--allow-write", "main.ts"]
+CMD ["deno", "run", "--allow-read", "--allow-env", "--allow-ffi", "--allow-net", "--allow-run", "--allow-write", "--unstable-kv", "main.ts"]

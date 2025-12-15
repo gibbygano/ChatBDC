@@ -7,8 +7,8 @@ export default {
     .setName("dotain")
     .setDescription("Dota roll call.")
     .addStringOption((opt) =>
-      opt.setName("dota_minutes").setDescription(
-        "How many minutes until DOTA?",
+      opt.setName("minutes").setDescription(
+        "How many minutes until Dota?",
       ).setRequired(true)
     ),
   execute: async (interaction: ChatInputCommandInteraction) => {

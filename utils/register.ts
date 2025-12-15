@@ -61,27 +61,20 @@ const registerQueueListeners = async (client: Client) => {
   // Register reminder queue listener
   await queue_service.registerListener<Reminder>(
     QueueType.Reminder,
-    async (reminder: Reminder, id: string) => {
+    async (id: string) => {
       console.info(`Processing queue item ${id}`);
-
-      const at_time = reminder.end_timestamp <= now();
       let remaining_time: { minutes: number; seconds: number } | undefined;
-      const channel = client.channels.cache.get(reminder.channel_id);
 
       const reminder_service = ReminderService.instance;
+      const reminder = reminder_service.getReminder(id);
+      const at_time = reminder!.end_timestamp <= now();
+      const channel = client.channels.cache.get(reminder!.channel_id);
+
       if (at_time) {
         reminder_service.deleteReminder(id);
       } else {
-        remaining_time = remaining(reminder.end_timestamp);
-        reminder.timespan_in_minutes = remaining_time!.minutes;
-
-        reminder_service.enqueue(reminder, id);
-
-        console.info(
-          `Re-queued item ${id} for ${
-            reminder.timespan_in_minutes > 5 ? 5 : remaining
-          }`,
-        );
+        remaining_time = remaining(reminder!.end_timestamp);
+        reminder_service.enqueue(remaining_time!.minutes, id);
       }
 
       if (channel instanceof TextChannel) {
@@ -91,9 +84,7 @@ const registerQueueListeners = async (client: Client) => {
               .setContent(
                 `${
                   [
-                    ...reminder.members.values().map((m) =>
-                      `## <@${m.user.id}>`
-                    ),
+                    ...reminder!.members.values().map((m) => `## <@${m}>`),
                   ]
                     .join(
                       " ",
@@ -103,7 +94,7 @@ const registerQueueListeners = async (client: Client) => {
           ).addSeparatorComponents((separator) => separator)
           .addTextDisplayComponents(
             new TextDisplayBuilder().setContent(
-              `# ${reminder.reminder_type} ${
+              `# ${reminder!.reminder_type} ${
                 at_time
                   ? "time!"
                   : `in **${remaining_to_string(remaining_time!)}**.`

@@ -28,16 +28,14 @@ export class QueueService implements IQueueService {
 
   async registerListener<T>(
     queue_type: QueueType,
-    callback: (obj: T, id: string) => Promise<void>,
+    callback: (id: string) => Promise<void>,
   ) {
     const queue = await this.getQueue();
     queue.listenQueue(async (args) => {
       if (
         args.type === queue_type
       ) {
-        const payload = <T> args.payload;
-
-        await callback(payload, args.id);
+        await callback(args.id);
       }
     });
   }

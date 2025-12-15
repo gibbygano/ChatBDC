@@ -14,10 +14,10 @@ const rest = new REST().setToken(discordBotToken);
         body: [],
       },
     )
-    .then(() => console.log("Successfully deleted all guild commands."))
+    .then(() => console.info("Successfully deleted all guild commands."))
     .catch(console.error);
   rest
     .put(Routes.applicationCommands(discordBotClientId), { body: [] })
-    .then(() => console.log("Successfully deleted all application commands."))
+    .then(() => console.info("Successfully deleted all application commands."))
     .catch(console.error);
 })();

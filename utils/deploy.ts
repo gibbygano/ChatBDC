@@ -1,4 +1,3 @@
-import type { CommandData } from "@/types.ts";
 import { load } from "@std/dotenv";
 import { getAppConfig } from "@/config.ts";
 import { REST, Routes } from "discord.js";
@@ -20,9 +19,7 @@ const commands = await CommandService.instance.registerCommands();
       { body: commands.map((c) => c.data) },
     );
     console.info(
-      `Successfully reloaded ${
-        (data as Array<CommandData>).length
-      } application (/) commands.`,
+      `Successfully reloaded ${(data as []).length} application (/) commands.`,
     );
   } catch (error) {
     console.error(error);

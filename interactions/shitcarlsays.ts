@@ -20,7 +20,6 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     });
   }
 
-  console.log(carl_command);
   const existing_quotes = carl_command?.command.quotes;
   if (
     existing_quotes &&

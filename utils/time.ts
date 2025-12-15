@@ -12,4 +12,7 @@ const remaining_to_string = (remaining: { minutes: number; seconds: number }) =>
     ? `${Math.round(remaining.seconds)} second(s)`
     : `${Math.round(remaining.minutes)} minute(s)`;
 
-export { minutes_to_ms, now, remaining, remaining_to_string };
+const add_minutes = (timestamp: Date, timespan_in_minutes: number) =>
+  new Date(timestamp.getTime() + timespan_in_minutes * ms_in_minute);
+
+export { add_minutes, minutes_to_ms, now, remaining, remaining_to_string };

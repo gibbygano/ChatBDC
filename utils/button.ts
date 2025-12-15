@@ -1,4 +1,4 @@
-import type { ButtonInteraction, GuildMember } from "discord.js";
+import type { ButtonInteraction } from "discord.js";
 
 import { MessageFlags } from "discord.js";
 import { ReminderService } from "@/services/reminderService.ts";
@@ -17,7 +17,7 @@ const handle_rsvp = async (
     });
   }
 
-  reminder_service.joinReminder(<GuildMember> interaction.member, reminder_id);
+  reminder_service.joinReminder(interaction.user.id, reminder_id);
 
   return await interaction.reply({
     content: `✅ You've been added to the ${reminder.reminder_type} reminder!`,

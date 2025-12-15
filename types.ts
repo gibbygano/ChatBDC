@@ -1,8 +1,4 @@
-import type {
-  ChatInputCommandInteraction,
-  GuildMember,
-  Message,
-} from "discord.js";
+import type { ChatInputCommandInteraction, Message } from "discord.js";
 
 enum ReminderType {
   DOTA = "Dota",
@@ -47,11 +43,10 @@ interface Media {
 }
 
 interface Reminder {
-  created_by: GuildMember;
-  members: Set<GuildMember>;
+  created_by_id: string;
+  members: Set<string>;
   reminder_type: ReminderType;
   timestamp: Date;
-  timespan_in_minutes: number;
   end_timestamp: Date;
   channel_id: string;
 }

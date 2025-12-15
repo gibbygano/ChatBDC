@@ -11,7 +11,7 @@ import { ReminderService } from "@/services/reminderService.ts";
 import { ReminderType } from "@/types.ts";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
-  const dota_minutes = interaction.options.getString("dota_minutes");
+  const dota_minutes = interaction.options.getString("minutes");
 
   if (!dota_minutes || isNaN(+dota_minutes)) {
     return await interaction.reply({
@@ -37,11 +37,14 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     });
   }
 
+  const dota_role = interaction.guild?.roles.cache.find((r) =>
+    r.name === "dotaboi"
+  );
   const dota_reminder_display = new ContainerBuilder()
     .addTextDisplayComponents(
       new TextDisplayBuilder()
         .setContent(
-          `## @dotaboi, <@${interaction.member?.user.id}> just created a roll call for Dota in **${dota_minutes} minutes**.`,
+          `## <@&${dota_role?.id}>, <@${interaction.member?.user.id}> just created a roll call for Dota in **${dota_minutes} minutes**.`,
         ),
     )
     .addActionRowComponents((ar) =>
