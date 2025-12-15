@@ -1,7 +1,6 @@
 import type { ChatInputCommandInteraction, GuildMember } from "discord.js";
 
 import {
-  ButtonBuilder,
   ButtonStyle,
   ContainerBuilder,
   MessageFlags,
@@ -41,19 +40,20 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
     r.name === "dotaboi"
   );
   const dota_reminder_display = new ContainerBuilder()
-    .addTextDisplayComponents(
-      new TextDisplayBuilder()
-        .setContent(
-          `## <@&${dota_role?.id}>, <@${interaction.member?.user.id}> just created a roll call for Dota in **${dota_minutes} minutes**.`,
-        ),
-    )
-    .addActionRowComponents((ar) =>
-      ar.setComponents(
-        new ButtonBuilder()
-          .setCustomId(`reminder:${reminder_id}`)
-          .setLabel("RSPV")
-          .setStyle(ButtonStyle.Primary),
-      )
+    .addSectionComponents(
+      (section) =>
+        section
+          .addTextDisplayComponents(
+            new TextDisplayBuilder()
+              .setContent(
+                `## <@&${dota_role?.id}>, <@${interaction.member?.user.id}> just created a roll call for Dota in **${dota_minutes} minutes**.`,
+              ),
+          )
+          .setButtonAccessory((btn) =>
+            btn.setCustomId(`reminder:${reminder_id}`)
+              .setLabel("I spose")
+              .setStyle(ButtonStyle.Primary)
+          ),
     );
 
   return await interaction.reply({

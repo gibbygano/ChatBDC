@@ -82,9 +82,9 @@ const registerQueueListeners = async (client: Client) => {
           .addTextDisplayComponents(
             new TextDisplayBuilder()
               .setContent(
-                `${
+                `### ${
                   [
-                    ...reminder!.members.values().map((m) => `## <@${m}>`),
+                    ...reminder!.members.values().map((m) => `<@${m}>`),
                   ]
                     .join(
                       " ",
