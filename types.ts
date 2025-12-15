@@ -1,4 +1,16 @@
-import { ChatInputCommandInteraction, Message } from "discord.js";
+import type {
+  ChatInputCommandInteraction,
+  GuildMember,
+  Message,
+} from "discord.js";
+
+enum ReminderType {
+  DOTA = "Dota",
+}
+
+enum QueueType {
+  Reminder = "reminder",
+}
 
 interface CommandData {
   id: string;
@@ -34,4 +46,15 @@ interface Media {
   directory: MediaDirectory;
 }
 
-export type { Command, CommandData, Media, MediaDirectory };
+interface Reminder {
+  created_by: GuildMember;
+  members: Set<GuildMember>;
+  reminder_type: ReminderType;
+  timestamp: Date;
+  timespan_in_minutes: number;
+  end_timestamp: Date;
+  channel_id: string;
+}
+
+export type { Command, CommandData, Media, MediaDirectory, Reminder };
+export { QueueType, ReminderType };

@@ -3,6 +3,7 @@ import type { Client } from "discord.js";
 import { ActivityType, Events, PresenceUpdateStatus } from "discord.js";
 import { GuildRepository } from "@/repositories/guildRepository.ts";
 import { PoolProvider } from "@/infrastructure/poolProvider.ts";
+import { registerQueueListeners } from "@/utils/register.ts";
 
 export default {
   name: Events.ClientReady,
@@ -10,6 +11,9 @@ export default {
   execute: async (client: Client) => {
     const guild_repository = new GuildRepository(PoolProvider.instance);
     await guild_repository.registerGuilds(client.guilds);
+
+    // Register all queue listeners
+    await registerQueueListeners(client);
 
     client.user?.setPresence({
       activities: [{ name: "💤", type: ActivityType.Custom }],

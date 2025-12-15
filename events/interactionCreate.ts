@@ -3,12 +3,17 @@ import type { ChatInputCommandInteraction } from "discord.js";
 import { Events, MessageFlags } from "discord.js";
 import { CommandService } from "@/services/commandService.ts";
 import { handle_upload } from "@/utils/upload.ts";
+import { handle_button_press } from "@/utils/button.ts";
 
 export default {
   name: Events.InteractionCreate,
   async execute(interaction: ChatInputCommandInteraction) {
     if (interaction.isModalSubmit()) {
       return handle_upload(interaction);
+    }
+
+    if (interaction.isButton()) {
+      return handle_button_press(interaction);
     }
 
     const commands = await CommandService.instance.registerCommands();

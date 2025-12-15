@@ -1,0 +1,15 @@
+import { ms_in_minute, ms_in_second } from "@/constants.ts";
+
+const now = () => new Date();
+const minutes_to_ms = (minutes: number) => minutes * ms_in_minute;
+const remaining = (timestamp: Date) => ({
+  minutes: (timestamp.getTime() - now().getTime()) / ms_in_minute,
+  seconds: (timestamp.getTime() - now().getTime()) / ms_in_second,
+});
+
+const remaining_to_string = (remaining: { minutes: number; seconds: number }) =>
+  remaining.minutes < 1
+    ? `${Math.round(remaining.seconds)} second(s)`
+    : `${Math.round(remaining.minutes)} minute(s)`;
+
+export { minutes_to_ms, now, remaining, remaining_to_string };

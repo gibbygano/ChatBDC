@@ -1,6 +1,18 @@
-import type { Media, MediaDirectory } from "@/types.ts";
+import type { Media, MediaDirectory, Reminder } from "@/types.ts";
+
+import { QueueType } from "@/types.ts";
 import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
+import {
+  Client,
+  ContainerBuilder,
+  MessageFlags,
+  TextChannel,
+  TextDisplayBuilder,
+} from "discord.js";
+import { QueueService } from "@/services/queueService.ts";
+import { ReminderService } from "@/services/reminderService.ts";
+import { now, remaining, remaining_to_string } from "./time.ts";
 
 const register = async <T>(
   directory: string,
@@ -43,4 +55,69 @@ const registerMedia = async (
   }
 };
 
-export { register, registerMedia };
+const registerQueueListeners = async (client: Client) => {
+  const queue_service = QueueService.instance;
+
+  // Register reminder queue listener
+  await queue_service.registerListener<Reminder>(
+    QueueType.Reminder,
+    async (reminder: Reminder, id: string) => {
+      console.info(`Processing queue item ${id}`);
+
+      const at_time = reminder.end_timestamp <= now();
+      let remaining_time: { minutes: number; seconds: number } | undefined;
+      const channel = client.channels.cache.get(reminder.channel_id);
+
+      const reminder_service = ReminderService.instance;
+      if (at_time) {
+        reminder_service.deleteReminder(id);
+      } else {
+        remaining_time = remaining(reminder.end_timestamp);
+        reminder.timespan_in_minutes = remaining_time!.minutes;
+
+        reminder_service.enqueue(reminder, id);
+
+        console.info(
+          `Re-queued item ${id} for ${
+            reminder.timespan_in_minutes > 5 ? 5 : remaining
+          }`,
+        );
+      }
+
+      if (channel instanceof TextChannel) {
+        const dota_reminder_display = new ContainerBuilder()
+          .addTextDisplayComponents(
+            new TextDisplayBuilder()
+              .setContent(
+                `${
+                  [
+                    ...reminder.members.values().map((m) =>
+                      `## <@${m.user.id}>`
+                    ),
+                  ]
+                    .join(
+                      " ",
+                    )
+                }`,
+              ),
+          ).addSeparatorComponents((separator) => separator)
+          .addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+              `# ${reminder.reminder_type} ${
+                at_time
+                  ? "time!"
+                  : `in **${remaining_to_string(remaining_time!)}**.`
+              }`,
+            ),
+          );
+
+        await channel.send({
+          components: [dota_reminder_display],
+          flags: MessageFlags.IsComponentsV2,
+        });
+      }
+    },
+  );
+};
+
+export { register, registerMedia, registerQueueListeners };

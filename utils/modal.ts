@@ -6,7 +6,7 @@ import {
   TextInputStyle,
 } from "discord.js";
 
-const create_modal = (is_audio_upload: boolean) => {
+const create_modal_for_upload = (is_audio_upload: boolean) => {
   const upload_modal = new ModalBuilder().setCustomId(
     is_audio_upload ? "audio_upload_modal" : "image_upload_modal",
   )
@@ -41,4 +41,4 @@ const create_modal = (is_audio_upload: boolean) => {
   return upload_modal;
 };
 
-export { create_modal };
+export { create_modal_for_upload };

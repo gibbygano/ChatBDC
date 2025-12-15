@@ -17,7 +17,9 @@ export default {
   execute: async (interaction: ChatInputCommandInteraction) => {
     const media_type = interaction.options.getString("upload_media_type");
 
-    const { create_modal } = await import("@/utils/modal.ts");
-    await interaction.showModal(create_modal(media_type === "audio"));
+    const { create_modal_for_upload } = await import("@/utils/modal.ts");
+    await interaction.showModal(
+      create_modal_for_upload(media_type === "audio"),
+    );
   },
 };
