@@ -135,7 +135,7 @@ const notify = async (
   return await channel.send({
     components: [reminder_display],
     flags: MessageFlags.IsComponentsV2,
-    files: [reminder?.request.image_path],
+    files: [reminder!.request.image_path],
   });
 };
 
