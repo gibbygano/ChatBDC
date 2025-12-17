@@ -24,7 +24,7 @@ const handle_validation = async (
     return false;
   }
 
-  if (Number(minutes) < 0) {
+  if (Number(minutes) < 5) {
     await interaction.reply({
       content: "❌ Make it at least 5 minutes, please.",
       flags: MessageFlags.Ephemeral,
