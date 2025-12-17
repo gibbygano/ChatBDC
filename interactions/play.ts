@@ -22,19 +22,21 @@ const auto_complete = async (interaction: AutocompleteInteraction) => {
     value: key,
   }));
 
-  await interaction.respond(
-    mappedChoices.sort((a, b) => {
-      if (a.value === focused) {
-        return -1;
-      }
+  const sorted = mappedChoices.sort((a, b) =>
+    a.value === focused
+      ? -1
+      : b.value === focused
+      ? 1
+      : a.value > b.value
+      ? 1
+      : (a.value < b.value ? -1 : 0)
+  )
+    .slice(
+      0,
+      mappedChoices.length > 25 ? 25 : mappedChoices.length,
+    );
 
-      return a.value > b.value ? 1 : (a.value < b.value ? -1 : 0);
-    })
-      .slice(
-        0,
-        mappedChoices.length > 25 ? 25 : mappedChoices.length,
-      ),
-  );
+  await interaction.respond(sorted);
 };
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
