@@ -80,7 +80,7 @@ class MediaService {
 
     try {
       const connection = join_voice(voice_channel);
-      const _player = play_audio(connection, found_media, interaction);
+      play_audio(connection, found_media, interaction);
 
       if (!skip_reply) {
         await handle_reply(

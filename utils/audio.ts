@@ -43,8 +43,6 @@ const play_audio = (
   bind_handlers(player, media, connection, interaction);
 
   player.play(resource);
-
-  return player;
 };
 
 const bind_handlers = (
