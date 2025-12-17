@@ -1,65 +1,26 @@
-import type { ChatInputCommandInteraction, GuildMember } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 
-import {
-  ButtonStyle,
-  ContainerBuilder,
-  MessageFlags,
-  TextDisplayBuilder,
-} from "discord.js";
-import { ReminderService } from "@/services/reminderService.ts";
 import { ReminderType } from "@/types.ts";
+import { create_reminder } from "@/utils/rollcall.ts";
+import { join } from "@std/path";
+import { image_directory } from "@/constants.ts";
+
+const image_file = "d1006478-966374311.jpg";
+const dota_role = "dotaboi";
+const rsvp_label = "I spose";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
   const dota_minutes = interaction.options.getString("minutes");
 
-  if (!dota_minutes || isNaN(+dota_minutes)) {
-    return await interaction.reply({
-      content:
-        "❌ Please provide a valid number (positive integer or decimal). ",
-      flags: MessageFlags.Ephemeral,
-    });
-  }
-
-  const reminder_service = ReminderService.instance;
-  const reminder_id = reminder_service.createReminder(
-    <GuildMember> interaction.member,
+  return await create_reminder(
+    interaction,
     ReminderType.DOTA,
-    Math.abs(Number(dota_minutes)),
-    interaction.channelId,
+    dota_minutes,
+    join(Deno.cwd(), image_directory, image_file),
+    image_file,
+    dota_role,
+    rsvp_label,
   );
-
-  if (!reminder_id) {
-    return await interaction.reply({
-      content:
-        `⚠️ Could not create Dota reminder. A current reminder for ${ReminderType.DOTA} exists.`,
-      flags: MessageFlags.Ephemeral,
-    });
-  }
-
-  const dota_role = interaction.guild?.roles.cache.find((r) =>
-    r.name === "dotaboi"
-  );
-  const dota_reminder_display = new ContainerBuilder()
-    .addSectionComponents(
-      (section) =>
-        section
-          .addTextDisplayComponents(
-            new TextDisplayBuilder()
-              .setContent(
-                `## <@&${dota_role?.id}>, <@${interaction.member?.user.id}> just created a roll call for Dota in **${dota_minutes} minutes**.`,
-              ),
-          )
-          .setButtonAccessory((btn) =>
-            btn.setCustomId(`reminder:${reminder_id}`)
-              .setLabel("I spose")
-              .setStyle(ButtonStyle.Primary)
-          ),
-    );
-
-  return await interaction.reply({
-    components: [dota_reminder_display],
-    flags: MessageFlags.IsComponentsV2,
-  });
 };
 
 export { execute };

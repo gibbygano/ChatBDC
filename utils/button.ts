@@ -20,7 +20,8 @@ const handle_rsvp = async (
   reminder_service.joinReminder(interaction.user.id, reminder_id);
 
   return await interaction.reply({
-    content: `✅ You've been added to the ${reminder.reminder_type} reminder!`,
+    content:
+      `✅ You've been added to the ${reminder.request.reminder_type} reminder!`,
     flags: MessageFlags.Ephemeral,
   });
 };

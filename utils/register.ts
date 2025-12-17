@@ -3,16 +3,11 @@ import type { Media, MediaDirectory, Reminder } from "@/types.ts";
 import { QueueType } from "@/types.ts";
 import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
-import {
-  Client,
-  ContainerBuilder,
-  MessageFlags,
-  TextChannel,
-  TextDisplayBuilder,
-} from "discord.js";
+import { Client, TextChannel } from "discord.js";
 import { QueueService } from "@/services/queueService.ts";
 import { ReminderService } from "@/services/reminderService.ts";
-import { now, remaining, remaining_to_string } from "./time.ts";
+import { now, remaining } from "./time.ts";
+import { notify } from "./rollcall.ts";
 
 const register = async <T>(
   directory: string,
@@ -68,7 +63,7 @@ const registerQueueListeners = async (client: Client) => {
       const reminder_service = ReminderService.instance;
       const reminder = reminder_service.getReminder(id);
       const at_time = reminder!.end_timestamp <= now();
-      const channel = client.channels.cache.get(reminder!.channel_id);
+      const channel = client.channels.cache.get(reminder!.request.channel_id);
 
       if (at_time) {
         reminder_service.deleteReminder(id);
@@ -77,36 +72,11 @@ const registerQueueListeners = async (client: Client) => {
         reminder_service.enqueue(remaining_time!.minutes, id);
       }
 
-      if (channel instanceof TextChannel) {
-        const reminder_display = new ContainerBuilder()
-          .addTextDisplayComponents(
-            new TextDisplayBuilder()
-              .setContent(
-                `### ${
-                  [
-                    ...reminder!.members.values().map((m) => `<@${m}>`),
-                  ]
-                    .join(
-                      " ",
-                    )
-                }`,
-              ),
-          ).addSeparatorComponents((separator) => separator)
-          .addTextDisplayComponents(
-            new TextDisplayBuilder().setContent(
-              `# ${reminder!.reminder_type} ${
-                at_time
-                  ? "time!"
-                  : `in **${remaining_to_string(remaining_time!)}**.`
-              }`,
-            ),
-          );
-
-        await channel.send({
-          components: [reminder_display],
-          flags: MessageFlags.IsComponentsV2,
-        });
+      if (!(channel instanceof TextChannel)) {
+        return;
       }
+
+      await notify(channel, at_time, reminder, remaining_time);
     },
   );
 };

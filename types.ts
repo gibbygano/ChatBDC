@@ -43,14 +43,27 @@ interface Media {
   directory: MediaDirectory;
 }
 
-interface Reminder {
+interface ReminderRequest {
   created_by_id: string;
-  members: Set<string>;
   reminder_type: ReminderType;
   timestamp: Date;
-  end_timestamp: Date;
   channel_id: string;
+  image_path: string;
+  image_file: string;
 }
 
-export type { Command, CommandData, Media, MediaDirectory, Reminder };
+interface Reminder {
+  members: Set<string>;
+  end_timestamp: Date;
+  request: ReminderRequest;
+}
+
+export type {
+  Command,
+  CommandData,
+  Media,
+  MediaDirectory,
+  Reminder,
+  ReminderRequest,
+};
 export { QueueType, ReminderType };

@@ -1,17 +1,14 @@
-import type { Reminder } from "@/types.ts";
-import type { GuildMember } from "discord.js";
+import type { Reminder, ReminderRequest } from "@/types.ts";
 
-import { QueueType, ReminderType } from "@/types.ts";
+import { QueueType } from "@/types.ts";
 import { QueueService } from "./queueService.ts";
 import { add_minutes, minutes_to_ms, now } from "@/utils/time.ts";
 
 export interface IReminderSerivce {
   getReminder: (reminder_id: string) => Reminder | undefined;
   createReminder: (
-    member: GuildMember,
-    reminder_type: ReminderType,
+    reminder_request: ReminderRequest,
     timespan_in_minutes: number,
-    channel_id: string,
   ) => string | undefined;
   joinReminder: (member_id: string, reminder_id: string) => boolean;
   deleteReminder: (reminder_id: string) => void;
@@ -61,32 +58,29 @@ export class ReminderService implements IReminderSerivce {
   }
 
   createReminder(
-    member: GuildMember,
-    reminder_type: ReminderType,
+    reminder_request: ReminderRequest,
     timespan_in_minutes: number,
-    channel_id: string,
   ) {
     this.clearExpiredReminders();
 
     const matching_reminders = this._reminders.values()
-      .filter((r) => r.reminder_type === reminder_type);
+      .filter((r) =>
+        r.request.reminder_type === reminder_request.reminder_type
+      );
 
     if (matching_reminders.some((r) => r)) {
       return;
     }
 
     const reminder_key =
-      `${member.user.id}_${reminder_type}_${timespan_in_minutes}`;
+      `${reminder_request.created_by_id}_${reminder_request.reminder_type}_${timespan_in_minutes}`;
 
     const timestamp = new Date();
 
     const reminder = {
-      timestamp,
       end_timestamp: add_minutes(timestamp, timespan_in_minutes),
-      reminder_type,
-      created_by_id: member.user.id,
-      members: new Set<string>([member.id]),
-      channel_id,
+      members: new Set<string>([reminder_request.created_by_id]),
+      request: reminder_request,
     };
 
     this._reminders.set(reminder_key, reminder);

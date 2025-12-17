@@ -1,65 +1,26 @@
-import type { ChatInputCommandInteraction, GuildMember } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 
-import {
-  ButtonStyle,
-  ContainerBuilder,
-  MessageFlags,
-  TextDisplayBuilder,
-} from "discord.js";
-import { ReminderService } from "@/services/reminderService.ts";
 import { ReminderType } from "@/types.ts";
+import { create_reminder } from "@/utils/rollcall.ts";
+import { join } from "@std/path";
+import { image_directory } from "@/constants.ts";
+
+const image_file = "ARC-Raiders-Scrappy-Loot-Rooster.webp";
+const arc_role = "rainerds";
+const rsvp_label = "Wanna go together?";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
   const arc_minutes = interaction.options.getString("minutes");
 
-  if (!arc_minutes || isNaN(+arc_minutes)) {
-    return await interaction.reply({
-      content:
-        "❌ Please provide a valid number (positive integer or decimal). ",
-      flags: MessageFlags.Ephemeral,
-    });
-  }
-
-  const reminder_service = ReminderService.instance;
-  const reminder_id = reminder_service.createReminder(
-    <GuildMember> interaction.member,
+  return await create_reminder(
+    interaction,
     ReminderType.ARC,
-    Math.abs(Number(arc_minutes)),
-    interaction.channelId,
+    arc_minutes,
+    join(Deno.cwd(), image_directory, image_file),
+    image_file,
+    arc_role,
+    rsvp_label,
   );
-
-  if (!reminder_id) {
-    return await interaction.reply({
-      content:
-        `⚠️ Could not create Arc reminder. A current reminder for ${ReminderType.ARC} exists.`,
-      flags: MessageFlags.Ephemeral,
-    });
-  }
-
-  const arc_role = interaction.guild?.roles.cache.find((r) =>
-    r.name === "rainerds"
-  );
-  const arc_reminder_display = new ContainerBuilder()
-    .addSectionComponents(
-      (section) =>
-        section
-          .addTextDisplayComponents(
-            new TextDisplayBuilder()
-              .setContent(
-                `## <@&${arc_role?.id}>, <@${interaction.member?.user.id}> just created a roll call for Arc Raiders in **${arc_minutes} minutes**.`,
-              ),
-          )
-          .setButtonAccessory((btn) =>
-            btn.setCustomId(`reminder:${reminder_id}`)
-              .setLabel("Wanna team up?")
-              .setStyle(ButtonStyle.Primary)
-          ),
-    );
-
-  return await interaction.reply({
-    components: [arc_reminder_display],
-    flags: MessageFlags.IsComponentsV2,
-  });
 };
 
 export { execute };
