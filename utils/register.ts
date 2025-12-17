@@ -78,7 +78,7 @@ const registerQueueListeners = async (client: Client) => {
       }
 
       if (channel instanceof TextChannel) {
-        const dota_reminder_display = new ContainerBuilder()
+        const reminder_display = new ContainerBuilder()
           .addTextDisplayComponents(
             new TextDisplayBuilder()
               .setContent(
@@ -103,7 +103,7 @@ const registerQueueListeners = async (client: Client) => {
           );
 
         await channel.send({
-          components: [dota_reminder_display],
+          components: [reminder_display],
           flags: MessageFlags.IsComponentsV2,
         });
       }

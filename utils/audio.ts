@@ -7,7 +7,11 @@ import {
   PresenceUpdateStatus,
   type VoiceBasedChannel,
 } from "discord.js";
-import type { AudioPlayer, VoiceConnection } from "@discordjs/voice";
+import type {
+  AudioPlayer,
+  AudioResource,
+  VoiceConnection,
+} from "@discordjs/voice";
 import {
   AudioPlayerStatus,
   createAudioPlayer,
@@ -25,15 +29,17 @@ const join_voice = (voice_channel: VoiceBasedChannel) =>
     selfMute: false,
   });
 
+let resource: AudioResource;
+
 const play_audio = (
   connection: VoiceConnection,
   media: Media,
   interaction: ChatInputCommandInteraction | Message,
 ) => {
-  const resource = createAudioResource(media.path);
-  const player = createAudioPlayer({ debug: true });
-
+  const player = createAudioPlayer();
+  resource = createAudioResource(media.path);
   connection.subscribe(player);
+
   bind_handlers(player, media, connection, interaction);
 
   player.play(resource);

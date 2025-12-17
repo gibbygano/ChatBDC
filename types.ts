@@ -2,6 +2,7 @@ import type { ChatInputCommandInteraction, Message } from "discord.js";
 
 enum ReminderType {
   DOTA = "Dota",
+  ARC = "Arc Raiders",
 }
 
 enum QueueType {

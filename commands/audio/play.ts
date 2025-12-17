@@ -6,7 +6,7 @@ import type {
 import { SlashCommandBuilder } from "discord.js";
 
 export default {
-  cooldown: 5,
+  cooldown: 3,
   data: new SlashCommandBuilder().setName("play").setDescription(
     "Play a sound file",
   ).addStringOption((opt) =>
