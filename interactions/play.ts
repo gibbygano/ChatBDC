@@ -12,8 +12,8 @@ const auto_complete = async (interaction: AutocompleteInteraction) => {
   const options = media_service.media;
   const choices = focused
     ? options.filter((value, key) =>
-      key.includes(focused) ||
-      value.directory.name.toLowerCase().includes(focused)
+      key.startsWith(focused) ||
+      value.directory.name.toLowerCase().startsWith(focused)
     )
     : options;
 
@@ -23,9 +23,13 @@ const auto_complete = async (interaction: AutocompleteInteraction) => {
   }));
 
   await interaction.respond(
-    mappedChoices.sort((a, b) =>
-      a.value > b.value ? 1 : (a.value < b.value ? -1 : 0)
-    )
+    mappedChoices.sort((a, b) => {
+      if (a.value === focused) {
+        return -1;
+      }
+
+      return a.value > b.value ? 1 : (a.value < b.value ? -1 : 0);
+    })
       .slice(
         0,
         mappedChoices.length > 25 ? 25 : mappedChoices.length,
