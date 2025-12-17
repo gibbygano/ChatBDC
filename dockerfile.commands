@@ -10,6 +10,7 @@ COPY commands/ ./commands/
 COPY utils/deploy.ts ./
 COPY utils/register.ts ./utils/register.ts
 COPY utils/time.ts ./utils/time.ts
+COPY utils/rollcall.ts ./utils/rollcall.ts
 COPY services/ ./services/
 
 RUN deno cache deploy.ts
