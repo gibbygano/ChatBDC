@@ -1,7 +1,7 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@std/assert@1": "1.0.16",
+    "jsr:@std/assert@^1.0.16": "1.0.16",
     "jsr:@std/async@^1.0.15": "1.0.15",
     "jsr:@std/dotenv@~0.225.5": "0.225.5",
     "jsr:@std/fs@^1.0.20": "1.0.20",
@@ -10,7 +10,7 @@
     "npm:@discordjs/voice@0.19": "0.19.0_ffmpeg-static@5.3.0_bufferutil@4.0.9",
     "npm:@snazzah/davey@~0.1.8": "0.1.8",
     "npm:@types/node@*": "24.2.0",
-    "npm:@types/pg@^8.15.6": "8.15.6",
+    "npm:@types/pg@^8.16.0": "8.16.0",
     "npm:bufferutil@^4.0.9": "4.0.9",
     "npm:discord.js@^14.25.1": "14.25.1_bufferutil@4.0.9",
     "npm:ffmpeg-static@^5.3.0": "5.3.0",
@@ -272,8 +272,8 @@
         "undici-types"
       ]
     },
-    "@types/pg@8.15.6": {
-      "integrity": "sha512-NoaMtzhxOrubeL/7UZuNTrejB4MPAJ0RpxZqXQf2qXuVlTPuG6Y8p4u9dKRaue4yjmC7ZhzVO2/Yyyn25znrPQ==",
+    "@types/pg@8.16.0": {
+      "integrity": "sha512-RmhMd/wD+CF8Dfo+cVIy3RR5cl8CyfXQ0tGgW6XBL8L4LM/UTEbNXYRbLwU6w+CgrKBNbrQWt4FUtTfaU5jSYQ==",
       "dependencies": [
         "@types/node@24.2.0",
         "pg-protocol",
@@ -542,14 +542,14 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@std/assert@1",
+      "jsr:@std/assert@^1.0.16",
       "jsr:@std/async@^1.0.15",
       "jsr:@std/dotenv@~0.225.5",
       "jsr:@std/fs@^1.0.20",
       "jsr:@std/path@^1.1.3",
       "npm:@discordjs/voice@0.19",
       "npm:@snazzah/davey@~0.1.8",
-      "npm:@types/pg@^8.15.6",
+      "npm:@types/pg@^8.16.0",
       "npm:bufferutil@^4.0.9",
       "npm:discord.js@^14.25.1",
       "npm:ffmpeg-static@^5.3.0",
