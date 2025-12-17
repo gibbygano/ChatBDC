@@ -31,6 +31,7 @@ interface Command<T = ChatInputCommandInteraction | Message> {
 }
 
 interface MediaDirectory {
+  search_string: string;
   name: string;
   path: string;
   pathLabel: string;
@@ -38,6 +39,7 @@ interface MediaDirectory {
 
 interface Media {
   short_name: string;
+  search_string: string;
   full_name: string;
   path: string;
   directory: MediaDirectory;

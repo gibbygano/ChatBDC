@@ -25,7 +25,7 @@ export default {
       return;
     }
 
-    // If Someone Joins a Channel, Cancel Any Matching Timeouts
+    // If Someone Joins a Channel Before the Bot Leaves, Cancel Any Matching Timeouts
     const cancellation_service = CancellationService.instance;
     if (current_state.channelId) {
       cancellation_service.cancel(buildCancellationKey(

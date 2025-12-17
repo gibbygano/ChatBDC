@@ -43,6 +43,8 @@ const play_audio = (
   bind_handlers(player, media, connection, interaction);
 
   player.play(resource);
+
+  return player;
 };
 
 const bind_handlers = (
@@ -76,7 +78,7 @@ const bind_handlers = (
 
     connection.destroy();
 
-    return await handle_reply(
+    await handle_reply(
       interaction,
       `Error trying to play ${found_media}`,
       MessageFlags.Ephemeral,

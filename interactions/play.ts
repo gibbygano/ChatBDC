@@ -11,15 +11,15 @@ const auto_complete = async (interaction: AutocompleteInteraction) => {
   const focused = interaction.options.getFocused().toLowerCase();
   const options = media_service.media;
   const choices = focused
-    ? options.filter((value, key) =>
-      key.startsWith(focused) ||
-      value.directory.name.toLowerCase().startsWith(focused)
+    ? options.filter((value) =>
+      value.search_string.startsWith(focused) ||
+      value.directory.search_string.startsWith(focused)
     )
     : options;
 
-  const mappedChoices = choices.map((value, key) => ({
-    name: `🔊 ${key}  📁 ${value.directory.pathLabel}`,
-    value: key,
+  const mappedChoices = choices.map((value) => ({
+    name: `🔊 ${value.short_name}  📁 ${value.directory.pathLabel}`,
+    value: value.search_string,
   }));
 
   const sorted = mappedChoices.sort((a, b) =>

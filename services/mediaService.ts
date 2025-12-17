@@ -1,9 +1,10 @@
-import type { Media, MediaDirectory } from "@/types.ts";
+import type { Media } from "@/types.ts";
 import type {
   ChatInputCommandInteraction,
   Message,
   VoiceBasedChannel,
 } from "discord.js";
+
 import { Collection, MessageFlags } from "discord.js";
 import { join } from "@std/path/join";
 import { debounce } from "@std/async/debounce";
@@ -14,12 +15,7 @@ import { audio_directory } from "@/constants.ts";
 
 class MediaService {
   private static _instance: MediaService;
-
   private _media = new Collection<string, Media>();
-  private _directories: Map<string, MediaDirectory> = new Map<
-    string,
-    MediaDirectory
-  >();
 
   private constructor() {}
 
@@ -38,8 +34,7 @@ class MediaService {
   async registerMedia() {
     console.time("Media scan");
     await registerMedia(audio_directory, (media: Media) => {
-      this.media.set(media.short_name, media);
-      this._directories.set(media.directory.name, media.directory);
+      this.media.set(media.search_string, media);
     });
     console.timeEnd("Media scan");
   }
@@ -48,7 +43,6 @@ class MediaService {
     const clear_and_register = debounce(async (event: Deno.FsEvent) => {
       console.info("[%s] %s", event.kind, event.paths[0]);
       this.media.clear();
-      this._directories.clear();
       await this.registerMedia();
     }, 15000);
 
@@ -86,7 +80,7 @@ class MediaService {
 
     try {
       const connection = join_voice(voice_channel);
-      play_audio(connection, found_media, interaction);
+      const _player = play_audio(connection, found_media, interaction);
 
       if (!skip_reply) {
         await handle_reply(

@@ -31,8 +31,10 @@ const registerMedia = async (
   for await (const dirEntry of walk(foldersPath)) {
     if (dirEntry.isFile) {
       const path_from_directory = dirEntry.path.split(directory)[1];
+      const name = dirEntry.path.split("/").slice(-2, -1)[0];
       const media_directory: MediaDirectory = {
-        name: dirEntry.path.split("/").slice(-2, -1)[0],
+        name,
+        search_string: name.toLowerCase(),
         path: dirEntry.path.substring(0, dirEntry.path.lastIndexOf("/")),
         pathLabel: path_from_directory.substring(
           0,
@@ -40,11 +42,13 @@ const registerMedia = async (
         ) || "/",
       };
 
+      const short_name = dirEntry.name.split(".")[0];
       callback({
-        short_name: dirEntry.name.split(".")[0],
+        short_name,
         full_name: dirEntry.name,
         path: dirEntry.path,
         directory: media_directory,
+        search_string: short_name.toLowerCase(),
       });
     }
   }
@@ -72,11 +76,9 @@ const registerQueueListeners = async (client: Client) => {
         reminder_service.enqueue(remaining_time!.minutes, id);
       }
 
-      if (!(channel instanceof TextChannel)) {
-        return;
+      if (channel instanceof TextChannel) {
+        await notify(channel, at_time, reminder, remaining_time);
       }
-
-      await notify(channel, at_time, reminder, remaining_time);
     },
   );
 };

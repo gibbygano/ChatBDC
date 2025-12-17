@@ -13,7 +13,7 @@ export default {
       await media_service.playMedia(
         message,
         voice_channel,
-        message.content.substring(1),
+        message.content.substring(1).toLowerCase(),
         true,
       );
     }
