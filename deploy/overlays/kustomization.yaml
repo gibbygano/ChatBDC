@@ -5,6 +5,6 @@ resources:
 
 images:
   - name: git.private.rjbhome.net/rjb/chat-bdc
-    newTag: latest
+    newTag: 1.0.0
   - name: git.private.rjbhome.net/rjb/chat-bdc-deploy
-    newTag: latest
+    newTag: 1.0.0
