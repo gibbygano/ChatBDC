@@ -6,9 +6,7 @@
 .env.local
 
 # Don't expose this to github
-.gitmodules
-
-chat-bdc-manifests/
+manifests/
 
 # node_modules
 node_modules/
