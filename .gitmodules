@@ -1,0 +1,3 @@
+[submodule "chat-bdc-manifests"]
+	path = chat-bdc-manifests
+	url = https://git.private.rjbhome.net/rjb/chat-bdc-manifests.git
