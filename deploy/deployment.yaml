@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-bdc
+  namespace: discord
+  labels:
+    app: chat-bdc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chat-bdc
+  template:
+    metadata:
+      labels:
+        app: chat-bdc
+    spec:
+      containers:
+        - name: chat-bdc
+          image: git.private.rjbhome.net/rjb/chat-bdc:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: chat-bdc-secret
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: discord-media
+              mountPath: /app/media
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "150m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+      volumes:
+        - name: discord-media
+          persistentVolumeClaim:
+            claimName: discord-nfs-pvc

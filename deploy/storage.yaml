@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: discord-nfs-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  claimRef:
+    name: discord-nfs-pvc
+    namespace: discord
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: ubuntu.private.rjbhome.net
+    path: /mnt/media/chatbdc_data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: discord-nfs-pvc
+  namespace: discord
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: discord-nfs-pv

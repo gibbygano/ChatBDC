@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: chat-bdc-deploy
+  namespace: discord
+spec:
+  backoffLimit: 4
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      containers:
+        - name: chat-bdc-deploy
+          image: git.private.rjbhome.net/rjb/chat-bdc-deploy:latest
+          command:
+            [
+              "deno",
+              "run",
+              "--allow-read",
+              "--allow-env",
+              "--allow-ffi",
+              "--allow-net",
+              "--allow-run",
+              "deploy.ts",
+            ]
+          envFrom:
+            - secretRef:
+                name: chat-bdc-secret
+      restartPolicy: Never
