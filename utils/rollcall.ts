@@ -119,18 +119,23 @@ const notify = async (
               )
           }`,
         ),
-    ).addSeparatorComponents((separator) => separator)
+    )
+    .addSeparatorComponents((separator) => separator)
     .addTextDisplayComponents(
       new TextDisplayBuilder().setContent(
         `# ${reminder!.request.reminder_type} ${
           at_time ? "time!" : `in **${remaining_to_string(remaining_time!)}**.`
         }`,
       ),
-    ).addMediaGalleryComponents((mgc) =>
+    );
+
+  if (at_time) {
+    reminder_display.addMediaGalleryComponents((mgc) =>
       mgc.addItems((mgi) =>
         mgi.setURL(`attachment://${reminder?.request.image_file}`)
       )
     );
+  }
 
   return await channel.send({
     components: [reminder_display],
