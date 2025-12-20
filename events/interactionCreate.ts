@@ -1,7 +1,7 @@
 import type { ChatInputCommandInteraction } from "discord.js";
 
 import { Events, MessageFlags } from "discord.js";
-import { CommandService } from "@/services/commandService.ts";
+import { CommandService } from "@services";
 import { handle_upload } from "@/utils/upload.ts";
 import { handle_button_press } from "@/utils/button.ts";
 

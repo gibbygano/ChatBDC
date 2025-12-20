@@ -2,7 +2,7 @@ import "@std/dotenv/load";
 import { Client, GatewayIntentBits } from "discord.js";
 import { getAppConfig } from "@/config.ts";
 import { register } from "@/utils/register.ts";
-import { MediaService } from "@/services/mediaService.ts";
+import { MediaService } from "@services";
 
 const { discordBotToken } = getAppConfig();
 const client = new Client({

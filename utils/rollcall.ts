@@ -7,7 +7,7 @@ import {
   MessageFlags,
   TextDisplayBuilder,
 } from "discord.js";
-import { ReminderService } from "@/services/reminderService.ts";
+import { ReminderService } from "@services";
 import { remaining_to_string } from "./time.ts";
 
 const handle_validation = async (

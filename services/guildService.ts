@@ -1,4 +1,4 @@
-import type { IGuildRepository } from "@/repositories/guildRepository.ts";
+import type { IGuildRepository } from "@repositories";
 import type { GuildManager } from "discord.js";
 
 export interface IGuildService {
@@ -13,24 +13,12 @@ export class GuildService implements GuildService {
   }
 
   async registerGuilds(guild_manager: GuildManager) {
-    console.info(
-      "\nLooking for guilds to register.\n---------------------------------------------",
-    );
-
     for (const guild of guild_manager.cache.values()) {
       const full_guild = await guild_manager.cache.get(guild.id)?.fetch();
 
       if (full_guild) {
-        const result = await this._guild_repository.registerGuild(full_guild);
-
-        if (result) {
-          console.info(
-            `> Registered guild ${full_guild.id}:${full_guild.name}`,
-          );
-        }
+        await this._guild_repository.registerGuild(full_guild);
       }
     }
-
-    console.info("---------------------------------------------\n");
   }
 }

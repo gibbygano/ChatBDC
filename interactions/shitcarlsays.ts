@@ -2,7 +2,7 @@ import type { QuoteCommand } from "@/pg.types.ts";
 import type { ChatInputCommandInteraction } from "discord.js";
 
 import { MessageFlags } from "discord.js";
-import { CommandRepository } from "@/repositories/commandRepository.ts";
+import { CommandRepository } from "@repositories";
 import { PoolProvider } from "@/infrastructure/poolProvider.ts";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {

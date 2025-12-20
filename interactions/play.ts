@@ -3,7 +3,7 @@ import type {
   ChatInputCommandInteraction,
 } from "discord.js";
 
-import { MediaService } from "@/services/mediaService.ts";
+import { MediaService } from "@services";
 
 const media_service = MediaService.instance;
 

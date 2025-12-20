@@ -1,12 +1,12 @@
 import type { WalkEntry } from "@std/fs/walk";
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { QuoteCommand } from "../pg.types.ts";
+import type { QuoteCommand } from "@/pg.types.ts";
 
 import { AttachmentBuilder, EmbedBuilder } from "discord.js";
 import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
-import { MediaService } from "@/services/mediaService.ts";
-import { CommandRepository } from "../repositories/commandRepository.ts";
+import { MediaService } from "@services";
+import { CommandRepository } from "@repositories";
 import { image_directory } from "@/constants.ts";
 import { PoolProvider } from "@/infrastructure/poolProvider.ts";
 

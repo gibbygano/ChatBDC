@@ -1,7 +1,7 @@
 import { load } from "@std/dotenv";
 import { getAppConfig } from "@/config.ts";
 import { REST, Routes } from "discord.js";
-import { CommandService } from "@/services/commandService.ts";
+import { CommandService } from "@services";
 
 await load({ export: true });
 const { discordBotToken, discordBotClientId } = getAppConfig();

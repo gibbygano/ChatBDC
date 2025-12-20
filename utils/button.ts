@@ -1,7 +1,7 @@
 import type { ButtonInteraction } from "discord.js";
 
 import { MessageFlags } from "discord.js";
-import { ReminderService } from "@/services/reminderService.ts";
+import { ReminderService } from "@services";
 
 const handle_rsvp = async (
   interaction: ButtonInteraction,

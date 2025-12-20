@@ -4,8 +4,7 @@ import { QueueType } from "@/types.ts";
 import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
 import { Client, TextChannel } from "discord.js";
-import { QueueService } from "@/services/queueService.ts";
-import { ReminderService } from "@/services/reminderService.ts";
+import { QueueService, ReminderService } from "@services";
 import { now, remaining } from "./time.ts";
 import { notify } from "./rollcall.ts";
 

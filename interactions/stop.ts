@@ -1,6 +1,6 @@
 import type { ChatInputCommandInteraction } from "discord.js";
 
-import { MediaService } from "@/services/mediaService.ts";
+import { MediaService } from "@services";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
   const member = await interaction.guild?.members.fetch(interaction.user.id);
