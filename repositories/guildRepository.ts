@@ -19,8 +19,7 @@ export class GuildRepository extends BaseRepository
       text: `INSERT INTO guild (guild_id, guild_name) 
              VALUES($1, $2) 
              ON CONFLICT ON CONSTRAINT guild_pkey 
-             DO NOTHING
-         `,
+             DO NOTHING`,
       values: [guild.id, guild.name],
     };
 
