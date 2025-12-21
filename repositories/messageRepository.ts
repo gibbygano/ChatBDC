@@ -2,6 +2,7 @@ import type { IPoolProvider } from "@/infrastructure/poolProvider.ts";
 import type { Message } from "discord.js";
 
 import { BaseRepository } from "./baseRepository.ts";
+import { ms_in_second } from "../constants.ts";
 
 export interface IMessageRepository {
   insertMessage(message: Message): Promise<boolean>;
@@ -14,7 +15,6 @@ export class MessageRepository extends BaseRepository
   }
 
   async insertMessage(message: Message): Promise<boolean> {
-    message.member?.user.globalName;
     const prepared_statement = {
       name: "insert-message",
       text:
@@ -24,7 +24,7 @@ export class MessageRepository extends BaseRepository
         message.id,
         message.member?.user.id,
         message.content,
-        message.createdTimestamp,
+        message.createdTimestamp / ms_in_second,
         message.guildId,
         message.channelId,
       ],
