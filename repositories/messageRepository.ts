@@ -18,13 +18,14 @@ export class MessageRepository extends BaseRepository
     const prepared_statement = {
       name: "insert-message",
       text:
-        `INSERT INTO message_history(message_id, user_id, message_content, message_timestamp) 
-         VALUES($1, $2, $3, to_timestamp($4))`,
+        `INSERT INTO message_history(message_id, user_id, message_content, message_timestamp, guild_id) 
+         VALUES($1, $2, $3, to_timestamp($4), $5)`,
       values: [
         message.id,
         message.member?.user.id,
         message.content,
         message.createdTimestamp,
+        message.guildId,
       ],
     };
 
