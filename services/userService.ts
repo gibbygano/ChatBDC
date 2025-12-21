@@ -14,7 +14,9 @@ export class UserService implements IUserService {
 
   async registerUsers(guilds: GuildManager): Promise<void> {
     for (const guild of guilds.cache.values()) {
-      for (const member of (await guild.members.fetch()).values()) {
+      const members = (await guild.members.fetch()).values();
+
+      for (const member of members) {
         await this._user_repository.upsertUser(member.user);
       }
     }
