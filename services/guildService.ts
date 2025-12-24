@@ -6,7 +6,7 @@ export interface IGuildService {
 }
 
 export class GuildService implements GuildService {
-  private _guild_repository: IGuildRepository;
+  private readonly _guild_repository: IGuildRepository;
 
   constructor(guild_repository: IGuildRepository) {
     this._guild_repository = guild_repository;

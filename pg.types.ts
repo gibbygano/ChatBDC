@@ -10,4 +10,11 @@ interface QuoteCommand {
   };
 }
 
-export type { PreparedStatement, QuoteCommand };
+interface Patch {
+  game: string;
+  latest_version: string;
+  latest_version_date: number;
+  patch_url: string;
+}
+
+export type { Patch, PreparedStatement, QuoteCommand };

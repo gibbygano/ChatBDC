@@ -6,7 +6,7 @@ export interface IUserService {
 }
 
 export class UserService implements IUserService {
-  private _user_repository: IUserRepository;
+  private readonly _user_repository: IUserRepository;
 
   constructor(user_repository: IUserRepository) {
     this._user_repository = user_repository;

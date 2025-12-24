@@ -1,10 +1,19 @@
 import type { Client } from "discord.js";
 
 import { ActivityType, Events, PresenceUpdateStatus } from "discord.js";
-import { GuildRepository, UserRepository } from "@repositories";
+import {
+  GuildRepository,
+  PatchRepository,
+  UserRepository,
+} from "@repositories";
 import { PoolProvider } from "@/infrastructure/poolProvider.ts";
 import { registerQueueListeners } from "@/utils/register.ts";
-import { GuildService, UserService } from "@services";
+import {
+  CronService,
+  Dota2PatchService,
+  GuildService,
+  UserService,
+} from "@services";
 
 export default {
   name: Events.ClientReady,
@@ -24,6 +33,17 @@ export default {
 
     // Register all queue listeners
     await registerQueueListeners(client);
+
+    // Check for new dota 2 patches
+    const dota2PatchService = new Dota2PatchService(
+      new PatchRepository(PoolProvider.instance),
+    );
+    const cron_service = new CronService();
+    cron_service.runEveryMinutes(
+      "dota-patch-watcher",
+      30,
+      async () => await dota2PatchService.checkPatch(client),
+    );
 
     client.user?.setPresence({
       activities: [{ name: "💤", type: ActivityType.Custom }],
