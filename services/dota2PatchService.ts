@@ -87,10 +87,15 @@ export class Dota2PatchService implements IPatchService {
   }
 
   private async getLatestPatch(patch_url: string): Promise<Dota2Patches> {
-    const resp = await fetch(patch_url);
+    try {
+      const resp = await fetch(patch_url);
+      const patches_from_sot = await resp.json();
 
-    const patches_from_sot = await resp.json();
+      return patches_from_sot as Dota2Patches;
+    } catch (e) {
+      console.error("Fetch failed on Dota 2 endpoint: \n", e);
 
-    return patches_from_sot as Dota2Patches;
+      throw e;
+    }
   }
 }
