@@ -29,14 +29,14 @@ export class Dota2PatchService implements IPatchService {
 
     if (!latest_patch) {
       console.info(
-        `No new versino of Dota 2 found. Current version is ${current_patch.latest_version}`,
+        `No new version of Dota 2 found. Current version is ${current_patch.latest_version}.\n____________________________`,
       );
 
       return;
     }
 
     console.info(
-      `Found new version of Dota 2, ${latest_patch.patch_number}. Notifying and updating records.`,
+      `Found new version of Dota 2, ${latest_patch.patch_number}. Notifying and updating records.\n____________________________`,
     );
 
     client.guilds.cache.forEach((g) => {
