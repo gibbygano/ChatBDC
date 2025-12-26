@@ -21,8 +21,6 @@ export class Dota2PatchService implements IPatchService {
   }
 
   async checkPatch(client: Client): Promise<void> {
-    console.info("Checking for latest Dota 2 patch...");
-
     const current_patch = await this.getCurrentPatch("dota2");
     const latest_patches = await this.getLatestPatch(current_patch.patch_url);
     const latest_patch =
@@ -34,15 +32,11 @@ export class Dota2PatchService implements IPatchService {
       new Date(latest_patch.patch_timestamp * ms_in_second) <=
         current_patch.latest_version_date
     ) {
-      console.info(
-        `No new version of Dota 2 found. Current version is ${current_patch.latest_version}.\n____________________________`,
-      );
-
       return;
     }
 
     console.info(
-      `Found new version of Dota 2, ${latest_patch.patch_number}. Notifying and updating records.\n____________________________`,
+      `Found new version of Dota 2, ${latest_patch.patch_number}.`,
     );
 
     client.guilds.cache.each(async (g) => {
