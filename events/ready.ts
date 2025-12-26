@@ -35,6 +35,7 @@ export default {
     await registerQueueListeners(client);
 
     // Check for new dota 2 patches
+    // Backoff 30s, 2m, 5m
     const dota2PatchService = new Dota2PatchService(
       new PatchRepository(PoolProvider.instance),
     );
@@ -43,6 +44,7 @@ export default {
       "dota-patch-watcher",
       30,
       async () => await dota2PatchService.checkPatch(client),
+      [30000, 120000, 300000],
     );
 
     client.user?.setPresence({

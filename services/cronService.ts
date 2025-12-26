@@ -3,6 +3,7 @@ export interface ICronService {
     id: string,
     minutes: number,
     callback: () => Promise<void>,
+    backoffSchedule?: number[],
   ): void;
 }
 
@@ -11,7 +12,10 @@ export class CronService implements ICronService {
     id: string,
     minutes: number,
     callback: () => Promise<void>,
+    backoffSchedule?: number[],
   ): void {
-    Deno.cron(id, `*/${minutes} * * * *`, callback);
+    Deno.cron(id, `*/${minutes} * * * *`, {
+      backoffSchedule,
+    }, callback);
   }
 }
