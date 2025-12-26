@@ -2,7 +2,7 @@ import type { IPoolProvider } from "@/infrastructure/poolProvider.ts";
 import type { Message } from "discord.js";
 
 import { BaseRepository } from "./baseRepository.ts";
-import { ms_in_second } from "../constants.ts";
+import { ms_in_second } from "@/utils/time.ts";
 
 export interface IMessageRepository {
   insertMessage(message: Message): Promise<boolean>;

@@ -11,7 +11,8 @@ import {
   TextDisplayBuilder,
 } from "discord.js";
 import { dota_2_api } from "@/api.constants.ts";
-import { dota_role, ms_in_second } from "@/constants.ts";
+import { dota_role } from "@/constants.ts";
+import { ms_in_second } from "@/utils/time.ts";
 
 export class Dota2PatchService implements IPatchService {
   private readonly _patch_repository: IPatchRepository;
