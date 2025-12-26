@@ -10,6 +10,7 @@ import {
   TextChannel,
   TextDisplayBuilder,
 } from "discord.js";
+import { dota_2_api } from "@/api.constants.ts";
 
 export class Dota2PatchService implements IPatchService {
   private readonly _patch_repository: IPatchRepository;
@@ -56,7 +57,7 @@ export class Dota2PatchService implements IPatchService {
               .setContent(
                 `### ${
                   role_to_notify ? `<@&${role_to_notify?.id}>, ` : ""
-                } Dota 2 Version [${latest_patch.patch_number}](https://www.dota2.com/patches/${latest_patch.patch_number}) is available!`,
+                } Dota 2 Version [${latest_patch.patch_number}](${dota_2_api.patch_url}${latest_patch.patch_number}) is available!`,
               ),
           );
 
