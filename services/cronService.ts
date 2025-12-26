@@ -1,5 +1,5 @@
 export interface ICronService {
-  runEveryMinutes(
+  runEveryNthMinute(
     id: string,
     minutes: number,
     callback: () => Promise<void>,
@@ -8,13 +8,16 @@ export interface ICronService {
 }
 
 export class CronService implements ICronService {
-  runEveryMinutes(
+  // Run on every nth minute of the hour. (Minutes divisible by N)
+  // ie: 30 -> :00 and :30, 15 -> :00, :15, :30, :45
+  // Anything >= 30 will only run once per hour on that minute.
+  runEveryNthMinute(
     id: string,
-    minutes: number,
+    minute: number,
     callback: () => Promise<void>,
     backoffSchedule?: number[],
   ): void {
-    Deno.cron(id, `*/${minutes} * * * *`, {
+    Deno.cron(id, `*/${minute} * * * *`, {
       backoffSchedule,
     }, callback);
   }

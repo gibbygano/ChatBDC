@@ -39,8 +39,9 @@ export default {
     const dota2PatchService = new Dota2PatchService(
       new PatchRepository(PoolProvider.instance),
     );
+    await dota2PatchService.checkPatch(client);
     const cron_service = new CronService();
-    cron_service.runEveryMinutes(
+    cron_service.runEveryNthMinute(
       "dota-patch-watcher",
       30,
       async () => await dota2PatchService.checkPatch(client),

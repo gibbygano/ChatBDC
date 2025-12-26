@@ -11,6 +11,7 @@ import {
   TextDisplayBuilder,
 } from "discord.js";
 import { dota_2_api } from "@/api.constants.ts";
+import { ms_in_second } from "@/constants.ts";
 
 export class Dota2PatchService implements IPatchService {
   private readonly _patch_repository: IPatchRepository;
@@ -24,11 +25,15 @@ export class Dota2PatchService implements IPatchService {
 
     const current_patch = await this.getCurrentPatch("dota2");
     const latest_patches = await this.getLatestPatch(current_patch.patch_url);
-    const latest_patch = latest_patches.patches.find((p) =>
-      p.patch_number > current_patch.latest_version
-    );
+    const latest_patch =
+      latest_patches.patches.sort((pa, pb) =>
+        pb.patch_timestamp - pa.patch_timestamp
+      )[0];
 
-    if (!latest_patch) {
+    if (
+      new Date(latest_patch.patch_timestamp * ms_in_second) <=
+        current_patch.latest_version_date
+    ) {
       console.info(
         `No new version of Dota 2 found. Current version is ${current_patch.latest_version}.\n____________________________`,
       );

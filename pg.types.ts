@@ -13,7 +13,7 @@ interface QuoteCommand {
 interface Patch {
   game: string;
   latest_version: string;
-  latest_version_date: number;
+  latest_version_date: Date;
   patch_url: string;
 }
 

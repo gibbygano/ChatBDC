@@ -42,7 +42,11 @@ export class PatchRepository extends BaseRepository
   async getPatchByGameId(game_id: string): Promise<Patch | null | undefined> {
     const prepared_statement = {
       name: "get-patch",
-      text: `SELECT *
+      text: `SELECT 
+              game, 
+              latest_version, 
+              latest_version_date,
+              patch_url
              FROM game_patch
              WHERE game = $1`,
       values: [
