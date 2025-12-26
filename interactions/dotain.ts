@@ -3,10 +3,9 @@ import type { ChatInputCommandInteraction } from "discord.js";
 import { ReminderType } from "@/types.ts";
 import { create_reminder } from "@/utils/rollcall.ts";
 import { join } from "@std/path";
-import { image_directory } from "@/constants.ts";
+import { dota_role, image_directory } from "@/constants.ts";
 
 const image_file = "d1006478-966374311.jpg";
-const dota_role = "dotaboi";
 const rsvp_label = "I spose";
 
 const execute = async (interaction: ChatInputCommandInteraction) => {

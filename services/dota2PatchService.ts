@@ -11,7 +11,7 @@ import {
   TextDisplayBuilder,
 } from "discord.js";
 import { dota_2_api } from "@/api.constants.ts";
-import { ms_in_second } from "@/constants.ts";
+import { dota_role, ms_in_second } from "@/constants.ts";
 
 export class Dota2PatchService implements IPatchService {
   private readonly _patch_repository: IPatchRepository;
@@ -45,38 +45,40 @@ export class Dota2PatchService implements IPatchService {
       `Found new version of Dota 2, ${latest_patch.patch_number}. Notifying and updating records.\n____________________________`,
     );
 
-    client.guilds.cache.forEach((g) => {
+    client.guilds.cache.each(async (g) => {
       const notify_channel = g.channels.cache
         .find((
           c,
-        ) =>
-          c.isTextBased() && (<TextChannel> c).position === 0
-        ) as TextChannel;
+        ) => c.isTextBased() && (<TextChannel> c).position === 0) as
+          | TextChannel
+          | undefined;
 
-      client.guilds.cache.every(async (g) => {
-        const role_to_notify = g.roles.cache.get("dotaboi");
+      if (!notify_channel) {
+        console.warn(`Couldn't find text channel in ${g.name}.`);
+        return;
+      }
 
-        const dota_2_container = new ContainerBuilder()
-          .addTextDisplayComponents(
-            new TextDisplayBuilder()
-              .setContent(
-                `### ${
-                  role_to_notify ? `<@&${role_to_notify?.id}>, ` : ""
-                } Dota 2 Version [${latest_patch.patch_number}](${dota_2_api.patch_url}${latest_patch.patch_number}) is available!`,
-              ),
-          );
-
-        await notify_channel.send({
-          components: [dota_2_container],
-          flags: MessageFlags.IsComponentsV2,
-        });
-
-        await this._patch_repository.updatePatchByGameId(
-          "dota2",
-          latest_patch.patch_timestamp,
-          latest_patch.patch_number,
+      const role_to_notify = g.roles.cache.get(dota_role);
+      const dota_2_container = new ContainerBuilder()
+        .addTextDisplayComponents(
+          new TextDisplayBuilder()
+            .setContent(
+              `### ${
+                role_to_notify ? `<@&${role_to_notify?.id}>, ` : ""
+              } Dota 2 Version [${latest_patch.patch_number}](${dota_2_api.patch_url}${latest_patch.patch_number}) is available!`,
+            ),
         );
+
+      await notify_channel.send({
+        components: [dota_2_container],
+        flags: MessageFlags.IsComponentsV2,
       });
+
+      await this._patch_repository.updatePatchByGameId(
+        "dota2",
+        latest_patch.patch_timestamp,
+        latest_patch.patch_number,
+      );
     });
   }
 
