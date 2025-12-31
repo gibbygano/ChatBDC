@@ -10,7 +10,7 @@ import {
   TextChannel,
   TextDisplayBuilder,
 } from "discord.js";
-import { bold, yellow } from "@coven/terminal";
+import { bold, brightYellow } from "@coven/terminal";
 import { dota_2_api } from "@/api.constants.ts";
 import { dota_role } from "@/constants.ts";
 import { ms_in_second } from "@/utils/time.ts";
@@ -50,7 +50,9 @@ export class Dota2PatchService implements IPatchService {
           | undefined;
 
       if (!notify_channel) {
-        console.warn(yellow`Couldn't find text channel in ${bold`${g.name}`}.`);
+        console.warn(
+          brightYellow`Couldn't find text channel in ${bold`${g.name}`}.`,
+        );
         return;
       }
 

@@ -4,7 +4,7 @@ import {
   MessageFlags,
   PermissionsBitField,
 } from "discord.js";
-import { bold, italic, yellow } from "@coven/terminal";
+import { bold, brightYellow, italic } from "@coven/terminal";
 import { Buffer } from "node:buffer";
 
 const handle_reply = async (
@@ -39,7 +39,7 @@ const handle_reply = async (
     )
   ) {
     console.warn(
-      yellow`Can't reply to '${italic`${interaction.content}`}.' Client lacks ${bold`chat history`} permission.`,
+      brightYellow`Can't reply to '${italic`${interaction.content}`}.' Client lacks ${bold`chat history`} permission.`,
     );
     return;
   }
@@ -90,7 +90,7 @@ const handle_file_reply = async (
     )
   ) {
     console.warn(
-      yellow`Can't reply to '${italic`${interaction.content}`}.' Client lacks ${bold`chat history`} permission.`,
+      brightYellow`Can't reply to '${italic`${interaction.content}`}.' Client lacks ${bold`chat history`} permission.`,
     );
     return;
   }
