@@ -1,5 +1,9 @@
 import type { BitFieldResolvable, Message } from "discord.js";
-import { ChatInputCommandInteraction, MessageFlags } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  MessageFlags,
+  PermissionsBitField,
+} from "discord.js";
 import { Buffer } from "node:buffer";
 
 const handle_reply = async (
@@ -27,6 +31,16 @@ const handle_reply = async (
       flags: interaction_flags,
     });
   }
+
+  if (
+    !interaction.guild?.members.me?.permissions.has(
+      PermissionsBitField.Flags.ReadMessageHistory,
+    )
+  ) {
+    console.warn("Client lacks chat history permissions.");
+    return;
+  }
+
   return await (interaction as Message).reply({
     content: reply,
     flags: message_flags,
@@ -65,6 +79,15 @@ const handle_file_reply = async (
       files,
       flags: interaction_flags,
     });
+  }
+
+  if (
+    !interaction.guild?.members.me?.permissions.has(
+      PermissionsBitField.Flags.ReadMessageHistory,
+    )
+  ) {
+    console.warn("Client lacks chat history permissions.");
+    return;
   }
 
   return (interaction as Message).reply({
