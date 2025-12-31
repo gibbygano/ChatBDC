@@ -1,6 +1,10 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@coven/constants@~0.8.5": "0.8.5",
+    "jsr:@coven/memo@~0.8.5": "0.8.5",
+    "jsr:@coven/terminal@~0.8.5": "0.8.5",
+    "jsr:@coven/types@~0.8.5": "0.8.5",
     "jsr:@std/assert@^1.0.16": "1.0.16",
     "jsr:@std/async@^1.0.15": "1.0.15",
     "jsr:@std/dotenv@~0.225.5": "0.225.5",
@@ -19,6 +23,30 @@
     "npm:zlib-sync@~0.1.10": "0.1.10"
   },
   "jsr": {
+    "@coven/constants@0.8.5": {
+      "integrity": "f722c8f1e44fe31b654f1e97bba5d8a62cf1bb2bc1212835675dc6d190becfc7"
+    },
+    "@coven/memo@0.8.5": {
+      "integrity": "e5d0b0705b71c25f7892a989f6e76a59727a691a8b265263008881ad1c5aaf34",
+      "dependencies": [
+        "jsr:@coven/constants",
+        "jsr:@coven/types"
+      ]
+    },
+    "@coven/terminal@0.8.5": {
+      "integrity": "3b02baa6a087e13d9e7d13d8589a3ce496cb13eaca5d96a8dd533ac87bafb96d",
+      "dependencies": [
+        "jsr:@coven/memo",
+        "jsr:@coven/types"
+      ]
+    },
+    "@coven/types@0.8.5": {
+      "integrity": "1c37c177b80ce813f2ad9c7fc3ccc3533dc80acda1083c728712056dac4659ee",
+      "dependencies": [
+        "jsr:@coven/constants",
+        "jsr:@coven/types"
+      ]
+    },
     "@std/assert@1.0.16": {
       "integrity": "6a7272ed1eaa77defe76e5ff63ca705d9c495077e2d5fd0126d2b53fc5bd6532",
       "dependencies": [
@@ -542,6 +570,7 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@coven/terminal@~0.8.5",
       "jsr:@std/assert@^1.0.16",
       "jsr:@std/async@^1.0.15",
       "jsr:@std/dotenv@~0.225.5",

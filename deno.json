@@ -6,6 +6,7 @@
   },
   "imports": {
     "@/": "./",
+    "@coven/terminal": "jsr:@coven/terminal@^0.8.5",
     "@repositories": "./repositories/index.ts",
     "@services": "./services/index.ts",
     "@discordjs/voice": "npm:@discordjs/voice@^0.19.0",

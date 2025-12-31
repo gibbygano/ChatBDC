@@ -4,6 +4,7 @@ import {
   MessageFlags,
   PermissionsBitField,
 } from "discord.js";
+import { bold, italic, yellow } from "@coven/terminal";
 import { Buffer } from "node:buffer";
 
 const handle_reply = async (
@@ -37,7 +38,9 @@ const handle_reply = async (
       PermissionsBitField.Flags.ReadMessageHistory,
     )
   ) {
-    console.warn("Client lacks chat history permissions.");
+    console.warn(
+      yellow`Can't reply to '${italic`${interaction.content}`}.' Client lacks ${bold`chat history`} permission.`,
+    );
     return;
   }
 
@@ -86,7 +89,9 @@ const handle_file_reply = async (
       PermissionsBitField.Flags.ReadMessageHistory,
     )
   ) {
-    console.warn("Client lacks chat history permissions.");
+    console.warn(
+      yellow`Can't reply to '${italic`${interaction.content}`}.' Client lacks ${bold`chat history`} permission.`,
+    );
     return;
   }
 
