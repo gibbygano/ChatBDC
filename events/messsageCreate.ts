@@ -8,18 +8,25 @@ import { PoolProvider } from "@/infrastructure/poolProvider.ts";
 export default {
   name: Events.MessageCreate,
   execute: async (message: Message) => {
-    const media_service = MediaService.instance;
-    const message_repository = new MessageRepository(PoolProvider.instance);
+    // Don't interact with bots
+    if (message.member?.user.bot) {
+      return;
+    }
 
+    const message_repository = new MessageRepository(PoolProvider.instance);
     // Log message to pg sync
     message_repository
       .insertMessage(message)
       .catch((e) =>
-        `Error insert message ${message.id} for user ${message.member?.user.id}.\n${e}`
+        console.error(
+          `Inserting message ${message.id} for user ${message.member?.user.id} failed.`,
+          e,
+        )
       );
 
     if (message.content.startsWith("!")) {
       const voice_channel = message.member?.voice.channel;
+      const media_service = MediaService.instance;
 
       await media_service.playMedia(
         message,

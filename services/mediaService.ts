@@ -32,11 +32,11 @@ class MediaService {
   }
 
   async registerMedia() {
-    console.time("media_scan");
+    console.time("MediaRegistration");
     await registerMedia(audio_directory, (media: Media) => {
       this.media.set(media.search_string, media);
     });
-    console.timeEnd("media_scan");
+    console.timeEnd("MediaRegistration");
   }
 
   async watchMedia() {
