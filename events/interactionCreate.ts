@@ -23,7 +23,7 @@ export default {
     if (!command) {
       logger.log_error(
         `No matching command was found.`,
-        interaction.commandName,
+        JSON.stringify({ command: interaction.commandName }),
       );
       return;
     }

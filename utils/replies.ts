@@ -39,8 +39,8 @@ const handle_reply = async (
     )
   ) {
     logger.log_warning(
-      "Can't reply to message, missing message history permission flag",
-      { message: interaction.content },
+      "Can't reply to message. Missing message history permission flag",
+      JSON.stringify(interaction),
     );
     return;
   }
@@ -91,8 +91,8 @@ const handle_file_reply = async (
     )
   ) {
     logger.log_warning(
-      "Can't reply to message, missing message history permission flag",
-      { message: interaction.content },
+      "Can't reply to message. Missing message history permission flag",
+      JSON.stringify(interaction),
     );
     return;
   }

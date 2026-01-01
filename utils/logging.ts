@@ -1,11 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
-import { brightRed, brightYellow, gray } from "@coven/terminal";
+import { brightCyan, brightRed, brightYellow } from "@coven/terminal";
 
 const log_warning = (...args: any[]) =>
   console.warn(...args.map((a) => brightYellow`${a}`));
 
 const log_info = (...args: any[]) =>
-  console.info(...args.map((a) => gray`${a}`));
+  console.info(...args.map((a) => brightCyan`${a}`));
 
 const log_time = (name: string) => {
   console.time(name);

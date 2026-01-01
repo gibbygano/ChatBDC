@@ -53,6 +53,6 @@ export default {
       status: PresenceUpdateStatus.Idle,
     });
 
-    logger.log_info("Ready!", client.user?.tag);
+    logger.log_info("Ready!", JSON.stringify({ client_tag: client.user?.tag }));
   },
 };

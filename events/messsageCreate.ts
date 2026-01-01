@@ -20,7 +20,11 @@ export default {
       .insertMessage(message)
       .catch((e) =>
         logger.log_error(
-          `Inserting message ${message.id} for user ${message.member?.user.id} failed.`,
+          "Inserting message failed",
+          JSON.stringify({
+            message_id: message.id,
+            user_id: message.member?.user.id,
+          }),
           e,
         )
       );

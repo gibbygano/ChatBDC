@@ -38,7 +38,8 @@ export class Dota2PatchService implements IPatchService {
     }
 
     logger.log_info(
-      `Found new version of Dota 2, ${latest_patch.patch_number}.`,
+      "Found new version of Dota 2",
+      JSON.stringify({ new_version: latest_patch.patch_number }),
     );
 
     client.guilds.cache.each(async (g) => {
@@ -50,7 +51,11 @@ export class Dota2PatchService implements IPatchService {
           | undefined;
 
       if (!notify_channel) {
-        logger.log_warning("Couldn't find text channel in guild", g.name);
+        logger.log_warning(
+          "Couldn't find text channel in guild",
+          JSON.stringify({ guild_name: g.name }),
+        );
+
         return;
       }
 
