@@ -26,8 +26,6 @@ export default {
               message_id: message.id,
               user_id: message.member?.user.id,
             },
-            null,
-            2,
           ),
           e,
         )

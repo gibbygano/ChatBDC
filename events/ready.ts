@@ -55,7 +55,7 @@ export default {
 
     logger.log_info(
       "Ready!",
-      JSON.stringify({ client_tag: client.user?.tag }, null, 2),
+      JSON.stringify({ client_tag: client.user?.tag }),
     );
   },
 };

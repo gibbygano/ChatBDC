@@ -51,7 +51,7 @@ export class ReminderService implements IReminderSerivce {
 
     logger.log_info(
       "Enqueued reminder",
-      JSON.stringify({ reminder_id, timespan_in_minutes }, null, 2),
+      JSON.stringify({ reminder_id, timespan_in_minutes }),
     );
   }
 
