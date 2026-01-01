@@ -10,7 +10,7 @@ import {
   TextChannel,
   TextDisplayBuilder,
 } from "discord.js";
-import { bold, brightYellow } from "@coven/terminal";
+import logger from "@logging";
 import { dota_2_api } from "@/api.constants.ts";
 import { dota_role } from "@/constants.ts";
 import { ms_in_second } from "@/utils/time.ts";
@@ -37,7 +37,7 @@ export class Dota2PatchService implements IPatchService {
       return;
     }
 
-    console.info(
+    logger.log_info(
       `Found new version of Dota 2, ${latest_patch.patch_number}.`,
     );
 
@@ -50,9 +50,7 @@ export class Dota2PatchService implements IPatchService {
           | undefined;
 
       if (!notify_channel) {
-        console.warn(
-          brightYellow`Couldn't find text channel in ${bold`${g.name}`}.`,
-        );
+        logger.log_warning("Couldn't find text channel in guild", g.name);
         return;
       }
 
@@ -99,7 +97,7 @@ export class Dota2PatchService implements IPatchService {
 
       return patches_from_sot as Dota2Patches;
     } catch (e) {
-      console.error("Fetch failed on Dota 2 endpoint: \n", e);
+      logger.log_error("Fetch failed on Dota 2 endpoint", e);
 
       throw e;
     }

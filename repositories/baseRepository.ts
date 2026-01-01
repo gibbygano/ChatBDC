@@ -1,6 +1,7 @@
+import type { Pool } from "pg";
 import type { IPoolProvider } from "@/infrastructure/poolProvider.ts";
 import type { PreparedStatement } from "@/pg.types.ts";
-import type { Pool } from "pg";
+import logger from "@logging";
 
 export class BaseRepository {
   private pool: Pool;
@@ -25,7 +26,7 @@ export class BaseRepository {
 
       return <T> result.rows[0];
     } catch (e) {
-      console.error(e);
+      logger.log_error(e);
     }
   }
 
@@ -37,7 +38,7 @@ export class BaseRepository {
 
       return !!result.rowCount;
     } catch (e) {
-      console.error(e);
+      logger.log_error(e);
       return false;
     }
   }

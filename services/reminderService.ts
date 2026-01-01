@@ -1,5 +1,6 @@
 import type { Reminder, ReminderRequest } from "@/types.ts";
 
+import logger from "@logging";
 import { QueueType } from "@/types.ts";
 import { QueueService } from "./queueService.ts";
 import { add_minutes, minutes_to_ms, now } from "@/utils/time.ts";
@@ -48,8 +49,9 @@ export class ReminderService implements IReminderSerivce {
         : minutes_to_ms(timespan_in_minutes - 5),
     });
 
-    console.info(
-      `Enqueued reminder ${reminder_id} with a delay of ${timespan_in_minutes} minute(s).`,
+    logger.log_info(
+      "Enqueued reminder",
+      reminder_id,
     );
   }
 

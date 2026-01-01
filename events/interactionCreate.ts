@@ -1,6 +1,7 @@
 import type { ChatInputCommandInteraction } from "discord.js";
 
 import { Events, MessageFlags } from "discord.js";
+import logger from "@logging";
 import { CommandService } from "@services";
 import { handle_upload } from "@/utils/upload.ts";
 import { handle_button_press } from "@/utils/button.ts";
@@ -20,8 +21,9 @@ export default {
     const command = commands.get(interaction.commandName);
 
     if (!command) {
-      console.error(
-        `No command matching ${interaction.commandName} was found.`,
+      logger.log_error(
+        `No matching command was found.`,
+        interaction.commandName,
       );
       return;
     }
@@ -32,7 +34,7 @@ export default {
           await command.autocomplete(interaction);
         }
       } catch (e) {
-        console.error(e);
+        logger.log_error(e);
       }
     }
 
@@ -41,7 +43,7 @@ export default {
     try {
       await command.execute(interaction);
     } catch (error) {
-      console.error(error);
+      logger.log_error(error);
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({
           content: "There was an error while executing this command!",

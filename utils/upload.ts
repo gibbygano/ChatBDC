@@ -2,6 +2,7 @@ import type { Attachment, ModalSubmitInteraction } from "discord.js";
 import { MessageFlags } from "discord.js";
 import { ensureDir } from "@std/fs/ensure-dir";
 import { join } from "@std/path/join";
+import logger from "@logging";
 import { audio_directory, image_directory } from "@/constants.ts";
 
 const allowed_types = {
@@ -87,7 +88,7 @@ const handle_upload = async (interaction: ModalSubmitInteraction) => {
 
     return await upload_image(interaction, file, file_name);
   } catch (e) {
-    console.error(e);
+    logger.log_error(e);
   }
 };
 

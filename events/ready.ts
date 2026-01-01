@@ -1,6 +1,7 @@
 import type { Client } from "discord.js";
 
 import { ActivityType, Events, PresenceUpdateStatus } from "discord.js";
+import logger from "@logging";
 import {
   GuildRepository,
   PatchRepository,
@@ -52,6 +53,6 @@ export default {
       status: PresenceUpdateStatus.Idle,
     });
 
-    console.info(`Ready! Logged in as ${client.user?.tag}`);
+    logger.log_info("Ready!", client.user?.tag);
   },
 };

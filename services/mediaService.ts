@@ -8,6 +8,7 @@ import type {
 import { Collection, MessageFlags } from "discord.js";
 import { join } from "@std/path/join";
 import { debounce } from "@std/async/debounce";
+import logger from "@logging";
 import { registerMedia } from "@/utils/register.ts";
 import { join_voice, play_audio } from "@/utils/audio.ts";
 import { handle_file_reply, handle_reply } from "@/utils/replies.ts";
@@ -32,16 +33,15 @@ class MediaService {
   }
 
   async registerMedia() {
-    console.time("MediaRegistration");
+    using _ = logger.log_time("MediaRegistration");
     await registerMedia(audio_directory, (media: Media) => {
       this.media.set(media.search_string, media);
     });
-    console.timeEnd("MediaRegistration");
   }
 
   async watchMedia() {
     const clear_and_register = debounce(async (event: Deno.FsEvent) => {
-      console.info("[%s] %s", event.kind, event.paths[0]);
+      logger.log_info("[%s] %s", event.kind, event.paths[0]);
       this.media.clear();
       await this.registerMedia();
     }, 15000);
@@ -90,7 +90,7 @@ class MediaService {
         );
       }
     } catch (e) {
-      console.error("Media error: ", e);
+      logger.log_error("Media error", e);
 
       handle_reply(
         interaction,

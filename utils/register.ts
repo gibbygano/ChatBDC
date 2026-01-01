@@ -4,6 +4,7 @@ import { QueueType } from "@/types.ts";
 import { join } from "@std/path/join";
 import { walk } from "@std/fs/walk";
 import { Client, TextChannel } from "discord.js";
+import logger from "@logging";
 import { QueueService, ReminderService } from "@services";
 import { now, remaining } from "./time.ts";
 import { notify } from "./rollcall.ts";
@@ -60,7 +61,7 @@ const registerQueueListeners = async (client: Client) => {
   await queue_service.registerListener<Reminder>(
     QueueType.Reminder,
     async (id: string) => {
-      console.info(`Processing queue item ${id}`);
+      logger.log_info(`Processing queue item`, id);
       let remaining_time: { minutes: number; seconds: number } | undefined;
 
       const reminder_service = ReminderService.instance;

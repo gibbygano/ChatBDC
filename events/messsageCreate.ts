@@ -1,6 +1,7 @@
 import type { Message } from "discord.js";
 
 import { Events } from "discord.js";
+import logger from "@logging";
 import { MediaService } from "@services";
 import { MessageRepository } from "@repositories";
 import { PoolProvider } from "@/infrastructure/poolProvider.ts";
@@ -18,7 +19,7 @@ export default {
     message_repository
       .insertMessage(message)
       .catch((e) =>
-        console.error(
+        logger.log_error(
           `Inserting message ${message.id} for user ${message.member?.user.id} failed.`,
           e,
         )

@@ -18,6 +18,7 @@ import {
   createAudioResource,
   joinVoiceChannel,
 } from "@discordjs/voice";
+import logger from "@logging";
 import { handle_reply } from "./replies.ts";
 
 const join_voice = (voice_channel: VoiceBasedChannel) =>
@@ -72,7 +73,7 @@ const bind_handlers = (
   });
 
   player.on("error", async (error) => {
-    console.error("Media error: ", error);
+    logger.log_error("Media error", error);
 
     connection.destroy();
 
