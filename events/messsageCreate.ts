@@ -10,7 +10,7 @@ export default {
   name: Events.MessageCreate,
   execute: async (message: Message) => {
     // Don't interact with bots
-    if (message.member?.user.bot) {
+    if (message.member?.user.bot || !message.member?.user.id) {
       return;
     }
 
