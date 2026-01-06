@@ -7,7 +7,6 @@
   "imports": {
     "@/": "./",
     "@coven/terminal": "jsr:@coven/terminal@^0.8.5",
-    "@coven/types": "jsr:@coven/types@^0.8.5",
     "@repositories": "./repositories/index.ts",
     "@services": "./services/index.ts",
     "@logging": "./utils/logging.ts",
