@@ -16,11 +16,7 @@ import { dota_role } from "@/constants.ts";
 import { ms_in_second } from "@/utils/time.ts";
 
 export class Dota2PatchService implements IPatchService {
-  private readonly _patch_repository: IPatchRepository;
-
-  constructor(patch_repository: IPatchRepository) {
-    this._patch_repository = patch_repository;
-  }
+  constructor(private readonly patch_repository: IPatchRepository) {}
 
   async checkPatch(client: Client): Promise<void> {
     const current_patch = await this.getCurrentPatch("dota2");
@@ -75,7 +71,7 @@ export class Dota2PatchService implements IPatchService {
         flags: MessageFlags.IsComponentsV2,
       });
 
-      await this._patch_repository.updatePatchByGameId(
+      await this.patch_repository.updatePatchByGameId(
         "dota2",
         latest_patch.patch_timestamp,
         latest_patch.patch_number,
@@ -84,7 +80,7 @@ export class Dota2PatchService implements IPatchService {
   }
 
   private async getCurrentPatch(game_id: string): Promise<Patch> {
-    const current_patch = await this._patch_repository.getPatchByGameId(
+    const current_patch = await this.patch_repository.getPatchByGameId(
       game_id,
     );
 
