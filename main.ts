@@ -1,8 +1,9 @@
 import "@std/dotenv/load";
 import { Client, GatewayIntentBits } from "discord.js";
 import { getAppConfig } from "@/config.ts";
-import { register } from "@/utils/register.ts";
+import { register, registerOSSignalListeners } from "@/utils/register.ts";
 import { MediaService } from "@services";
+import logger from "@logging";
 
 const { discordBotToken } = getAppConfig();
 const client = new Client({
@@ -13,6 +14,13 @@ const client = new Client({
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildVoiceStates,
   ],
+});
+
+registerOSSignalListeners(async () => {
+  logger.log_warning("Shutting down");
+
+  await client.destroy();
+  Deno.exit(0);
 });
 
 // discord.js types fucking suck

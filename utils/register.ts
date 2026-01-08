@@ -83,4 +83,15 @@ const registerQueueListeners = async (client: Client) => {
   );
 };
 
-export { register, registerMedia, registerQueueListeners };
+const registerOSSignalListeners = (callback: () => Promise<void>) => {
+  Deno.addSignalListener("SIGINT", async () => await callback());
+  Deno.addSignalListener("SIGTERM", async () => await callback());
+  Deno.addSignalListener("SIGQUIT", async () => await callback());
+};
+
+export {
+  register,
+  registerMedia,
+  registerOSSignalListeners,
+  registerQueueListeners,
+};
