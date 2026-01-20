@@ -7,6 +7,7 @@ import { add_minutes, minutes_to_ms, now } from "@/utils/time.ts";
 
 export interface IReminderSerivce {
   getReminder: (reminder_id: string) => Reminder | undefined;
+  getReminders: () => Reminder[];
   createReminder: (
     reminder_request: ReminderRequest,
     timespan_in_minutes: number,
@@ -57,6 +58,10 @@ export class ReminderService implements IReminderSerivce {
 
   getReminder(reminder_id: string) {
     return this._reminders.get(reminder_id);
+  }
+
+  getReminders() {
+    return [...this._reminders.values()];
   }
 
   createReminder(

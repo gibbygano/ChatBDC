@@ -15,10 +15,10 @@ export default {
     }
 
     const message_repository = new MessageRepository(PoolProvider.instance);
-    // Log message to pg sync
     message_repository
       .insertMessage(message)
       .catch((e) =>
+        // Log message to pg sync
         logger.log_error(
           "Inserting message failed",
           JSON.stringify({
