@@ -1,20 +1,11 @@
 import "@std/dotenv/load";
-import { Client, GatewayIntentBits } from "discord.js";
 import { getAppConfig } from "@/config.ts";
 import { register, registerOSSignalListeners } from "@/utils/register.ts";
 import { MediaService } from "@services";
 import logger from "@logging";
+import { ClientService } from "./services/clientService.ts";
 
-const { discordBotToken } = getAppConfig();
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.GuildVoiceStates,
-  ],
-});
+const client = ClientService.instance.client;
 
 registerOSSignalListeners(async () => {
   logger.log_warning("Shutting down");
@@ -38,4 +29,5 @@ const media_service = MediaService.instance;
 await media_service.registerMedia();
 media_service.watchMedia(); // Run watcher sync, it's essentially a background task
 
+const { discordBotToken } = getAppConfig();
 await client.login(discordBotToken);
