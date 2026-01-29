@@ -1,4 +1,4 @@
-FROM denoland/deno:2.6.6 AS builder
+FROM denoland/deno:2.6.7 AS builder
 WORKDIR /app
 
 COPY deno.json ./
@@ -15,7 +15,7 @@ COPY services/ ./services/
 
 RUN deno cache deploy.ts
 
-FROM denoland/deno:2.6.4
+FROM denoland/deno:2.6.7
 USER deno
 WORKDIR /app
 COPY --from=builder /app .
