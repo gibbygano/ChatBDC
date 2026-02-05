@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits } from "discord.js";
+import { Client, GatewayIntentBits, Partials } from "discord.js";
 
 export class ClientService {
   private static _instance: ClientService;
@@ -11,8 +11,10 @@ export class ClientService {
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
         GatewayIntentBits.GuildVoiceStates,
       ],
+      partials: [Partials.Message, Partials.Channel, Partials.Reaction],
     });
   }
 
