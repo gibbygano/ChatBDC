@@ -1,11 +1,19 @@
-import type { MessageReaction } from "discord.js";
+import type { Message, MessageReaction } from "discord.js";
 
 import { Events } from "discord.js";
 import logger from "@logging";
 
 export default {
   name: Events.MessageReactionAdd,
-  execute: (reaction: MessageReaction) => {
-    logger.log_info(JSON.stringify(reaction.emoji, null, 3));
+  execute: async (reaction: MessageReaction, message: Message) => {
+    if (reaction.emoji.name === "twerk") {
+      await message.delete();
+
+      logger.log_info(
+        "Nuking stupid emojie that I hate so much",
+        JSON.stringify(message.member?.user, null, 3),
+        JSON.stringify(reaction.emoji, null, 3),
+      );
+    }
   },
 };
