@@ -3,6 +3,7 @@ export interface AppConfig {
   discordBotClientId: string;
   discordServerId: string;
   is_development: boolean;
+  alert_user_id: string;
 }
 
 export function getAppConfig(): AppConfig {
@@ -11,5 +12,6 @@ export function getAppConfig(): AppConfig {
     discordBotClientId: Deno.env.get("DISCORD_BOT_CLIENT_ID"),
     discordServerId: Deno.env.get("SERVER_ID"),
     is_development: Deno.env.get("IS_DEVELOPMENT") ?? false,
+    alert_user_id: Deno.env.get("ALERT_USER_ID"),
   };
 }
