@@ -10,7 +10,7 @@
     "@repositories": "./repositories/index.ts",
     "@services": "./services/index.ts",
     "@logging": "./utils/logging.ts",
-    "@discordjs/voice": "npm:@discordjs/voice@^0.19.0",
+    "@discordjs/voice": "npm:@discordjs/voice@^0.19.2",
     "@snazzah/davey": "npm:@snazzah/davey@^0.1.10",
     "@std/assert": "jsr:@std/assert@^1.0.19",
     "@std/async": "jsr:@std/async@^1.2.0",

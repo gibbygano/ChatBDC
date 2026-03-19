@@ -11,7 +11,7 @@
     "jsr:@std/fs@^1.0.23": "1.0.23",
     "jsr:@std/internal@^1.0.12": "1.0.12",
     "jsr:@std/path@^1.1.4": "1.1.4",
-    "npm:@discordjs/voice@0.19": "0.19.0_ffmpeg-static@5.3.0_bufferutil@4.1.0",
+    "npm:@discordjs/voice@~0.19.2": "0.19.2_bufferutil@4.1.0_ffmpeg-static@5.3.0",
     "npm:@snazzah/davey@~0.1.10": "0.1.10",
     "npm:@types/node@*": "10.17.60",
     "npm:@types/pg@^8.18.0": "8.18.0",
@@ -130,9 +130,10 @@
         "discord-api-types"
       ]
     },
-    "@discordjs/voice@0.19.0_ffmpeg-static@5.3.0_bufferutil@4.1.0": {
-      "integrity": "sha512-UyX6rGEXzVyPzb1yvjHtPfTlnLvB5jX/stAMdiytHhfoydX+98hfympdOwsnTktzr+IRvphxTbdErgYDJkEsvw==",
+    "@discordjs/voice@0.19.2_bufferutil@4.1.0_ffmpeg-static@5.3.0": {
+      "integrity": "sha512-3yJ255e4ag3wfZu/DSxeOZK1UtnqNxnspmLaQetGT0pDkThNZoHs+Zg6dgZZ19JEVomXygvfHn9lNpICZuYtEA==",
       "dependencies": [
+        "@snazzah/davey",
         "@types/ws",
         "discord-api-types",
         "prism-media",
@@ -345,8 +346,8 @@
         "ms"
       ]
     },
-    "discord-api-types@0.38.36": {
-      "integrity": "sha512-qrbUbjjwtyeBg5HsAlm1C859epfOyiLjPqAOzkdWlCNsZCWJrertnETF/NwM8H+waMFU58xGSc5eXUfXah+WTQ=="
+    "discord-api-types@0.38.42": {
+      "integrity": "sha512-qs1kya7S84r5RR8m9kgttywGrmmoHaRifU1askAoi+wkoSefLpZP6aGXusjNw5b0jD3zOg3LTwUa3Tf2iHIceQ=="
     },
     "discord.js@14.25.1_bufferutil@4.1.0": {
       "integrity": "sha512-2l0gsPOLPs5t6GFZfQZKnL1OJNYFcuC/ETWsW4VtKVD/tg4ICa9x+jb9bkPffkMdRpRpuUaO/fKkHCBeiCKh8g==",
@@ -539,8 +540,8 @@
     "util-deprecate@1.0.2": {
       "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
     },
-    "ws@8.18.3_bufferutil@4.1.0": {
-      "integrity": "sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==",
+    "ws@8.19.0_bufferutil@4.1.0": {
+      "integrity": "sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg==",
       "dependencies": [
         "bufferutil"
       ],
@@ -567,7 +568,7 @@
       "jsr:@std/dotenv@~0.225.6",
       "jsr:@std/fs@^1.0.23",
       "jsr:@std/path@^1.1.4",
-      "npm:@discordjs/voice@0.19",
+      "npm:@discordjs/voice@~0.19.2",
       "npm:@snazzah/davey@~0.1.10",
       "npm:@types/pg@^8.18.0",
       "npm:bufferutil@^4.1.0",
