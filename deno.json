@@ -17,7 +17,7 @@
     "@std/dotenv": "jsr:@std/dotenv@^0.225.6",
     "@std/fs": "jsr:@std/fs@^1.0.23",
     "@std/path": "jsr:@std/path@^1.1.4",
-    "@types/pg": "npm:@types/pg@^8.18.0",
+    "@types/pg": "npm:@types/pg@^8.20.0",
     "bufferutil": "npm:bufferutil@^4.1.0",
     "discord.js": "npm:discord.js@^14.25.1",
     "ffmpeg-static": "npm:ffmpeg-static@^5.3.0",

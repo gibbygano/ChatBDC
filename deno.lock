@@ -14,7 +14,7 @@
     "npm:@discordjs/voice@~0.19.2": "0.19.2_bufferutil@4.1.0_ffmpeg-static@5.3.0",
     "npm:@snazzah/davey@~0.1.10": "0.1.10",
     "npm:@types/node@*": "10.17.60",
-    "npm:@types/pg@^8.18.0": "8.18.0",
+    "npm:@types/pg@^8.20.0": "8.20.0",
     "npm:bufferutil@^4.1.0": "4.1.0",
     "npm:discord.js@^14.25.1": "14.25.1_bufferutil@4.1.0",
     "npm:ffmpeg-static@^5.3.0": "5.3.0",
@@ -295,8 +295,8 @@
     "@types/node@10.17.60": {
       "integrity": "sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw=="
     },
-    "@types/pg@8.18.0": {
-      "integrity": "sha512-gT+oueVQkqnj6ajGJXblFR4iavIXWsGAFCk3dP4Kki5+a9R4NMt0JARdk6s8cUKcfUoqP5dAtDSLU8xYUTFV+Q==",
+    "@types/pg@8.20.0": {
+      "integrity": "sha512-bEPFOaMAHTEP1EzpvHTbmwR8UsFyHSKsRisLIHVMXnpNefSbGA1bD6CVy+qKjGSqmZqNqBDV2azOBo8TgkcVow==",
       "dependencies": [
         "@types/node",
         "pg-protocol",
@@ -570,7 +570,7 @@
       "jsr:@std/path@^1.1.4",
       "npm:@discordjs/voice@~0.19.2",
       "npm:@snazzah/davey@~0.1.10",
-      "npm:@types/pg@^8.18.0",
+      "npm:@types/pg@^8.20.0",
       "npm:bufferutil@^4.1.0",
       "npm:discord.js@^14.25.1",
       "npm:ffmpeg-static@^5.3.0",
