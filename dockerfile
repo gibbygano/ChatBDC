@@ -1,4 +1,4 @@
-FROM denoland/deno:2.7.11 AS builder
+FROM denoland/deno:2.7.12 AS builder
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \    
   apt-get install -y \
@@ -13,7 +13,7 @@ WORKDIR /app
 COPY . .
 RUN deno cache main.ts --allow-scripts=npm:zlib-sync,npm:bufferutil,npm:sodium,npm:ffmpeg-static
 
-FROM denoland/deno:2.7.11
+FROM denoland/deno:2.7.12
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \    
   apt-get install -y \

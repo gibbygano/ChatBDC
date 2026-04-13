@@ -16,7 +16,7 @@
     "npm:@types/node@*": "10.17.60",
     "npm:@types/pg@^8.20.0": "8.20.0",
     "npm:bufferutil@^4.1.0": "4.1.0",
-    "npm:discord.js@^14.26.0": "14.26.0",
+    "npm:discord.js@^14.26.2": "14.26.2",
     "npm:ffmpeg-static@^5.3.0": "5.3.0",
     "npm:pg@^8.20.0": "8.20.0",
     "npm:sodium@^3.0.2": "3.0.2",
@@ -352,8 +352,8 @@
     "discord-api-types@0.38.42": {
       "integrity": "sha512-qs1kya7S84r5RR8m9kgttywGrmmoHaRifU1askAoi+wkoSefLpZP6aGXusjNw5b0jD3zOg3LTwUa3Tf2iHIceQ=="
     },
-    "discord.js@14.26.0": {
-      "integrity": "sha512-I+5dmdg7WnjIOEXspX6mJ4jLgblhZV6QpQcC3U2JjrFWnHCKDpoLkhV46SBP8k9QePs3YWJOvndVutUARRO0AQ==",
+    "discord.js@14.26.2": {
+      "integrity": "sha512-feShi+gULJ6R2MAA4/KkCFnkJcuVrROJrKk4czplzq8gE1oqhqgOy9K0Scu44B8oGeWKe04egquzf+ia6VtXAw==",
       "dependencies": [
         "@discordjs/builders",
         "@discordjs/collection@1.5.3",
@@ -405,8 +405,8 @@
     "lodash.snakecase@4.1.1": {
       "integrity": "sha512-QZ1d4xoBHYUeuouhEq3lk3Uq7ldgyFXGBhg04+oRLnIz8o9T65Eh+8YdroUwn846zchkA9yDsDl5CVVaV2nqYw=="
     },
-    "lodash@4.17.21": {
-      "integrity": "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
+    "lodash@4.18.1": {
+      "integrity": "sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q=="
     },
     "magic-bytes.js@1.13.0": {
       "integrity": "sha512-afO2mnxW7GDTXMm5/AoN1WuOcdoKhtgXjIvHmobqTD1grNplhGdv3PFOyjCVmrnOZBIT/gD/koDKpYG+0mvHcg=="
@@ -575,7 +575,7 @@
       "npm:@snazzah/davey@~0.1.11",
       "npm:@types/pg@^8.20.0",
       "npm:bufferutil@^4.1.0",
-      "npm:discord.js@^14.26.0",
+      "npm:discord.js@^14.26.2",
       "npm:ffmpeg-static@^5.3.0",
       "npm:pg@^8.20.0",
       "npm:sodium@^3.0.2",
