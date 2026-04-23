@@ -45,10 +45,17 @@ const handle_reply = async (
     return;
   }
 
-  return await (interaction as Message).reply({
-    content: reply,
-    flags: message_flags,
-  });
+  try {
+    return await (interaction as Message).reply({
+      content: reply,
+      flags: message_flags,
+    });
+  } catch (error) {
+    logger.log_error(
+      `Error replying to member`,
+      JSON.stringify({ reply, message_flags, error }, null, 3),
+    );
+  }
 };
 
 const handle_file_reply = async (
