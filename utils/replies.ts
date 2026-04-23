@@ -22,6 +22,8 @@ const handle_reply = async (
     | MessageFlags.IsComponentsV2
   >,
 ) => {
+  /* The error handling is kind supurflous for the interaction types,
+     but it doesn't hurt anything to let them live together in the try/catch */
   try {
     if (interaction instanceof ChatInputCommandInteraction) {
       return await (interaction as ChatInputCommandInteraction).reply({
