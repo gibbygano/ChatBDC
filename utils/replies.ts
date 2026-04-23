@@ -1,9 +1,5 @@
 import type { BitFieldResolvable, Message } from "discord.js";
-import {
-  ChatInputCommandInteraction,
-  MessageFlags,
-  PermissionsBitField,
-} from "discord.js";
+import { ChatInputCommandInteraction, MessageFlags } from "discord.js";
 import logger from "@logging";
 import { Buffer } from "node:buffer";
 
