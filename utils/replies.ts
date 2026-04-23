@@ -88,7 +88,7 @@ const handle_file_reply = async (
       });
     }
 
-    return (interaction as Message).reply({
+    return await (interaction as Message).reply({
       content: reply,
       files,
       flags: message_flags,
