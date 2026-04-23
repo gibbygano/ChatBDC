@@ -1,4 +1,4 @@
-import type { BitFieldResolvable, Message } from "discord.js";
+import type { BitFieldResolvable, DiscordAPIError, Message } from "discord.js";
 import { ChatInputCommandInteraction, MessageFlags } from "discord.js";
 import logger from "@logging";
 import { Buffer } from "node:buffer";
@@ -37,6 +37,7 @@ const handle_reply = async (
       flags: message_flags,
     });
   } catch (error) {
+    const discord_api_error = error as DiscordAPIError;
     logger.log_error(
       `Error replying to member`,
       JSON.stringify(
@@ -44,7 +45,11 @@ const handle_reply = async (
           interaction,
           reply,
           flags: interaction_flags ?? message_flags,
-          error,
+          error: {
+            message: discord_api_error.message,
+            code: discord_api_error.code,
+            cause: discord_api_error.cause,
+          },
         },
         null,
         3,
@@ -94,6 +99,7 @@ const handle_file_reply = async (
       flags: message_flags,
     });
   } catch (error) {
+    const discord_api_error = error as DiscordAPIError;
     logger.log_error(
       `Error replying to member with file`,
       JSON.stringify(
@@ -101,7 +107,12 @@ const handle_file_reply = async (
           interaction,
           reply,
           flags: interaction_flags ?? message_flags,
-          error,
+          files: files?.map((f) => f.name)[0],
+          error: {
+            message: discord_api_error.message,
+            code: discord_api_error.code,
+            cause: discord_api_error.cause,
+          },
         },
         null,
         3,
