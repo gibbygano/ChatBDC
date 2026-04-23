@@ -26,26 +26,14 @@ const handle_reply = async (
     | MessageFlags.IsComponentsV2
   >,
 ) => {
-  if (interaction instanceof ChatInputCommandInteraction) {
-    return await (interaction as ChatInputCommandInteraction).reply({
-      content: reply,
-      flags: interaction_flags,
-    });
-  }
-
-  if (
-    !interaction.guild?.members.me?.permissions.has(
-      PermissionsBitField.Flags.ReadMessageHistory,
-    )
-  ) {
-    logger.log_warning(
-      "Can't reply to message. Missing message history permission flag\n",
-      JSON.stringify(interaction, null, 3),
-    );
-    return;
-  }
-
   try {
+    if (interaction instanceof ChatInputCommandInteraction) {
+      return await (interaction as ChatInputCommandInteraction).reply({
+        content: reply,
+        flags: interaction_flags,
+      });
+    }
+
     return await (interaction as Message).reply({
       content: reply,
       flags: message_flags,
@@ -53,7 +41,16 @@ const handle_reply = async (
   } catch (error) {
     logger.log_error(
       `Error replying to member`,
-      JSON.stringify({ reply, message_flags, error }, null, 3),
+      JSON.stringify(
+        {
+          interaction,
+          reply,
+          flags: interaction_flags ?? message_flags,
+          error,
+        },
+        null,
+        3,
+      ),
     );
   }
 };
@@ -84,27 +81,15 @@ const handle_file_reply = async (
     name: file_name,
   }];
 
-  if (interaction instanceof ChatInputCommandInteraction) {
-    return await (interaction as ChatInputCommandInteraction).reply({
-      content: reply,
-      files,
-      flags: interaction_flags,
-    });
-  }
-
-  if (
-    !interaction.guild?.members.me?.permissions.has(
-      PermissionsBitField.Flags.ReadMessageHistory,
-    )
-  ) {
-    logger.log_warning(
-      "Can't reply to message. Missing message history permission flag\n",
-      JSON.stringify(interaction, null, 3),
-    );
-    return;
-  }
-
   try {
+    if (interaction instanceof ChatInputCommandInteraction) {
+      return await (interaction as ChatInputCommandInteraction).reply({
+        content: reply,
+        files,
+        flags: interaction_flags,
+      });
+    }
+
     return (interaction as Message).reply({
       content: reply,
       files,
@@ -112,8 +97,18 @@ const handle_file_reply = async (
     });
   } catch (error) {
     logger.log_error(
-      `Error replying to member`,
-      JSON.stringify({ reply, files, message_flags, error }, null, 3),
+      `Error replying to member with file`,
+      JSON.stringify(
+        {
+          interaction,
+          reply,
+          files,
+          flags: interaction_flags ?? message_flags,
+          error,
+        },
+        null,
+        3,
+      ),
     );
   }
 };
