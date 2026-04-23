@@ -100,7 +100,6 @@ const handle_file_reply = async (
         {
           interaction,
           reply,
-          files,
           flags: interaction_flags ?? message_flags,
           error,
         },
