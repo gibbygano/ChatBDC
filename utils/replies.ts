@@ -104,11 +104,18 @@ const handle_file_reply = async (
     return;
   }
 
-  return (interaction as Message).reply({
-    content: reply,
-    files,
-    flags: message_flags,
-  });
+  try {
+    return (interaction as Message).reply({
+      content: reply,
+      files,
+      flags: message_flags,
+    });
+  } catch (error) {
+    logger.log_error(
+      `Error replying to member`,
+      JSON.stringify({ reply, files, message_flags, error }, null, 3),
+    );
+  }
 };
 
 export { handle_file_reply, handle_reply };
