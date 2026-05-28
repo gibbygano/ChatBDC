@@ -6,12 +6,13 @@
     "jsr:@coven/terminal@~0.8.5": "0.8.5",
     "jsr:@coven/types@~0.8.5": "0.8.5",
     "jsr:@std/assert@^1.0.19": "1.0.19",
-    "jsr:@std/async@^1.3.0": "1.3.0",
-    "jsr:@std/data-structures@^1.0.11": "1.0.11",
-    "jsr:@std/dotenv@~0.225.6": "0.225.6",
-    "jsr:@std/fs@^1.0.23": "1.0.23",
-    "jsr:@std/internal@^1.0.12": "1.0.12",
-    "jsr:@std/path@^1.1.4": "1.1.4",
+    "jsr:@std/async@^1.4.0": "1.4.0",
+    "jsr:@std/data-structures@^1.1.0": "1.1.0",
+    "jsr:@std/dotenv@~0.225.7": "0.225.7",
+    "jsr:@std/fs@^1.0.24": "1.0.24",
+    "jsr:@std/internal@^1.0.12": "1.0.14",
+    "jsr:@std/internal@^1.0.14": "1.0.14",
+    "jsr:@std/path@^1.1.5": "1.1.5",
     "npm:@discordjs/voice@~0.19.2": "0.19.2_bufferutil@4.1.0",
     "npm:@snazzah/davey@~0.1.11": "0.1.11_@emnapi+core@1.9.1_@emnapi+runtime@1.9.1",
     "npm:@types/node@*": "10.17.60",
@@ -52,35 +53,35 @@
     "@std/assert@1.0.19": {
       "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
       "dependencies": [
-        "jsr:@std/internal"
+        "jsr:@std/internal@^1.0.12"
       ]
     },
-    "@std/async@1.3.0": {
-      "integrity": "80485538a4f7baaa46bfe2246168069e02ed142b9f9079cd164f43bb060ad9e9",
+    "@std/async@1.4.0": {
+      "integrity": "4d70b008634f571cff9b554090d628c76141c32613aae0ff283fd5fa23d0c379",
       "dependencies": [
         "jsr:@std/data-structures"
       ]
     },
-    "@std/data-structures@1.0.11": {
-      "integrity": "53b98ed7efa61f107dfc14244bd2ec5557f7f7ee0bbaef6d449d7937facacb89"
+    "@std/data-structures@1.1.0": {
+      "integrity": "c35ae4ad5d8e41a38573c2fe3e19b18ea2505f63cfea201edcb8720aca1f7f58"
     },
-    "@std/dotenv@0.225.6": {
-      "integrity": "1d6f9db72f565bd26790fa034c26e45ecb260b5245417be76c2279e5734c421b"
+    "@std/dotenv@0.225.7": {
+      "integrity": "11d8db03ca4ad5aba9eba809f2e8058b2a4f320b7b09fea4b360e162928329e3"
     },
-    "@std/fs@1.0.23": {
-      "integrity": "3ecbae4ce4fee03b180fa710caff36bb5adb66631c46a6460aaad49515565a37",
+    "@std/fs@1.0.24": {
+      "integrity": "f3061b45b81673a2bece689da041df32d174be064c89eb6397fb5718d3fb7877",
       "dependencies": [
-        "jsr:@std/internal",
+        "jsr:@std/internal@^1.0.14",
         "jsr:@std/path"
       ]
     },
-    "@std/internal@1.0.12": {
-      "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
+    "@std/internal@1.0.14": {
+      "integrity": "291516b3d4c35024d6ffbc0a9df5bf4c64116e05b50012cf846710152d2ffdf7"
     },
-    "@std/path@1.1.4": {
-      "integrity": "1d2d43f39efb1b42f0b1882a25486647cb851481862dc7313390b2bb044314b5",
+    "@std/path@1.1.5": {
+      "integrity": "ccea00982ea28c36becaf6e62f855406c76a8c32d462f66f415bbb7d83a271bc",
       "dependencies": [
-        "jsr:@std/internal"
+        "jsr:@std/internal@^1.0.14"
       ]
     }
   },
@@ -575,10 +576,10 @@
     "dependencies": [
       "jsr:@coven/terminal@~0.8.5",
       "jsr:@std/assert@^1.0.19",
-      "jsr:@std/async@^1.3.0",
-      "jsr:@std/dotenv@~0.225.6",
-      "jsr:@std/fs@^1.0.23",
-      "jsr:@std/path@^1.1.4",
+      "jsr:@std/async@^1.4.0",
+      "jsr:@std/dotenv@~0.225.7",
+      "jsr:@std/fs@^1.0.24",
+      "jsr:@std/path@^1.1.5",
       "npm:@discordjs/voice@~0.19.2",
       "npm:@snazzah/davey@~0.1.11",
       "npm:@types/pg@^8.20.0",
